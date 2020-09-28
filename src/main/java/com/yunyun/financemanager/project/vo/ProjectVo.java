@@ -1,45 +1,30 @@
-package com.yunyun.financemanager.common.entity;
+package com.yunyun.financemanager.project.vo;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.baomidou.mybatisplus.annotation.FieldStrategy;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
 /**
- * project
+ * @author yangzhongming
+ * @date 2020-09-28 11:45
  */
 @Data
-public class Project implements Serializable {
-    @TableId
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ProjectVo {
     private Long id;
 
     private String projectName;
-
-    private Long insertBy;
-
-    private Long updateBy;
-
-    @TableField(updateStrategy = FieldStrategy.NEVER)
-    private LocalDateTime insertTime;
-
-    @TableField(insertStrategy = FieldStrategy.NEVER)
-    private LocalDateTime updateTime;
-
     /**
      * 关联合同
      */
-    private Long contractId;
+    private String  contract;
 
     /**
      * 负责人
      */
-    private Long leaderId;
+    private String  leader;
 
     /**
      * 参与人员
@@ -89,7 +74,6 @@ public class Project implements Serializable {
     /**
      * 计划开发成本
      */
-
     private Long expectedDevelopCost;
 
     /**
@@ -103,29 +87,9 @@ public class Project implements Serializable {
     private LocalDate expectedServiceNodeDate;
 
     /**
-     * 需求分析工作
+     * 实际工作量
      */
-    private Long requirementWorkload;
-
-    /**
-     * 设计工作量
-     */
-    private Long designWorkload;
-
-    /**
-     * 开发工作量
-     */
-    private Long developWorkload;
-
-    /**
-     * 测试工作量
-     */
-    private Long testWorkload;
-
-    /**
-     * 维护工作量
-     */
-    private Long serviceWorkload;
+    private Long realWorkload;
 
     /**
      * 需求分析完成节点
@@ -161,6 +125,4 @@ public class Project implements Serializable {
      * 回款项
      */
     private String phaseId;
-
-    private static final long serialVersionUID = 1L;
 }

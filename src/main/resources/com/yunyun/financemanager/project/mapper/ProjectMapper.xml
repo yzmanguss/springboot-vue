@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yunyun.financemanager.project.mapper.ProjectMapper">
+    <select id="getProjectList" resultType="com.yunyun.financemanager.common.entity.Project">
+        select * from project
+        <where>
+        <if test="startDate != null and endDate != null">
+            sign_date between #{startDate} and #{endDate}
+        </if>
+            <if test="state != null">
+                <if test="state == 0">
+                   and deliver_time_date is null
+                </if>
+                <if test="state == 1">
+                    and deliver_time_date is not null
+                </if>
+            </if>
+        <if test="keyWord != null">
+           and project_name like #{keyWord}
+        </if>
+        </where>
+        order by id desc
+        limit #{pageNow},#{pageSize}
+    </select>
+</mapper>
