@@ -42,6 +42,14 @@ public class ApiResponse<T> implements Serializable {
         return apiResponse;
     }
 
+    public static ApiResponse<Void> failure(ResponseCode responseCode) {
+        ApiResponse<Void> apiResponse = new ApiResponse<>();
+        apiResponse.setCode(responseCode.getValue());
+        apiResponse.setMessage(responseCode.getMessage());
+        apiResponse.setTimestamp(LocalDateTime.now());
+        return apiResponse;
+    }
+
     public static ApiResponse<Void> failure(ResponseCode responseCode, String message) {
         ApiResponse<Void> apiResponse = new ApiResponse<>();
         apiResponse.setCode(responseCode.getValue());

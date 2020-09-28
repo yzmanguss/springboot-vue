@@ -12,6 +12,10 @@ public enum ResponseCode {
     FORBIDDEN(403, "Forbidden"),
     NOT_FOUND(404, "Not Found"),
     METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
+    /**
+     * 用户名或密码错误
+     */
+    BAD_CREDENTIAL(406, "Bad Credential")
     ;
 
     private final int value;
