@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yunyun.financemanager.project.mapper.MemberMapper">
+    <resultMap id="baseColumn" type="com.yunyun.financemanager.common.entity.Member">
+        <id column="id" property="id"/>
+        <result column="member_name" property="memberName"/>
+        <result column="enable" property="enable"/>
+        <result column="daily_wage" property="dailyWage"/>
+    </resultMap>
+
+    <update id="setMemberDisable" parameterType="long">
+        update member set enable=0 where id=#{id}
+    </update>
+
+    <update id="setMemberEnable" parameterType="long">
+        update member set enable=1 where id=#{id}
+    </update>
+</mapper>

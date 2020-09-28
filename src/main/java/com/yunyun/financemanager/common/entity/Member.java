@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 /**
  * member
  */
@@ -15,6 +18,8 @@ public class Member implements Serializable {
     @TableId
     private Long id;
 
+    @NotBlank
+    @Size(min = 1, max = 5)
     private String memberName;
 
     private LocalDateTime insertTime;
