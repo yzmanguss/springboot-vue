@@ -29,7 +29,7 @@ public class Account implements Serializable {
     /**
      * 角色-0一般人员，1财务人员
      */
-    private Boolean type;
+    private Integer type;
 
     /**
      * 密码
