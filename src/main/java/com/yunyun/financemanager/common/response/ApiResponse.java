@@ -1,5 +1,8 @@
 package com.yunyun.financemanager.common.response;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -17,6 +20,7 @@ public class ApiResponse<T> implements Serializable {
 
     private T data;
 
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime timestamp;
 
     public static ApiResponse<Void> ok() {
@@ -39,6 +43,14 @@ public class ApiResponse<T> implements Serializable {
     public static <T> ApiResponse<T> ok(T data, Long total) {
         ApiResponse<T> apiResponse = ApiResponse.ok(data);
         apiResponse.setTotal(total);
+        return apiResponse;
+    }
+
+    public static ApiResponse<Void> failure(ResponseCode responseCode) {
+        ApiResponse<Void> apiResponse = new ApiResponse<>();
+        apiResponse.setCode(responseCode.getValue());
+        apiResponse.setMessage(responseCode.getMessage());
+        apiResponse.setTimestamp(LocalDateTime.now());
         return apiResponse;
     }
 
