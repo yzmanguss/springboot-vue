@@ -7,4 +7,9 @@ import com.yunyun.financemanager.common.entity.Account;
  * @author zhaoqin
  */
 public interface AccountService extends IService<Account> {
+
+    Long getLoginUserId();
+
+    Account getByPhone(String phone);
+
 }
