@@ -8,6 +8,8 @@ import com.yunyun.financemanager.common.response.ResponseCode;
 import com.yunyun.financemanager.common.vojo.MemberStateVO;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.system.service.MemberSettingService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +21,7 @@ import java.util.List;
  * @author 余聪
  * @date 2020/9/28
  */
-
+@Api(tags = "系统管理-公司人员录入")
 @Validated
 @RestController
 public class MemberSettingController {
@@ -37,6 +39,7 @@ public class MemberSettingController {
      * @param keyword 查询关键字（姓名或日薪）
      * @return
      */
+    @ApiOperation("人员列表")
     @GetMapping("/members")
     public ApiResponse<List<Member>> listMembers(@RequestParam(defaultValue = "1") Integer pageNum,
                                                  @RequestParam(defaultValue = "5") Integer pageSize,
@@ -58,6 +61,7 @@ public class MemberSettingController {
      * @param memberStateVO 人员id和状态码包装类
      * @return
      */
+    @ApiOperation("更改人员状态")
     @PostMapping("/change_member_state")
     public ApiResponse<Void> changeMemberState(@RequestBody MemberStateVO memberStateVO) {
         switch (memberStateVO.getState()) {
@@ -75,6 +79,7 @@ public class MemberSettingController {
      * @param memberDTO 人员信息对象
      * @return
      */
+    @ApiOperation("添加人员")
     @PutMapping("/add_member")
     public ApiResponse<Void> addMember(@RequestBody @Validated Member memberDTO) {
         memberSettingService.save(memberDTO);

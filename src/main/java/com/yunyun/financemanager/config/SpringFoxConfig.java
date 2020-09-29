@@ -1,4 +1,4 @@
-package com.yunyun.financemanager.system.config;
+package com.yunyun.financemanager.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
