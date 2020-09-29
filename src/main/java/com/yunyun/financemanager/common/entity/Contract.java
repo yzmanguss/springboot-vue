@@ -12,6 +12,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @TableName("contract")
 public class Contract implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "id", name = "id", example = "1")
     @TableId(value = "id", type = IdType.AUTO)
@@ -46,8 +50,8 @@ public class Contract implements Serializable {
     @ApiModelProperty(value = "合同编号", name = "contractNumber", example = "12131")
     private Integer contractNumber;
 
-    @ApiModelProperty(value = "合同状态", name = "contractState", notes = "0:、1:、2:", example = "1")
-    private Integer contractState;
+    @ApiModelProperty(value = "合同状态", name = "contractStatus", notes = "0:、1:、2:", example = "1")
+    private Integer contractStatus;
 
     @ApiModelProperty(value = "客户名称", name = "customerName", example = "七里香科技公司")
     private String customerName;
@@ -63,27 +67,23 @@ public class Contract implements Serializable {
 
     @ApiModelProperty(value = "签订时间", name= "signTime", example = "2020-7-25 08:00:00")
     @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
-    private Date signTime;
+    private Date signDate;
 
-    @ApiModelProperty(value = "分期款项", name="phase")
+    @ApiModelProperty(value = "分期款项", name="phases")
     @TableField(exist = false)
     private List<Phase> phases;
 
     @ApiModelProperty(value = "开始时间", example = "2020-7-25 08:00:00")
     @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
-    private Date startTime;
+    private Date startDate;
 
     @ApiModelProperty(value = "完成时间", example = "2020-7-25 08:00:00")
     @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
-    private Date finishTime;
+    private Date finishDate;
 
     @ApiModelProperty(value = "插入时间", example = "2020-7-25 08:00:00")
-    @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
-    private Date insertTime;
+    private LocalDateTime insertTime;
 
     @ApiModelProperty(value = "修改时间", example = "2020-7-26 09:00:00")
-    @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
-    private Date updateTime;
-
-    private static final long serialVersionUID = 1L;
+    private LocalDateTime updateTime;
 }

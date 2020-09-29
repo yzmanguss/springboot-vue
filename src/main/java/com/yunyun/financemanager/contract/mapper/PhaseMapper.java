@@ -18,4 +18,5 @@ public interface PhaseMapper extends BaseMapper<Phase> {
 
     int deleteByContractId(Long id);
 
+    List<Phase> findPhasesByContractId(Long id);
 }

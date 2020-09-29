@@ -5,8 +5,8 @@
     <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
         insert into phase(phase_index, amount, start_time, contract_id)
         VALUES
-        <foreach collection="phases" separator=", " item="Phase">
-            (#{Phase.phaseIndex}, #{Phase.amount}, #{Phase.startTime}, #{phases.contract_id})
+        <foreach collection="phases" separator=", " item="phase">
+            (#{phase.phaseIndex}, #{phase.amount}, #{phase.startTime}, #{phase.contractId})
         </foreach>
     </insert>
 
@@ -16,9 +16,12 @@
        where contract_id = #{contractId}
     </delete>
 
-<!--    <select id="phaseStatistics"  resultType="java.lang.Integer">-->
-<!--    	select sum(amount) as phaseAmountMonth-->
-<!--    	from phase-->
-<!--    	where date_format(start_time,'%Y-%m') = date_format(now(),'%Y-%m')-->
-<!--	</select>-->
+    <select id="findPhasesByContractId"  resultType="com.yunyun.financemanager.common.entity.Phase">
+        select
+        *
+        from
+        phase
+        where
+        contract_id = #{id}
+    </select>
 </mapper>

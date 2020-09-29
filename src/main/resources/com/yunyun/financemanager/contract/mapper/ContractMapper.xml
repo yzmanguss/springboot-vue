@@ -9,26 +9,26 @@
         <result column="contract_name" jdbcType="VARCHAR" property="contractName" />
         <result column="contract_number" jdbcType="VARCHAR" property="contractNumber" />
         <result column="amount" jdbcType="BIGINT" property="amount" />
-        <result column="contract_state" jdbcType="TINYINT" property="contractState" />
+        <result column="contract_status" jdbcType="TINYINT" property="contractStatus" />
         <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
-        <result column="sign_time" jdbcType="DATE" property="signTime" />
+        <result column="sign_date" jdbcType="DATE" property="signDate" />
     </resultMap>
 
     <select id="listContractByPage" resultMap="Contract">
-        select id, contract_number, contractName, customer_name, contractState, amount, sign_time
+        select id, contract_number, contract_name, customer_name, contract_status, amount, sign_date
         from contract
         <where>
             <if test="keyWord != null and keyWord != ''">
-                name like concat('%',#{keyWord},'%')
+                contract_name like concat('%',#{keyWord},'%')
             </if>
-            <if test="state != null and state != ''">
-                and contract_state = #{contractState}
+            <if test="contractStatus != null and contractStatus != ''">
+                and contract_status = #{contractStatus}
             </if>
-            <if test="signTimeStart != null and signTimeStart != ''">
-                and sign_time <![CDATA[>=]]>#{signTimeStart}
+            <if test="signDateStart != null and signDateStart != ''">
+                and sign_date <![CDATA[>=]]>#{signDateStart}
             </if>
-            <if test="signTimeEnd != null and signTimeEnd != ''">
-                and sign_time <![CDATA[<=]]>#{signTimeEnd}
+            <if test="signDateEnd != null and signDateEnd != ''">
+                and sign_date <![CDATA[<=]]>#{signDateEnd}
             </if>
         </where>
     </select>
@@ -54,37 +54,44 @@
 <!--    	id = #{id}-->
 <!--	</delete>-->
 
-    <resultMap id="ContractAndPhase" type="com.yunyun.financemanager.common.entity.Contract">
+    <resultMap id="ContractAndPhases" type="com.yunyun.financemanager.common.entity.Contract">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="contract_name" jdbcType="VARCHAR" property="contractName" />
         <result column="contract_number" jdbcType="VARCHAR" property="contractNumber" />
         <result column="amount" jdbcType="BIGINT" property="amount" />
-        <result column="contract_state" jdbcType="TINYINT" property="contractState" />
+        <result column="contract_status" jdbcType="TINYINT" property="contractStatus" />
         <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
-        <result column="contract_contact_name" jdbcType="VARCHAR" property="customerContactName" />
-        <result column="contract_contact_phone" jdbcType="VARCHAR" property="customerContactPhone" />
-        <result column="sign_time" jdbcType="DATE" property="signTime" />
-        <result column="start_time" jdbcType="DATE" property="startTime" />
-        <result column="finish_time" jdbcType="DATE" property="finishTime" />
-        <collection property="phases" ofType="com.yunyun.financemanager.common.entity.Phase" >
+        <result column="customer_contact_name" jdbcType="VARCHAR" property="customerContactName" />
+        <result column="customer_contact_phone" jdbcType="VARCHAR" property="customerContactPhone" />
+        <result column="sign_date" jdbcType="DATE" property="signDate" />
+        <result column="start_date" jdbcType="DATE" property="startDate" />
+        <result column="finish_date" jdbcType="DATE" property="finishDate" />
+<!--        <collection property="phases" ofType="com.yunyun.financemanager.common.entity.Phase" >-->
+<!--            <id column="id" jdbcType="INTEGER" property="id" />-->
+<!--            <result column="phase_index" jdbcType="INTEGER" property="phaseIndex" />-->
+<!--            <result column="amount" jdbcType="BIGINT" property="amount" />-->
+<!--            <result column="start_time" jdbcType="DATE" property="startTime" />-->
+<!--            <result column="finish_time" jdbcType="DATE" property="finishTime" />-->
+<!--            <result column="contract_id" jdbcType="INTEGER" property="contractId" />-->
+<!--        </collection>-->
+        <collection property="phases" select="com.yunyun.financemanager.contract.mapper.PhaseMapper.findPhasesByContractId" ofType="com.yunyun.financemanager.common.entity.Phase" column="id">
             <id column="id" jdbcType="INTEGER" property="id" />
             <result column="phase_index" jdbcType="INTEGER" property="phaseIndex" />
             <result column="amount" jdbcType="BIGINT" property="amount" />
             <result column="start_time" jdbcType="DATE" property="startTime" />
-            <result column="finish_time" jdbcType="DATE" property="finishTime" />
-            <result column="contract_id" jdbcType="DATE" property="contractId" />
+            <result column="finish_time" jdbcType="DATETIME" property="finishTime" />
+            <result column="contract_id" jdbcType="INTEGER" property="contractId" />
         </collection>
+        
     </resultMap>
 
-    <select id="getContractById" resultMap="ContractAndPhase">
+    <select id="getContractById" resultMap="ContractAndPhases">
     	select
     	*
     	from
-    	contract c left join phase p
-    	on
-    	c.id = p.contract_id
+    	contract
     	where
-    	c.id = #{id}
+    	id = #{id}
 	</select>
 
 

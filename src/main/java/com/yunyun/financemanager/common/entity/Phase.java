@@ -1,7 +1,6 @@
 package com.yunyun.financemanager.common.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -9,6 +8,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,11 +29,9 @@ public class Phase implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "插入时间", example = "2020-7-25 08:00:00")
-    @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
     private LocalDateTime insertDate;
 
     @ApiModelProperty(value = "修改时间", example = "2020-7-25 08:00:00")
-    @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
     private LocalDateTime updateDate;
 
 
@@ -44,10 +43,9 @@ public class Phase implements Serializable {
 
     @ApiModelProperty(value="开始时间",name="startTime",example="2020-7-25 16:40:30")
     @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
-    private LocalDateTime startTime;
+    private Date startTime;
 
     @ApiModelProperty(value="完成时间",name="startTime",example="2020-7-25 16:40:30")
-    @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
     private LocalDateTime finishTime;
 
     @ApiModelProperty(value = "合同id", name = "contractId", example = "1")

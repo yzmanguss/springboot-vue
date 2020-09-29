@@ -1,11 +1,15 @@
-package com.finance.system.contract.service;
+package com.yunyun.financemanager.contract.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.finance.system.common.dojo.PhaseDO;
+import com.yunyun.financemanager.common.entity.Phase;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 /**
  * @author xlc
  */
-public interface PhaseService extends IService<PhaseDO> {
+@Service
+public interface PhaseService extends IService<Phase> {
 }
