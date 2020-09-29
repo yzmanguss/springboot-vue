@@ -6,6 +6,7 @@ import com.yunyun.financemanager.common.entity.Project;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.project.mapper.ProjectMapper;
+import com.yunyun.financemanager.project.qo.ProjectNames;
 import com.yunyun.financemanager.project.service.ProjectService;
 import com.yunyun.financemanager.project.vo.PageLimit;
 import com.yunyun.financemanager.project.vo.ProjectVo;
@@ -85,5 +86,20 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         int count = this.count(Wrappers.<Project>lambdaQuery()
                 .between(Project::getDeliverDate, startDate, endDate));
         return (long) count;
+    }
+
+
+    //    模糊查询项目名
+    @Override
+    public List<ProjectNames> selectProjectNames(String name) {
+        List<Project> projects = projectMapper.selectProjectNames(name);
+        List<ProjectNames> names = new ArrayList<>();
+        for (Project p : projects) {
+            ProjectNames projectNames = new ProjectNames();
+            projectNames.setId(p.getId());
+            projectNames.setName(p.getProjectName());
+            names.add(projectNames);
+        }
+        return names;
     }
 }

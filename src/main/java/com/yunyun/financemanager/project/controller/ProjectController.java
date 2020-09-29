@@ -2,6 +2,7 @@ package com.yunyun.financemanager.project.controller;
 
 import com.yunyun.financemanager.common.entity.Project;
 import com.yunyun.financemanager.common.response.ApiResponse;
+import com.yunyun.financemanager.project.qo.ProjectNames;
 import com.yunyun.financemanager.project.service.ProjectService;
 import com.yunyun.financemanager.project.vo.PageLimit;
 import io.swagger.annotations.Api;
@@ -9,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author 杨忠明
@@ -41,4 +44,12 @@ public class ProjectController {
     public ApiResponse deleteProject(String id){
         return projectService.deleteProject(id);
     }
+
+
+    @ApiOperation("模糊查询项目的名字")
+    @GetMapping("/projectnames")
+    public ApiResponse<List<ProjectNames>> selectProjectNames(@RequestParam(value = "name") String name) {
+        return ApiResponse.ok(projectService.selectProjectNames(name));
+    }
+
 }
