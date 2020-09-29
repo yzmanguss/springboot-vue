@@ -28,13 +28,13 @@ import java.util.List;
 @RequestMapping("/contract")
 public class ContractController {
 
-   @Resource
+    @Resource
     private ContractService contractService;
 
 
     @ApiOperation(value = "分页查询合同")
     @PostMapping("/getContractListByPage")
-    public ApiResponse<List<Contract>> listContractByPage(@RequestBody ContractQuery contractQuery){
+    public ApiResponse<List<Contract>> listContractByPage(@RequestBody ContractQuery contractQuery) {
         Page<Contract> page = contractService.listContractByPage(contractQuery);
         return ApiResponse.ok(page.getResult(), page.getTotal());
     }
@@ -49,7 +49,7 @@ public class ContractController {
 
     @ApiOperation(value = "根据id查询合同")
     @GetMapping("/getContractById/{id}")
-    public ApiResponse<Contract>  getContractById(@PathVariable("id") Long id) {
+    public ApiResponse<Contract> getContractById(@PathVariable("id") Long id) {
         return contractService.getContractById(id);
     }
 
@@ -67,9 +67,17 @@ public class ContractController {
     }
 
 
-//    @ApiOperation(value = "合同统计")
+    //    @ApiOperation(value = "合同统计")
 //    @GetMapping("/Statistics")
 //    public ApiResponse<ContractStatisticsVO> ContractStatistics() {
 //        return ApiResponse.buildSuccessResponse(contractService.contractStatistics());
 //    }
+
+    @ApiOperation(value = " 模糊查询合同名")
+    @GetMapping("/projectNames")
+    public ApiResponse<List<Contract>> selectContractNames(@RequestParam(value = "name") String name) {
+        return ApiResponse.ok(contractService.selectContractNames(name));
+    }
+
+
 }

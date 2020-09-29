@@ -146,4 +146,11 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
 //        contractStatisticsVO.setPhaseAmountMonth(phaseAmountMonth);
 //        return contractStatisticsVO;
 //    }
+
+
+    @Override
+    public List<Contract> selectContractNames(String name) {
+        return contractMapper.selectContractNames(name);
+    }
+
 }
