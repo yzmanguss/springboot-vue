@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunyun.financemanager.contract.mapper.PhaseMapper">
+    <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+        insert into phase(phase_index, amount, start_time, contract_id)
+        VALUES
+        <foreach collection="phases" separator=", " item="phase">
+            (#{phase.phaseIndex}, #{phase.amount}, #{phase.startTime}, #{phase.contractId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByContractId">
+       delete
+       from phase
+       where contract_id = #{contractId}
+    </delete>
+
+    <select id="findPhasesByContractId"  resultType="com.yunyun.financemanager.common.entity.Phase">
+        select
+        *
+        from
+        phase
+        where
+        contract_id = #{id}
+    </select>
+</mapper>
