@@ -21,10 +21,10 @@ public class WorkLoad implements Serializable {
 
     private Long updateBy;
 
-    @TableField(updateStrategy = FieldStrategy.NEVER)
+    @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime insertTime;
 
-    @TableField(insertStrategy = FieldStrategy.NEVER)
+    @TableField(updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime updateTime;
 
     /**

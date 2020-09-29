@@ -1,15 +1,14 @@
 package com.yunyun.financemanager.project.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.yunyun.financemanager.common.entity.WorkLoad;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.project.vo.WorkloadVo;
 
 /**
- * @author yangzhongming
- * @date 2020-09-29 10:57
+ * @author zhaoqin
  */
-
-public interface WorkLoadService {
-
+public interface WorkLoadService extends IService<WorkLoad> {
     /**
      * 添加工作量
      * @param workloadVo  工作量对象

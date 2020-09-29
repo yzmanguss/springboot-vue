@@ -1,6 +1,6 @@
 package com.yunyun.financemanager.project.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunyun.financemanager.common.entity.NormalCost;
 import com.yunyun.financemanager.common.entity.Project;
 import com.yunyun.financemanager.common.entity.WorkLoad;
@@ -21,12 +21,10 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 /**
- * @author yangzhongming
- * @date 2020-09-29 11:00
+ * @author zhaoqin
  */
 @Service
-public class WorkLoadServiceImpl implements WorkLoadService {
-
+public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> implements WorkLoadService {
     @Resource
     private WorkLoadMapper workLoadMapper;
 
