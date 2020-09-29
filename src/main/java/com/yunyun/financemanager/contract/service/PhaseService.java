@@ -9,7 +9,6 @@ import java.time.LocalDate;
 /**
  * @author xlc
  */
-@Service
 public interface PhaseService extends IService<Phase> {
     /**
      * 获取时间范围内应收款金额
