@@ -3,7 +3,7 @@ package com.yunyun.financemanager.contract.service;
 
 import com.github.pagehelper.Page;
 import com.yunyun.financemanager.common.entity.Contract;
-import com.yunyun.financemanager.common.entity.ContractQueryDTO;
+import com.yunyun.financemanager.common.query.ContractQuery;
 import com.yunyun.financemanager.common.response.ApiResponse;
 
 
@@ -16,10 +16,10 @@ public interface ContractService {
 
     /**
      * 根据条件查询合同
-     * @param contractQueryDTO
+     * @param contractQuery
      * @return
      */
-    Page<Contract> listContractByPage(ContractQueryDTO contractQueryDTO);
+    Page<Contract> listContractByPage(ContractQuery contractQuery);
 
     /**
      * 根据id删除单个合同

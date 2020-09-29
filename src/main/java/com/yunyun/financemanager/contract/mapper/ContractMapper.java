@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 
 import com.yunyun.financemanager.common.entity.Contract;
-import com.yunyun.financemanager.common.entity.ContractQueryDTO;
+import com.yunyun.financemanager.common.query.ContractQuery;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper
 public interface ContractMapper extends BaseMapper<Contract> {
 
-    List<Contract> listContractByPage(ContractQueryDTO contractQueryDTO);
+    List<Contract> listContractByPage(ContractQuery contractQuery);
 
     int isContractAssociatedProject(long id);
 

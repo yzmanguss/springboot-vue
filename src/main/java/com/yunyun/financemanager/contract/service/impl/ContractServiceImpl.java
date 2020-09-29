@@ -1,12 +1,11 @@
 package com.yunyun.financemanager.contract.service.impl;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yunyun.financemanager.contract.service.PhaseService;
 import com.yunyun.financemanager.common.entity.Contract;
-import com.yunyun.financemanager.common.entity.ContractQueryDTO;
+import com.yunyun.financemanager.common.query.ContractQuery;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.contract.mapper.ContractMapper;
 import com.yunyun.financemanager.contract.mapper.PhaseMapper;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author xlc
@@ -31,11 +29,11 @@ public class ContractServiceImpl implements ContractService {
 
 
     @Override
-    public Page<Contract> listContractByPage(ContractQueryDTO contractQueryDTO) {
-        int pageNum = contractQueryDTO.getPageNum();
-        int pageSize = contractQueryDTO.getPageSize();
+    public Page<Contract> listContractByPage(ContractQuery contractQuery) {
+        int pageNum = contractQuery.getPageNum();
+        int pageSize = contractQuery.getPageSize();
         Page<Contract> page = PageHelper.startPage(pageNum, pageSize);
-        contractMapper.listContractByPage(contractQueryDTO);
+        contractMapper.listContractByPage(contractQuery);
         return page;
     }
 

@@ -1,4 +1,4 @@
-package com.yunyun.financemanager.common.entity;
+package com.yunyun.financemanager.common.query;
 
 
 import lombok.Getter;
@@ -11,7 +11,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ContractQueryDTO {
+public class ContractQuery {
 
     /**
      * 当前页码

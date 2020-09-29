@@ -5,12 +5,11 @@ package com.yunyun.financemanager.contract.controller;
 import com.yunyun.financemanager.common.entity.Contract;
 
 import com.github.pagehelper.Page;
-import com.yunyun.financemanager.common.entity.ContractQueryDTO;
+import com.yunyun.financemanager.common.query.ContractQuery;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.contract.service.ContractService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -35,8 +34,8 @@ public class ContractController {
 
     @ApiOperation(value = "分页查询合同")
     @PostMapping("/getContractListByPage")
-    public ApiResponse<List<Contract>> listContractByPage(@RequestBody ContractQueryDTO contractQueryDTO){
-        Page<Contract> page = contractService.listContractByPage(contractQueryDTO);
+    public ApiResponse<List<Contract>> listContractByPage(@RequestBody ContractQuery contractQuery){
+        Page<Contract> page = contractService.listContractByPage(contractQuery);
         return ApiResponse.ok(page.getResult(), page.getTotal());
     }
 
