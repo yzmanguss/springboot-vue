@@ -3,7 +3,6 @@ package com.yunyun.financemanager.contract.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.yunyun.financemanager.contract.service.PhaseService;
 import com.yunyun.financemanager.common.entity.Contract;
 import com.yunyun.financemanager.common.query.ContractQuery;
 import com.yunyun.financemanager.common.response.ApiResponse;
@@ -24,8 +23,6 @@ public class ContractServiceImpl implements ContractService {
     private ContractMapper contractMapper;
     @Resource
     private PhaseMapper phaseMapper;
-    @Resource
-    private PhaseService phaseService;
 
 
     @Override
@@ -95,7 +92,7 @@ public class ContractServiceImpl implements ContractService {
 
         //修改合同
         int result = contractMapper.updateById(contract);
-        if (result > 0 && insert > 0) {
+        if (delete > 0 && result > 0 && insert > 0 ) {
             return ApiResponse.ok();
         } else {
             return ApiResponse.failure("修改失败");
