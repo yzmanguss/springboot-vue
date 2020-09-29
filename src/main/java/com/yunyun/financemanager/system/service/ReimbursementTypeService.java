@@ -14,5 +14,5 @@ public interface ReimbursementTypeService {
      * @param reimbursementType 报销类型实体
      * @return
      */
-    ApiResponse<String> addReimbursementType(ReimbursementType reimbursementType);
+    ApiResponse<Void> addReimbursementType(ReimbursementType reimbursementType);
 }

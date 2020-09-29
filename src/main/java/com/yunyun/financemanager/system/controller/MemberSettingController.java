@@ -8,8 +8,7 @@ import com.yunyun.financemanager.common.response.ResponseCode;
 import com.yunyun.financemanager.common.vojo.MemberStateVO;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.system.service.MemberSettingService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -41,9 +40,9 @@ public class MemberSettingController {
      */
     @ApiOperation("人员列表")
     @GetMapping("/members")
-    public ApiResponse<List<Member>> listMembers(@RequestParam(defaultValue = "1") Integer pageNum,
-                                                 @RequestParam(defaultValue = "5") Integer pageSize,
-                                                 String keyword) {
+    public ApiResponse<List<Member>> listMembers(@ApiParam(value = "当前页码数") @RequestParam(defaultValue = "1") Integer pageNum,
+                                                 @ApiParam(value = "每页数据条数") @RequestParam(defaultValue = "5") Integer pageSize,
+                                                 @ApiParam(value = "模糊查询参数") String keyword) {
 
         QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(keyword)) {
@@ -63,7 +62,7 @@ public class MemberSettingController {
      */
     @ApiOperation("更改人员状态")
     @PostMapping("/change_member_state")
-    public ApiResponse<Void> changeMemberState(@RequestBody MemberStateVO memberStateVO) {
+    public ApiResponse<Void> changeMemberState(@ApiParam(value = "人员id和状态值(0/1)的封装") @RequestBody MemberStateVO memberStateVO) {
         switch (memberStateVO.getState()) {
             case 0:
                 return memberSettingService.setMemberDisable(memberStateVO.getId());
@@ -81,7 +80,7 @@ public class MemberSettingController {
      */
     @ApiOperation("添加人员")
     @PutMapping("/add_member")
-    public ApiResponse<Void> addMember(@RequestBody @Validated Member memberDTO) {
+    public ApiResponse<Void> addMember(@ApiParam(value = "人员姓名、日薪、状态值(0/1)的封装") @RequestBody @Validated Member memberDTO) {
         memberSettingService.save(memberDTO);
         return ApiResponse.ok();
     }
