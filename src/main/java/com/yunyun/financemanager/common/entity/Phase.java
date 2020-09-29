@@ -1,28 +1,25 @@
 package com.yunyun.financemanager.common.entity;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
 /**
  * 分期款项
+ *
  * @author xlc
  */
 @ApiModel("分期款项的实体类")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @TableName("phase")
 public class Phase implements Serializable {
     @ApiModelProperty(value = "id", name = "id", example = "1")
@@ -34,7 +31,6 @@ public class Phase implements Serializable {
 
     @ApiModelProperty(value = "修改时间", example = "1601358287482")
     private LocalDateTime updateDate;
-
 
     @ApiModelProperty(value = "分期款项的排列序号", name = "phaseIndexId", example = "1")
     @NotNull

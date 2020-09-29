@@ -94,4 +94,9 @@
 <!--	</select>-->
 
 
+    <select id="selectContractNames" resultType="com.yunyun.financemanager.common.entity.Contract">
+        select id,contract_name  from contract where contract_name like '%' #{name} '%'
+    </select>
+
+
 </mapper>
