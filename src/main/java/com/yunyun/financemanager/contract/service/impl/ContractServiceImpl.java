@@ -1,32 +1,36 @@
 package com.yunyun.financemanager.contract.service.impl;
 
-
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.yunyun.financemanager.contract.service.PhaseService;
 import com.yunyun.financemanager.common.entity.Contract;
 import com.yunyun.financemanager.common.query.ContractQuery;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.contract.mapper.ContractMapper;
 import com.yunyun.financemanager.contract.mapper.PhaseMapper;
 import com.yunyun.financemanager.contract.service.ContractService;
+import com.yunyun.financemanager.contract.service.PhaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author xlc
  */
 @Service
-public class ContractServiceImpl implements ContractService {
+public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> implements ContractService {
     @Resource
     private ContractMapper contractMapper;
+
     @Resource
     private PhaseMapper phaseMapper;
+
     @Resource
     private PhaseService phaseService;
-
 
     @Override
     public Page<Contract> listContractByPage(ContractQuery contractQuery) {
@@ -39,10 +43,10 @@ public class ContractServiceImpl implements ContractService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-     public ApiResponse<Void> deleteContractById(Long id) {
+    public ApiResponse<Void> deleteContractById(Long id) {
 
-        int count =contractMapper.isContractAssociatedProject(id);
-        if(count > 0) {
+        int count = contractMapper.isContractAssociatedProject(id);
+        if (count > 0) {
             return ApiResponse.failure("该合同已有关联项目，不能删除");
         }
 
@@ -50,7 +54,7 @@ public class ContractServiceImpl implements ContractService {
         int delete = phaseMapper.deleteByContractId(id);
 
         int result = contractMapper.deleteById(id);
-        if (result > 0 && delete > 0 ) {
+        if (result > 0 && delete > 0) {
             return ApiResponse.ok();
         } else {
             return ApiResponse.failure("删除失败");
@@ -59,7 +63,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public ApiResponse<Contract> getContractById(Long id) {
-        Contract contract =  contractMapper.getContractById(id);
+        Contract contract = contractMapper.getContractById(id);
 
         return ApiResponse.ok(contract);
     }
@@ -74,7 +78,7 @@ public class ContractServiceImpl implements ContractService {
         //添加分期款项
         int insert = phaseMapper.insertBatch(contract.getPhases());
 
-        if (result > 0 && insert > 0 ) {
+        if (result > 0 && insert > 0) {
             return ApiResponse.ok();
         } else {
             return ApiResponse.failure("添加失败");
@@ -102,6 +106,21 @@ public class ContractServiceImpl implements ContractService {
         }
     }
 
+    @Override
+    public Long getContractSignedAmount(LocalDate startDate, LocalDate endDate) {
+        List<Contract> list = this.list(Wrappers.<Contract>lambdaQuery()
+                .between(Contract::getSignDate, startDate, endDate));
+        return list.stream()
+                .map(Contract::getAmount)
+                .reduce(0L, Long::sum);
+    }
+
+    @Override
+    public Long getSignedContractCount(LocalDate startDate, LocalDate endDate) {
+        int count = this.count(Wrappers.<Contract>lambdaQuery()
+                .between(Contract::getSignDate, startDate, endDate));
+        return (long) count;
+    }
 
 //    @Override
 //    public ApiResponse<Contract> queryContractNameById(Long id) {
