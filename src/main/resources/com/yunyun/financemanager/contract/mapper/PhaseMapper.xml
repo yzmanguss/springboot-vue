@@ -6,7 +6,7 @@
         insert into phase(phase_index, amount, start_date, contract_id)
         VALUES
         <foreach collection="phases" separator=", " item="phase">
-            (#{phase.phaseIndex}, #{phase.amount}, #{phase.startTime}, #{phase.contractId})
+            (#{phase.phaseIndex}, #{phase.amount}, #{phase.startDate}, #{phase.contractId})
         </foreach>
     </insert>
 

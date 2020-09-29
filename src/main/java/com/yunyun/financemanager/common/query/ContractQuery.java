@@ -22,11 +22,20 @@ public class ContractQuery {
      */
     protected int pageSize = 5;
 
+    /**
+     * 合同状态
+     */
     protected Integer contractStatus;
-
+    /**
+     * 合同签订的开始日期
+     */
     protected String signDateStart;
-
+    /**
+     * 合同签订的结束日期
+     */
     protected String signDateEnd;
-
+    /**
+     * 查询关键字，与合同的标题匹配
+     */
     protected String keyWord;
 }

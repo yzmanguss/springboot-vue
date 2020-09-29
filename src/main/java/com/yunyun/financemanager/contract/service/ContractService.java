@@ -7,6 +7,7 @@ import com.yunyun.financemanager.common.query.ContractQuery;
 import com.yunyun.financemanager.common.response.ApiResponse;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author xlc
@@ -75,4 +76,14 @@ public interface ContractService extends IService<Contract> {
 //     * @return
 //     */
 //   ContractStatisticsVO contractStatistics();
+
+
+    /**
+     * 模糊查询合同名
+     * @author hhr
+     * @param name 合同名
+     * @return 合同对象集
+     */
+    List<Contract> selectContractNames(String name);
+
 }

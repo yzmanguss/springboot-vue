@@ -66,20 +66,12 @@
         <result column="sign_date" jdbcType="DATE" property="signDate" />
         <result column="start_date" jdbcType="DATE" property="startDate" />
         <result column="finish_date" jdbcType="DATE" property="finishDate" />
-<!--        <collection property="phases" ofType="com.yunyun.financemanager.common.entity.Phase" >-->
-<!--            <id column="id" jdbcType="INTEGER" property="id" />-->
-<!--            <result column="phase_index" jdbcType="INTEGER" property="phaseIndex" />-->
-<!--            <result column="amount" jdbcType="BIGINT" property="amount" />-->
-<!--            <result column="start_time" jdbcType="DATE" property="startTime" />-->
-<!--            <result column="finish_time" jdbcType="DATE" property="finishTime" />-->
-<!--            <result column="contract_id" jdbcType="INTEGER" property="contractId" />-->
-<!--        </collection>-->
         <collection property="phases" select="com.yunyun.financemanager.contract.mapper.PhaseMapper.findPhasesByContractId" ofType="com.yunyun.financemanager.common.entity.Phase" column="id">
             <id column="id" jdbcType="INTEGER" property="id" />
             <result column="phase_index" jdbcType="INTEGER" property="phaseIndex" />
             <result column="amount" jdbcType="BIGINT" property="amount" />
-            <result column="start_time" jdbcType="DATE" property="startTime" />
-            <result column="finish_time" jdbcType="DATETIME" property="finishTime" />
+            <result column="start_date" jdbcType="DATE" property="startDate" />
+            <result column="finish_date" jdbcType="DATE" property="finishDate" />
             <result column="contract_id" jdbcType="INTEGER" property="contractId" />
         </collection>
         
@@ -100,6 +92,11 @@
 <!--    	from contract-->
 <!--    	where date_format(sign_time,'%Y-%m') = date_format(now(),'%Y-%m')-->
 <!--	</select>-->
+
+
+    <select id="selectContractNames" resultType="com.yunyun.financemanager.common.entity.Contract">
+        select id,contract_name  from contract where contract_name like '%' #{name} '%'
+    </select>
 
 
 </mapper>
