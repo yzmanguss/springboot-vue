@@ -155,7 +155,7 @@ public class Project implements Serializable {
     /**
      * 交付时间
      */
-    private LocalDate deliverTimeDate;
+    private LocalDate deliverDate;
 
     /**
      * 回款项

@@ -1,9 +1,8 @@
 package com.yunyun.financemanager.project.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -12,6 +11,7 @@ import java.time.LocalDate;
  * @date 2020-09-28 16:54
  */
 @Data
+@ApiModel(value = "分页对象")
 public class PageLimit {
 
     @ApiModelProperty(value = "当前页 --require")
