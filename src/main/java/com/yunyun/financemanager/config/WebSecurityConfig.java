@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -59,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .anyRequest()
-                .permitAll()
+                .authenticated()
                 .and()
                 .formLogin()
                 .successHandler(new AuthenticationSuccessHandlerImpl())
@@ -74,6 +75,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new AuthenticationEntryPointImpl());
     }
 
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring()
+                .antMatchers("/swagger-ui/*",
+                        "/swagger-resources/**",
+                        "/v3/api-docs");
+    }
+
     /**
      * 处理登录成功返回
      */
@@ -83,7 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                             Authentication authentication) throws IOException {
             Object principal = authentication.getPrincipal();
             String result = OBJECT_MAPPER.writeValueAsString(ApiResponse.ok(principal));
-            writeStringWithJson(response, result);
+            writeJsonString(response, result);
         }
     }
 
@@ -95,7 +104,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                             AuthenticationException exception) throws IOException {
             String result = OBJECT_MAPPER.writeValueAsString(ApiResponse.failure(ResponseCode.BAD_CREDENTIAL));
-            writeStringWithJson(response, result);
+            writeJsonString(response, result);
         }
     }
 
@@ -107,7 +116,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
                                     Authentication authentication) throws IOException {
             String result = OBJECT_MAPPER.writeValueAsString(ApiResponse.ok());
-            writeStringWithJson(response, result);
+            writeJsonString(response, result);
         }
     }
 
@@ -119,12 +128,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         public void commence(HttpServletRequest request, HttpServletResponse response,
                              AuthenticationException authException) throws IOException {
             String result = OBJECT_MAPPER.writeValueAsString(ApiResponse.failure(ResponseCode.UNAUTHORIZED));
-            writeStringWithJson(response, result);
+            writeJsonString(response, result);
         }
     }
 
     @SuppressWarnings("deprecation")
-    private static void writeStringWithJson(HttpServletResponse response, String jsonStr)  throws IOException {
+    private static void writeJsonString(HttpServletResponse response, String jsonStr) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.setStatus(HttpStatus.OK.value());
         PrintWriter writer = response.getWriter();
