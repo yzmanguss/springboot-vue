@@ -7,7 +7,7 @@ import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.common.response.ResponseCode;
 import com.yunyun.financemanager.common.vojo.MemberStateVO;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
-import com.yunyun.financemanager.system.service.MemberService;
+import com.yunyun.financemanager.system.service.MemberSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +28,7 @@ public class MemberSettingController {
     MemberMapper memberMapper;
 
     @Autowired
-    MemberService memberService;
+    MemberSettingService memberSettingService;
 
     /**
      * 公司人员设置页面的人员信息列表
@@ -62,9 +62,9 @@ public class MemberSettingController {
     public ApiResponse<Void> changeMemberState(@RequestBody MemberStateVO memberStateVO) {
         switch (memberStateVO.getState()) {
             case 0:
-                return memberService.setMemberDisable(memberStateVO.getId());
+                return memberSettingService.setMemberDisable(memberStateVO.getId());
             case 1:
-                return memberService.setMemberEnable(memberStateVO.getId());
+                return memberSettingService.setMemberEnable(memberStateVO.getId());
             default:
                 return ApiResponse.failure(ResponseCode.FORBIDDEN, "人员状态码错误！");
         }
@@ -77,7 +77,7 @@ public class MemberSettingController {
      */
     @PutMapping("/add_member")
     public ApiResponse<Void> addMember(@RequestBody @Validated Member memberDTO) {
-        memberService.save(memberDTO);
+        memberSettingService.save(memberDTO);
         return ApiResponse.ok();
     }
 

@@ -8,7 +8,7 @@ import com.yunyun.financemanager.common.response.ApiResponse;
  * @author 余聪
  * @date 2020/9/28
  */
-public interface MemberService extends IService<Member> {
+public interface MemberSettingService extends IService<Member> {
 
     /**
      * 设置公司人员为启用
