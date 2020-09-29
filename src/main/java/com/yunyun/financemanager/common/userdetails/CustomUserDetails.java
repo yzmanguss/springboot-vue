@@ -1,5 +1,6 @@
 package com.yunyun.financemanager.common.userdetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yunyun.financemanager.common.entity.Account;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return account.getPassword();
     }
