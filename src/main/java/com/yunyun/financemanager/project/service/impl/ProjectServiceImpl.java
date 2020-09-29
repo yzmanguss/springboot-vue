@@ -1,5 +1,7 @@
 package com.yunyun.financemanager.project.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunyun.financemanager.common.entity.Project;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
@@ -11,6 +13,8 @@ import com.yunyun.financemanager.system.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +23,7 @@ import java.util.List;
  * @date 2020-09-28 10:28
  */
 @Service
-public class PeojectServiceImpl implements ProjectService {
+public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> implements ProjectService {
 
     @Autowired
     private ProjectMapper projectMapper;
@@ -74,5 +78,12 @@ public class PeojectServiceImpl implements ProjectService {
         int delete = projectMapper.deleteById(id);
         Assert.state(delete > 0, "删除失败");
         return ApiResponse.ok();
+    }
+
+    @Override
+    public Long getDeliverProjectCount(LocalDate startDate, LocalDate endDate) {
+        int count = this.count(Wrappers.<Project>lambdaQuery()
+                .between(Project::getDeliverDate, startDate, endDate));
+        return (long) count;
     }
 }

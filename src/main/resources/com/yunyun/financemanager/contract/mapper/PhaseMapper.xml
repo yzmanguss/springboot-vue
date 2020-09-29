@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunyun.financemanager.contract.mapper.PhaseMapper">
     <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
-        insert into phase(phase_index, amount, start_time, contract_id)
+        insert into phase(phase_index, amount, start_date, contract_id)
         VALUES
         <foreach collection="phases" separator=", " item="phase">
             (#{phase.phaseIndex}, #{phase.amount}, #{phase.startTime}, #{phase.contractId})
