@@ -4,7 +4,6 @@ import com.yunyun.financemanager.common.entity.Member;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.project.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -13,7 +12,6 @@ import java.util.List;
 
 /**
  * @author yangzhongming
- * @date 2020-09-28 11:16
  */
 @Service
 public class MemberServiceImpl implements MemberService {

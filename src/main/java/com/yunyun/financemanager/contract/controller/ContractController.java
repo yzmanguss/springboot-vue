@@ -19,8 +19,6 @@ import java.util.List;
 
 /**
  * @author xlc
- * @ClassName: ContractController
- * @date 2020/9/28 10:17
  */
 @Validated
 @Api(value = "/contract", tags = {"合同管理"})

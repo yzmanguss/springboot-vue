@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.yunyun.financemanager.common.entity.Contract;
 import com.yunyun.financemanager.common.query.ContractQuery;
 import com.yunyun.financemanager.common.response.ApiResponse;
+import com.yunyun.financemanager.common.vo.LineChartVO;
 import com.yunyun.financemanager.contract.mapper.ContractMapper;
 import com.yunyun.financemanager.contract.mapper.PhaseMapper;
 import com.yunyun.financemanager.contract.service.ContractService;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author xlc
@@ -31,7 +33,6 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
 
     @Resource
     private AccountService accountService;
-
 
     @Override
     public Page<Contract> listContractByPage(ContractQuery contractQuery) {
@@ -130,6 +131,16 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
     @Override
     public List<Contract> selectContractNames(String name) {
         return contractMapper.selectContractNames(name);
+    }
+
+    @Override
+    public Map<Integer, LineChartVO> getYearAmountGroupByMonth(int year) {
+        return contractMapper.selectYearAmountGroupByMonth(year);
+    }
+
+    @Override
+    public Map<Integer, LineChartVO> getMonthAmountGroupByDay(int year, int month) {
+        return contractMapper.getMonthAmountGroupByDay(year, month);
     }
 
 }

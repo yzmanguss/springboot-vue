@@ -10,7 +10,6 @@ import java.time.LocalDate;
 
 /**
  * @author yangzhongming
- * @date 2020-09-28 16:54
  */
 @Data
 @ApiModel(value = "分页对象")

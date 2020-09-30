@@ -4,7 +4,6 @@ import com.yunyun.financemanager.common.entity.ReimbursementType;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.system.service.ReimbursementTypeService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author 余聪
- * @date 2020/9/28
  */
 @Api(tags = "系统管理-报销类型新增")
 @Validated

@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 /**
  * @author yangzhongming
- * @date 2020-09-29 10:04
  */
 @Data
 @ApiModel(value = "添加工作量对象")

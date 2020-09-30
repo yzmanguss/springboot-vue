@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author 余聪
- * @date 2020/9/29
  */
 @Service
 public class NormalCostSettingServiceImpl extends ServiceImpl<NormalCostMapper, NormalCost> implements NormalCostSettingService {

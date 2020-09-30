@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunyun.financemanager.contract.mapper.ContractMapper">
 
     <!--合同信息-->
@@ -14,24 +14,24 @@
         <result column="sign_date" jdbcType="DATE" property="signDate"/>
     </resultMap>
 
-    <select id="listContractByPage" resultMap="Contract">
-        select id, contract_number, contract_name, customer_name, contract_status, amount, sign_date
-        from contract
-        <where>
-            <if test="keyWord != null and keyWord != ''">
-                contract_name like concat('%',#{keyWord},'%')
-            </if>
-            <if test="contractStatus != null and contractStatus != ''">
-                and contract_status = #{contractStatus}
-            </if>
-            <if test="signDateStart != null and signDateStart != ''">
-                and sign_date <![CDATA[>=]]>#{signDateStart}
-            </if>
-            <if test="signDateEnd != null and signDateEnd != ''">
-                and sign_date <![CDATA[<=]]>#{signDateEnd}
-            </if>
-        </where>
-    </select>
+  <select id="listContractByPage" resultMap="Contract">
+    select id, contract_number, contract_name, customer_name, contract_status, amount, sign_date
+    from contract
+    <where>
+      <if test="keyWord != null and keyWord != ''">
+        contract_name like concat('%',#{keyWord},'%')
+      </if>
+      <if test="contractStatus != null and contractStatus != ''">
+        and contract_status = #{contractStatus}
+      </if>
+      <if test="signDateStart != null and signDateStart != ''">
+        and sign_date <![CDATA[>=]]>#{signDateStart}
+      </if>
+      <if test="signDateEnd != null and signDateEnd != ''">
+        and sign_date <![CDATA[<=]]>#{signDateEnd}
+      </if>
+    </where>
+  </select>
 
     <select id="isContractAssociatedProject" resultType="int">
     	select count(*) from contract c
@@ -64,23 +64,31 @@
         </collection>
     </resultMap>
 
-    <select id="getContractById" resultMap="ContractAndPhases">
-    	select
-    	*
-    	from
-    	contract
-    	where
-    	id = #{id}
-	</select>
+  <select id="getContractById" resultMap="ContractAndPhases">
+    select *
+    from contract
+    where id = #{id}
+  </select>
 
+  <select id="selectContractNames" resultType="com.yunyun.financemanager.common.entity.Contract">
+    select id, contract_name
+    from contract
+    where contract_name like '%' #{name} '%'
+  </select>
 
-    <select id="selectContractNames" resultType="com.yunyun.financemanager.common.entity.Contract">
-        select
-        id,
-        contract_name
-        from contract
-        where contract_name like '%' #{name} '%'
-    </select>
+  <select id="selectYearAmountGroupByMonth" resultType="com.yunyun.financemanager.common.vo.LineChartVO">
+    select MONTH(sign_date) as `index`, SUM(amount) as value
+    FROM contract
+    where DATE_FORMAT(sign_date, '%Y') = #{year}
+    group by `index`;
+  </select>
 
+  <select id="getMonthAmountGroupByDay" resultType="com.yunyun.financemanager.common.vo.LineChartVO">
+    select DAY(sign_date) as `index`, SUM(amount) as value
+    FROM contract
+    where DATE_FORMAT(sign_date, '%Y') = #{year}
+      and DATE_FORMAT(sign_date, '%m') = #{month}
+                      group by `index`;
+  </select>
 
 </mapper>

@@ -58,4 +58,5 @@ public interface ProjectService extends IService<Project> {
      */
     Long getDeliverProjectCount(LocalDate startDate, LocalDate endDate);
 
+    List<Project> listBySignDateBetween(LocalDate startDate, LocalDate endDate);
 }

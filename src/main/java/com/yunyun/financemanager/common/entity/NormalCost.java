@@ -33,7 +33,6 @@ public class NormalCost implements Serializable {
      */
     @NotNull
     @Positive
-    @DecimalMax(value = "100000")
     private Long amount;
 
     private static final long serialVersionUID = 1L;

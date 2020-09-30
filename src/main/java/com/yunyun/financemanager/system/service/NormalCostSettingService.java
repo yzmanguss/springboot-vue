@@ -6,7 +6,6 @@ import com.yunyun.financemanager.common.response.ApiResponse;
 
 /**
  * @author 余聪
- * @date 2020/9/29
  */
 public interface NormalCostSettingService extends IService<NormalCost> {
 

@@ -25,7 +25,6 @@ import java.util.List;
  * @author yangzhongming
  */
 @Service
-@SuppressWarnings("all")
 public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> implements ProjectService {
 
     @Resource
@@ -41,7 +40,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     private ContractMapper contractMapper;
 
     @Override
-    public ApiResponse getProjectList(PageLimit pageLimit) {
+    public ApiResponse<List<ProjectVo>> getProjectList(PageLimit pageLimit) {
         Integer pageStart =  (pageLimit.getPageNow()-1)*pageLimit.getPageSize();
         List<Project> projectList = projectMapper.getProjectList(pageStart, pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), pageLimit.getKeyWord());
         List<ProjectVo> projectVoList = new ArrayList<>();
@@ -64,7 +63,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
-    public ApiResponse addProject(Project project) {
+    public ApiResponse<Void> addProject(Project project) {
         project.setInsertBy(accountService.getLoginUserId());
         int insert = projectMapper.insert(project);
         Assert.state(insert > 0, "添加失败");
@@ -118,7 +117,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
-    public ApiResponse deleteProject(String id) {
+    public ApiResponse<Void> deleteProject(String id) {
         int delete = projectMapper.deleteById(id);
         Assert.state(delete > 0, "删除失败");
         return ApiResponse.ok();
@@ -129,5 +128,11 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         int count = this.count(Wrappers.<Project>lambdaQuery()
                 .between(Project::getDeliverDate, startDate, endDate));
         return (long) count;
+    }
+
+    @Override
+    public List<Project> listBySignDateBetween(LocalDate startDate, LocalDate endDate) {
+        return this.list(Wrappers.<Project>lambdaQuery()
+                .between(Project::getSignDate, startDate, endDate));
     }
 }
