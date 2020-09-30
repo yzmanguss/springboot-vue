@@ -59,7 +59,7 @@ public class MemberSettingController {
      */
     @ApiOperation("更改人员状态")
     @PostMapping("/change_member_state")
-    public ApiResponse<Void> changeMemberState(@ApiParam(value = "人员id和状态值(0/1)的封装") @RequestBody MemberStateVO memberStateVO) {
+    public ApiResponse<Void> changeMemberState(@ApiParam(value = "人员id和状态值(T/F)的封装") @RequestBody MemberStateVO memberStateVO) {
         if (memberStateVO.getState()) {
             return memberSettingService.setMemberEnable(memberStateVO.getId());
         } else {
