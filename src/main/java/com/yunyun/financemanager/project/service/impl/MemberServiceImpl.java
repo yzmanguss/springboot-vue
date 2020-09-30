@@ -25,7 +25,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public ApiResponse<List<Member>> selAllMenmbers() {
         List<Member> members = memberMapper.selectList(null);
-        Assert.state(members !=null && members.isEmpty(),"查询成员失败");
+        Assert.state(members !=null && !members.isEmpty(),"查询成员失败");
         return ApiResponse.ok(members);
     }
 

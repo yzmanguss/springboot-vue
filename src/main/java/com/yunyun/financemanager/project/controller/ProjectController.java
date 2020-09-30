@@ -34,8 +34,8 @@ public class ProjectController {
 
     @ApiOperation("新增项目")
     @PostMapping("/addProject")
-    public ApiResponse<Void> addPeoject(Project project){
-        return projectService.addPeoject(project);
+    public ApiResponse<Void> addProject(@Validated Project project){
+        return projectService.addProject(project);
     }
 
 
@@ -51,6 +51,10 @@ public class ProjectController {
         return projectService.getProjectDetail(id);
     }
 
-
+    @ApiOperation("结项")
+    @PostMapping("/conclusionProject")
+    public ApiResponse<Void> conclusionProject(Project project){
+        return projectService.conclusionProject(project);
+    }
 
 }

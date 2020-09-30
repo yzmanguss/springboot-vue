@@ -24,7 +24,7 @@ public class MemberController {
     private MemberService memberService;
 
     @ApiOperation("项目详情")
-    @GetMapping("/selAllMenmbers")
+    @GetMapping("/selAllMembers")
     public ApiResponse<List<Member>> getProjectDetail(){
         return memberService.selAllMenmbers();
     }
