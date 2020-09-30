@@ -10,10 +10,10 @@
             </if>
             <if test="state != null">
                 <if test="state == 0">
-                    and deliver_time_date is null
+                    and deliver_date is null
                 </if>
                 <if test="state == 1">
-                    and deliver_time_date is not null
+                    and deliver_date is not null
                 </if>
             </if>
             <if test="keyWord != null">

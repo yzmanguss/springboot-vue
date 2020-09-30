@@ -26,7 +26,7 @@ public interface ProjectService extends IService<Project> {
      * @param project 项目
      * @return 添加成功与否
      */
-   ApiResponse<Void> addPeoject(Project project);
+   ApiResponse<Void> addProject(Project project);
 
     /**
      * 获取项目详情

@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * project
  */
@@ -19,11 +21,13 @@ public class Project implements Serializable {
     @TableId
     private Long id;
 
+    @NotNull
     private String projectName;
 
     private Long insertBy;
 
     private Long updateBy;
+
 
     @TableField(updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime insertTime;
@@ -34,67 +38,79 @@ public class Project implements Serializable {
     /**
      * 关联合同
      */
+    @NotNull
     private Long contractId;
 
     /**
      * 负责人
      */
+    @NotNull
     private Long leaderId;
 
     /**
      * 参与人员
      */
+    @NotNull
     private String members;
 
     /**
      * 签订日期
      */
+    @NotNull
     private LocalDate signDate;
 
     /**
      * 计划开始时间
      */
+    @NotNull
     private LocalDate expectedStartDate;
 
     /**
      * 计划完成时间
      */
+    @NotNull
     private LocalDate expectedFinishDate;
 
     /**
      * 计划总工作量-单位:人天
      */
+    @NotNull
     private Long expectedWorkload;
 
     /**
      * 计划需求分析节点时间
      */
+    @NotNull
     private LocalDate expectedRequirementNodeDate;
 
     /**
      * 计划设计节点时间
      */
+    @NotNull
     private LocalDate expectedDesignNodeDate;
 
     /**
      * 计划开发节点时间
      */
+    @NotNull
     private LocalDate expectedDevelopNodeDate;
 
     /**
      * 计划测试节点时间
      */
+    @NotNull
     private LocalDate expectedTestNodeDate;
 
     /**
      * 计划开发成本
      */
-
+    @NotNull
     private Long expectedDevelopCost;
 
     /**
      * 计划商务成本
      */
+    @NotNull
     private Long expectedBusinessCost;
 
     /**
