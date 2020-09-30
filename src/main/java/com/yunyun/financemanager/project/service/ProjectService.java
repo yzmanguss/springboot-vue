@@ -3,32 +3,51 @@ package com.yunyun.financemanager.project.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yunyun.financemanager.common.entity.Project;
 import com.yunyun.financemanager.common.response.ApiResponse;
-import com.yunyun.financemanager.project.qo.ProjectNames;
 import com.yunyun.financemanager.project.vo.PageLimit;
 import com.yunyun.financemanager.project.vo.ProjectVo;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author 杨忠明
+ * @author  yangzhongming
  */
 public interface ProjectService extends IService<Project> {
 
     /**
      * 获取项目列表
-     *
+     * @param pageLimit page对象
+     * @return  符合条件的项目列表
      */
-    ApiResponse<ProjectVo> getProjectList(PageLimit pageLimit);
+   ApiResponse<List<ProjectVo>> getProjectList(PageLimit pageLimit);
 
-    ApiResponse addPeoject(Project project);
+    /**
+     *添加项目
+     * @param project 项目
+     * @return 添加成功与否
+     */
+   ApiResponse<Void> addProject(Project project);
+
+    /**
+     * 获取项目详情
+     * @param id  项目id
+     * @return 对应id的项目
+     */
+   ApiResponse<ProjectVo> getProjectDetail(String id);
+
+    /**
+     * 项目结项
+     * @param project 结项的项目
+     * @return  结项成功与否
+     */
+   ApiResponse<Void> conclusionProject(Project project);
 
     /**
      * 根据项目id删除
-     *
+     * @param id 项目id
+     * @return 删除成功与否
      */
-    ApiResponse deleteProject(String id);
+   ApiResponse<Void> deleteProject(String id);
 
     /**
      * 获取时间范围内交付项目的数量
@@ -39,15 +58,5 @@ public interface ProjectService extends IService<Project> {
      */
     Long getDeliverProjectCount(LocalDate startDate, LocalDate endDate);
 
-
-
-    /**
-     *  模糊查询项目名
-     *
-     * @param name 项目名
-     * @return 项目名数量
-     */
-    List<ProjectNames> selectProjectNames(String name);
-
-
+    List<Project> listBySignDateBetween(LocalDate startDate, LocalDate endDate);
 }

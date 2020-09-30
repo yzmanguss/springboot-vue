@@ -18,7 +18,6 @@ import java.util.List;
 
 /**
  * @author 余聪
- * @date 2020/9/28
  */
 @Api(tags = "系统管理-公司人员录入")
 @Validated
@@ -36,7 +35,6 @@ public class MemberSettingController {
      * @param pageNum 当前页
      * @param pageSize 每页数量
      * @param keyword 查询关键字（姓名或日薪）
-     * @return
      */
     @ApiOperation("人员列表")
     @GetMapping("/members")
@@ -58,7 +56,6 @@ public class MemberSettingController {
     /**
      * 更改人员状态
      * @param memberStateVO 人员id和状态码包装类
-     * @return
      */
     @ApiOperation("更改人员状态")
     @PostMapping("/change_member_state")
@@ -76,7 +73,6 @@ public class MemberSettingController {
     /**
      * 添加公司人员
      * @param memberDTO 人员信息对象
-     * @return
      */
     @ApiOperation("添加人员")
     @PutMapping("/add_member")

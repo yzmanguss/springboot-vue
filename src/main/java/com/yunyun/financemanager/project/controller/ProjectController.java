@@ -2,20 +2,19 @@ package com.yunyun.financemanager.project.controller;
 
 import com.yunyun.financemanager.common.entity.Project;
 import com.yunyun.financemanager.common.response.ApiResponse;
-import com.yunyun.financemanager.project.qo.ProjectNames;
 import com.yunyun.financemanager.project.service.ProjectService;
 import com.yunyun.financemanager.project.vo.PageLimit;
+import com.yunyun.financemanager.project.vo.ProjectVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @author 杨忠明
- * @date 2020-09-28 14:41
+ * @author yangzhongming
  */
 @Api(tags = "项目管理")
 @RestController
@@ -23,33 +22,38 @@ import java.util.List;
 @RequestMapping("/project")
 public class ProjectController {
 
-    @Autowired
+    @Resource
     private ProjectService projectService;
 
     @ApiOperation("查询项目列表")
     @GetMapping("/queryProject")
-    public ApiResponse queryProject(@Validated PageLimit pageLimit){
+    public ApiResponse<List<ProjectVo>> queryProject(@Validated PageLimit pageLimit){
         return projectService.getProjectList(pageLimit);
     }
 
-
     @ApiOperation("新增项目")
     @PostMapping("/addProject")
-    public ApiResponse addPeoject(Project project){
-        return projectService.addPeoject(project);
+    public ApiResponse<Void> addProject(@Validated Project project){
+        return projectService.addProject(project);
     }
 
+
     @ApiOperation("删除项目")
-    @GetMapping("/deleteProject")
-    public ApiResponse deleteProject(String id){
+    @DeleteMapping("/deleteProject/{id}")
+    public ApiResponse<Void> deleteProject(@PathVariable String id){
         return projectService.deleteProject(id);
     }
 
+    @ApiOperation("项目详情")
+    @GetMapping("/getProjectDetail/{id}")
+    public ApiResponse<ProjectVo> getProjectDetail(@PathVariable String id){
+        return projectService.getProjectDetail(id);
+    }
 
-    @ApiOperation("模糊查询项目的名字")
-    @GetMapping("/projectnames")
-    public ApiResponse<List<ProjectNames>> selectProjectNames(@RequestParam(value = "name") String name) {
-        return ApiResponse.ok(projectService.selectProjectNames(name));
+    @ApiOperation("结项")
+    @PostMapping("/conclusionProject")
+    public ApiResponse<Void> conclusionProject(Project project){
+        return projectService.conclusionProject(project);
     }
 
 }

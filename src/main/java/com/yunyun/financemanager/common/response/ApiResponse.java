@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
  * 接口返回包装类
  * @author zhaoqin
  */
+@SuppressWarnings({"unused", "RedundantSuppression"})
 public class ApiResponse<T> implements Serializable {
 
     private Integer code;

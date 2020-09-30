@@ -46,10 +46,10 @@ public class Contract implements Serializable {
     private String contractName;
 
     @ApiModelProperty(value = "插入者", name = "insertBy", example = "1")
-    private String insertBy;
+    private Long insertBy;
 
     @ApiModelProperty(value = "修改者", name = "updateBy", example = "1")
-    private String updateBy;
+    private Long updateBy;
 
 
     @ApiModelProperty(value = "合同编号", name = "contractNumber", example = "12131")

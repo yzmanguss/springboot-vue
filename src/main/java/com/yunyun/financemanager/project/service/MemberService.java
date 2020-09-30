@@ -3,31 +3,26 @@ package com.yunyun.financemanager.project.service;
 import com.yunyun.financemanager.common.entity.Member;
 import com.yunyun.financemanager.common.response.ApiResponse;
 
+import java.util.List;
+
 /**
- * @author 杨忠明
- * @date 2020-09-28 11:14
+ * @author yangzhongming
  */
 public interface MemberService {
 
     /**
      * 查询所有的成员
-     * @return
+     * @return 返回所有的成员
      */
-    ApiResponse<Member> selAllMenmbers();
+    ApiResponse<List<Member>> selAllMenmbers();
 
 
     /**
-     *通过id查询日办公成本
-     * @param id
-     * @return
+     *通过id查询日薪
+     * @param id 成员id
+     * @return   对应成员的日薪
      */
-    Member selMemberDailyWageById(String id);
+    Member selMemberDailyWageById(Long id);
 
-    /**
-     * 通过memberName  查询id
-     * @param memberName
-     * @return
-     */
-    String selMemberIdByName(String memberName);
 
 }

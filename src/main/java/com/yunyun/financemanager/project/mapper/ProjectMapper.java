@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * @author yangzhongming
+ */
 @Mapper
 @Repository
 public interface ProjectMapper extends BaseMapper<Project> {
@@ -22,7 +25,7 @@ public interface ProjectMapper extends BaseMapper<Project> {
      * @param endDate   结束时间
      * @param state     项目状态
      * @param keyWord   关键字
-     * @return
+     * @return 符合条件的项目
      */
     List<Project> getProjectList(@Param("pageNow") Integer pageNow, @Param("pageSize") Integer pageSize, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, @Param("state") Integer state, @Param("keyWord") String keyWord);
 
