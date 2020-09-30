@@ -54,21 +54,25 @@ public class Contract implements Serializable {
 
     @ApiModelProperty(value = "合同编号", name = "contractNumber", example = "12131")
     @NotNull
-    private Integer contractNumber;
+    @Length(max = 50)
+    private String contractNumber;
 
     @ApiModelProperty(value = "合同状态", name = "contractStatus", example = "1")
     private Integer contractStatus;
 
     @ApiModelProperty(value = "客户名称", name = "customerName", example = "七里香科技公司")
     @NotBlank
+    @Length(max = 50)
     private String customerName;
 
     @ApiModelProperty(value = "联系人姓名", name = "customerContractName", example = "七里香科技公司")
     @NotBlank
+    @Length(max = 50)
     private String customerContactName;
 
     @ApiModelProperty(value = "联系人电话", name = "customerContractPhone", example = "18273319421")
     @NotBlank
+    @Length(max = 11)
     private String customerContactPhone;
 
     @ApiModelProperty(value = "合同金额-分", name = "amount", example = "1000000")
