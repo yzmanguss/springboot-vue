@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -40,7 +41,7 @@ public class Phase implements Serializable {
 
     @ApiModelProperty(value = "分期款项的金额", name = "amount", example = "1000000")
     @NotNull
-    @Length(max = 20)
+    @Min(0)
     private Long amount;
 
     @ApiModelProperty(value="期款日期",name="startDate",example="1601358287482")

@@ -18,6 +18,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -78,7 +79,7 @@ public class Contract implements Serializable {
 
     @ApiModelProperty(value = "合同金额-分", name = "amount", example = "1000000")
     @NotNull
-    @Length(max = 20)
+    @Min(0)
     private Long amount;
 
     @ApiModelProperty(value = "签订日期", name= "signDate", example = "1601358287482")
