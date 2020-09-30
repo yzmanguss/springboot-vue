@@ -2,6 +2,7 @@ package com.yunyun.financemanager.home.controller;
 
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.common.vo.HomeStatisticsVO;
+import com.yunyun.financemanager.common.vo.HomeToDoVO;
 import com.yunyun.financemanager.home.service.HomeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,11 +23,18 @@ public class HomeController {
 
     private final HomeService homeService;
 
-    @ApiOperation("查询首页统计数据")
-    @GetMapping("/statistics")
-    public ApiResponse<HomeStatisticsVO> test() {
-        HomeStatisticsVO statisticsVO = homeService.statistics();
+    @ApiOperation("查询首页卡片统计数据")
+    @GetMapping("/statistics-card")
+    public ApiResponse<HomeStatisticsVO> statisticsCard() {
+        HomeStatisticsVO statisticsVO = homeService.statisticsCard();
         return ApiResponse.ok(statisticsVO);
+    }
+
+    @ApiOperation("查询首页待办数据")
+    @GetMapping("/to-do")
+    public ApiResponse<HomeToDoVO> getHomeToDo() {
+        HomeToDoVO homeToDo = homeService.getHomeToDo();
+        return ApiResponse.ok(homeToDo);
     }
 
 }

@@ -2,61 +2,59 @@ package com.yunyun.financemanager.project.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yunyun.financemanager.common.entity.Contract;
 import com.yunyun.financemanager.common.entity.Project;
 import com.yunyun.financemanager.common.response.ApiResponse;
+import com.yunyun.financemanager.contract.mapper.ContractMapper;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.project.mapper.ProjectMapper;
 import com.yunyun.financemanager.project.service.ProjectService;
+import com.yunyun.financemanager.project.utils.ProjectUtils;
 import com.yunyun.financemanager.project.vo.PageLimit;
 import com.yunyun.financemanager.project.vo.ProjectVo;
 import com.yunyun.financemanager.system.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author 杨忠明
- * @date 2020-09-28 10:28
+ * @author yangzhongming
  */
 @Service
+@SuppressWarnings("all")
 public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> implements ProjectService {
 
-    @Autowired
+    @Resource
     private ProjectMapper projectMapper;
 
-    @Autowired
+    @Resource
     private MemberMapper memberMapper;
 
-    @Autowired
+    @Resource
     private AccountService accountService;
 
+    @Resource
+    private ContractMapper contractMapper;
 
     @Override
     public ApiResponse getProjectList(PageLimit pageLimit) {
-        List<Project> projectList = projectMapper.getProjectList(pageLimit.getPageNow(), pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), pageLimit.getKeyWord());
+        Integer pageStart =  (pageLimit.getPageNow()-1)*pageLimit.getPageSize();
+        List<Project> projectList = projectMapper.getProjectList(pageStart, pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), pageLimit.getKeyWord());
         List<ProjectVo> projectVoList = new ArrayList<>();
-        for (int i = 0; i < projectList.size(); i++) {
-            Project project = projectList.get(i);
+        for (Project project : projectList) {
             ProjectVo projectVo = new ProjectVo();
             String[] memberIds = project.getMembers().split(",");
-            //memberID ==> member name
-            StringBuilder members = new StringBuilder();
-            for (int j = 0; j < memberIds.length; j++) {
-                String memberName = memberMapper.selectById(memberIds[j]).getMemberName();
-                members.append(memberName);
-                if (j != memberIds.length - 1) {
-                    members.append(",");
-                }
-            }
+            projectVo.setContract(contractMapper.selectById(project.getContractId()).getContractName());
+            String members = ProjectUtils.memberIdToname(memberIds, memberMapper);
             String leaderName = memberMapper.selectById(project.getLeaderId()).getMemberName();
-            //todo  合同id===合同名
             long realWorkload = project.getRequirementWorkload() + project.getDesignWorkload() + project.getDevelopWorkload() + project.getServiceWorkload() + project.getTestWorkload();
             projectVo.setId(project.getId());
-            projectVo.setMembers(members.toString());
+            projectVo.setProjectName(project.getProjectName());
+            projectVo.setMembers(members);
             projectVo.setLeader(leaderName);
             projectVo.setExpectedWorkload(project.getExpectedWorkload());
             projectVo.setRealWorkload(realWorkload);
@@ -66,10 +64,56 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
-    public ApiResponse addPeoject(Project project) {
-        int insert = projectMapper.insert(project);
+    public ApiResponse addProject(Project project) {
         project.setInsertBy(accountService.getLoginUserId());
+        int insert = projectMapper.insert(project);
         Assert.state(insert > 0, "添加失败");
+        return ApiResponse.ok();
+    }
+
+    @Override
+    public ApiResponse<ProjectVo> getProjectDetail(String id) {
+        Project project = projectMapper.selectById(id);
+        Assert.state(project !=null,"找不到对应的项目");
+        System.out.println(project);
+        ProjectVo projectVo = new ProjectVo();
+        projectVo.setId(project.getId());
+        projectVo.setProjectName(project.getProjectName());
+        Contract contract = contractMapper.selectById(project.getContractId());
+        System.out.println(contract);
+        Assert.state(contract!=null,"找不到关联合同");
+        projectVo.setContract(contract.getContractName());
+        String leaderName = memberMapper.selectById(project.getLeaderId()).getMemberName();
+        projectVo.setLeader(leaderName);
+        String[] memberIds = project.getMembers().split(",");
+        String members = ProjectUtils.memberIdToname(memberIds, memberMapper);
+        projectVo.setMembers(members);
+        projectVo.setSignDate(project.getSignDate());
+        projectVo.setExpectedStartDate(project.getExpectedStartDate());
+        projectVo.setExpectedFinishDate(project.getExpectedFinishDate());
+        projectVo.setExpectedWorkload(project.getExpectedWorkload());
+        projectVo.setExpectedRequirementNodeDate(project.getExpectedRequirementNodeDate());
+        projectVo.setExpectedDesignNodeDate(project.getExpectedDesignNodeDate());
+        projectVo.setExpectedDevelopNodeDate(project.getExpectedDevelopNodeDate());
+        projectVo.setExpectedTestNodeDate(project.getExpectedTestNodeDate());
+        projectVo.setExpectedServiceNodeDate(project.getExpectedServiceNodeDate());
+        projectVo.setExpectedDevelopCost(project.getExpectedDevelopCost());
+        projectVo.setExpectedBusinessCost(project.getExpectedBusinessCost());
+        long realWorkload = project.getRequirementWorkload() + project.getDesignWorkload() + project.getDevelopWorkload() + project.getServiceWorkload() + project.getTestWorkload();
+        projectVo.setRealWorkload(realWorkload);
+        projectVo.setRequirementNodeDate(project.getRequirementNodeDate());
+        projectVo.setDesignNodeDate(project.getDesignNodeDate());
+        projectVo.setDevelopNodeDate(project.getDevelopNodeDate());
+        projectVo.setTestNodeDate(project.getTestNodeDate());
+        projectVo.setServiceNodeDate(project.getServiceNodeDate());
+        return ApiResponse.ok(projectVo);
+    }
+
+    @Override
+    public ApiResponse<Void> conclusionProject(Project project) {
+        project.setUpdateBy(accountService.getLoginUserId());
+        int i = projectMapper.updateById(project);
+        Assert.state(i > 0,"结项失败");
         return ApiResponse.ok();
     }
 

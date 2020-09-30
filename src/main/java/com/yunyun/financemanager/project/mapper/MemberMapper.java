@@ -5,6 +5,9 @@ import com.yunyun.financemanager.common.entity.Member;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author yangzhongming
+ */
 @Mapper
 @Repository
 public interface MemberMapper extends BaseMapper<Member> {
