@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yunyun.financemanager.project.mapper.ProjectFinanceMapper">
+    <!--    查询项目    -->
+    <select id="selectProjectName" resultType="com.yunyun.financemanager.common.entity.Project">
+		select * from project where  project.id = #{id}
+	</select>
+<!--    根据projectId查询workload员工-->
+    <select id="selectWorkLoadByProjectId" resultType="com.yunyun.financemanager.common.entity.WorkLoad">
+        select * from work_load where project_id = #{id}
+    </select>
+
+    <select id="selectFinanceProjects" resultType="com.yunyun.financemanager.common.entity.Project">
+
+        select * from  project order by  insert_time  desc limit #{start },#{end}
+
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(id) from project
+    </select>
+
+
+</mapper>
