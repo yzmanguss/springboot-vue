@@ -30,6 +30,10 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
     @Resource
     private PhaseMapper phaseMapper;
 
+    @Resource
+    private AccountService accountService;
+
+
     @Override
     public Page<Contract> listContractByPage(ContractQuery contractQuery) {
         int pageNum = contractQuery.getPageNum();
@@ -69,6 +73,8 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ApiResponse<Void> addContract(Contract contract) {
+        Long insertBy = accountService.getLoginUserId();
+        contract.setInsertBy(insertBy);
         int result = contractMapper.insert(contract);
 
         contract.getPhases().forEach(x -> x.setContractId(contract.getId()));
@@ -96,6 +102,8 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
         int insert = phaseMapper.insertBatch(contract.getPhases());
 
         //修改合同
+        Long updateBy = accountService.getLoginUserId();
+        contract.setUpdateBy(updateBy);
         int result = contractMapper.updateById(contract);
         if (delete > 0 && result > 0 && insert > 0) {
             return ApiResponse.ok();
@@ -119,31 +127,6 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
                 .between(Contract::getSignDate, startDate, endDate));
         return (long) count;
     }
-
-//    @Override
-//    public ApiResponse<Contract> queryContractNameById(Long id) {
-//        QueryWrapper<Contract> wrapper = new QueryWrapper<>();
-//        wrapper.select("name").eq("id",id);
-//        Contract contract = contractMapper.selectOne(wrapper);
-//        return contract;
-//    }
-//
-//    @Override
-//    public Long queryContractIdByName(String name) {
-//        QueryWrapper<Contract> wrapper = new QueryWrapper<>();
-//        wrapper.select("id").eq("name",name);
-//        Contract contract = contractMapper.selectOne(wrapper);
-//        return contract.getId();
-//    }
-
-//    @Override
-//    public ContractStatisticsVO contractStatistics() {
-//        ContractStatisticsVO contractStatisticsVO = new ContractStatisticsVO();
-//        contractStatisticsVO = contractMapper.contractStatistics();
-//        int phaseAmountMonth = phaseMapper.phaseStatistics();
-//        contractStatisticsVO.setPhaseAmountMonth(phaseAmountMonth);
-//        return contractStatisticsVO;
-//    }
 
     @Override
     public List<Contract> selectContractNames(String name) {

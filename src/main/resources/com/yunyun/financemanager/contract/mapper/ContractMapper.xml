@@ -3,16 +3,16 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunyun.financemanager.contract.mapper.ContractMapper">
 
-  <!--合同信息-->
-  <resultMap id="Contract" type="com.yunyun.financemanager.common.entity.Contract">
-    <id column="id" jdbcType="INTEGER" property="id"/>
-    <result column="contract_name" jdbcType="VARCHAR" property="contractName"/>
-    <result column="contract_number" jdbcType="VARCHAR" property="contractNumber"/>
-    <result column="amount" jdbcType="BIGINT" property="amount"/>
-    <result column="contract_status" jdbcType="TINYINT" property="contractStatus"/>
-    <result column="customer_name" jdbcType="VARCHAR" property="customerName"/>
-    <result column="sign_date" jdbcType="DATE" property="signDate"/>
-  </resultMap>
+    <!--合同信息-->
+    <resultMap id="Contract" type="com.yunyun.financemanager.common.entity.Contract">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="contract_name" jdbcType="VARCHAR" property="contractName"/>
+        <result column="contract_number" jdbcType="VARCHAR" property="contractNumber"/>
+        <result column="amount" jdbcType="BIGINT" property="amount"/>
+        <result column="contract_status" jdbcType="TINYINT" property="contractStatus"/>
+        <result column="customer_name" jdbcType="VARCHAR" property="customerName"/>
+        <result column="sign_date" jdbcType="DATE" property="signDate"/>
+    </resultMap>
 
   <select id="listContractByPage" resultMap="Contract">
     select id, contract_number, contract_name, customer_name, contract_status, amount, sign_date
@@ -33,65 +33,42 @@
     </where>
   </select>
 
-  <select id="isContractAssociatedProject" resultType="int">
-    select count(*)
-    from contract c
-           join project p
-                on c.id = p.contract_id
-    where c.id = #{id}
-  </select>
+    <select id="isContractAssociatedProject" resultType="int">
+    	select count(*) from contract c
+    	join project p
+    	on c.id = p.contract_id
+    	where c.id = #{id}
+	</select>
 
-  <!--    <insert id="addContract" >-->
-  <!--    	insert into contract-->
-  <!--    	(id,contract_name,contract_number,contract_money,customer_name,contact_name,contact_phone,contract_period,sign_date,projectDate)-->
-  <!--    	values-->
-  <!--    	(#{id},#{contractName},#{contractNumber},#{contractMoney},#{customerName},#{contactName},#{contactPhone},#{contractPeriod},#{signDate},#{projectDate})-->
-  <!--	</insert>-->
-
-
-  <!--    <delete id="deleteContractById" parameterType="long">-->
-  <!--    	delete from contract-->
-  <!--    	where-->
-  <!--    	id = #{id}-->
-  <!--	</delete>-->
-
-  <resultMap id="ContractAndPhases" type="com.yunyun.financemanager.common.entity.Contract">
-    <id column="id" jdbcType="INTEGER" property="id"/>
-    <result column="contract_name" jdbcType="VARCHAR" property="contractName"/>
-    <result column="contract_number" jdbcType="VARCHAR" property="contractNumber"/>
-    <result column="amount" jdbcType="BIGINT" property="amount"/>
-    <result column="contract_status" jdbcType="TINYINT" property="contractStatus"/>
-    <result column="customer_name" jdbcType="VARCHAR" property="customerName"/>
-    <result column="customer_contact_name" jdbcType="VARCHAR" property="customerContactName"/>
-    <result column="customer_contact_phone" jdbcType="VARCHAR" property="customerContactPhone"/>
-    <result column="sign_date" jdbcType="DATE" property="signDate"/>
-    <result column="start_date" jdbcType="DATE" property="startDate"/>
-    <result column="finish_date" jdbcType="DATE" property="finishDate"/>
-    <collection property="phases" select="com.yunyun.financemanager.contract.mapper.PhaseMapper.findPhasesByContractId"
-                ofType="com.yunyun.financemanager.common.entity.Phase" column="id">
-      <id column="id" jdbcType="INTEGER" property="id"/>
-      <result column="phase_index" jdbcType="INTEGER" property="phaseIndex"/>
-      <result column="amount" jdbcType="BIGINT" property="amount"/>
-      <result column="start_date" jdbcType="DATE" property="startDate"/>
-      <result column="finish_date" jdbcType="DATE" property="finishDate"/>
-      <result column="contract_id" jdbcType="INTEGER" property="contractId"/>
-    </collection>
-
-  </resultMap>
+    <resultMap id="ContractAndPhases" type="com.yunyun.financemanager.common.entity.Contract">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="contract_name" jdbcType="VARCHAR" property="contractName"/>
+        <result column="contract_number" jdbcType="VARCHAR" property="contractNumber"/>
+        <result column="amount" jdbcType="BIGINT" property="amount"/>
+        <result column="contract_status" jdbcType="TINYINT" property="contractStatus"/>
+        <result column="customer_name" jdbcType="VARCHAR" property="customerName"/>
+        <result column="customer_contact_name" jdbcType="VARCHAR" property="customerContactName"/>
+        <result column="customer_contact_phone" jdbcType="VARCHAR" property="customerContactPhone"/>
+        <result column="sign_date" jdbcType="DATE" property="signDate"/>
+        <result column="start_date" jdbcType="DATE" property="startDate"/>
+        <result column="finish_date" jdbcType="DATE" property="finishDate"/>
+        <collection property="phases"
+                    select="com.yunyun.financemanager.contract.mapper.PhaseMapper.findPhasesByContractId"
+                    ofType="com.yunyun.financemanager.common.entity.Phase" column="id">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <result column="phase_index" jdbcType="INTEGER" property="phaseIndex"/>
+            <result column="amount" jdbcType="BIGINT" property="amount"/>
+            <result column="start_date" jdbcType="DATE" property="startDate"/>
+            <result column="finish_date" jdbcType="DATE" property="finishDate"/>
+            <result column="contract_id" jdbcType="INTEGER" property="contractId"/>
+        </collection>
+    </resultMap>
 
   <select id="getContractById" resultMap="ContractAndPhases">
     select *
     from contract
     where id = #{id}
   </select>
-
-
-  <!--    <select id="contractStatistics" resultType="com.finance.system.common.vo.ContractStatisticsVO">-->
-  <!--    	select sum(amount) as contractAmountMonth, count(id) as contractNumberMonth-->
-  <!--    	from contract-->
-  <!--    	where date_format(sign_time,'%Y-%m') = date_format(now(),'%Y-%m')-->
-  <!--	</select>-->
-
 
   <select id="selectContractNames" resultType="com.yunyun.financemanager.common.entity.Contract">
     select id, contract_name
@@ -113,6 +90,5 @@
       and DATE_FORMAT(sign_date, '%m') = #{month}
                       group by `index`;
   </select>
-
 
 </mapper>

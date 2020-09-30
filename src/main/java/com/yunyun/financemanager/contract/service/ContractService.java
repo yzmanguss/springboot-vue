@@ -64,14 +64,6 @@ public interface ContractService extends IService<Contract> {
      */
     Long getSignedContractCount(LocalDate startDate, LocalDate endDate);
 
-//    /**
-//     * 首页合同统计数据
-//     * @param
-//     * @return
-//     */
-//   ContractStatisticsVO contractStatistics();
-
-
     /**
      * 模糊查询合同名
      * @author hhr

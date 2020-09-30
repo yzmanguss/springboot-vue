@@ -28,8 +28,6 @@ public interface ContractMapper extends BaseMapper<Contract> {
 
     Contract getContractById(long id);
 
-    //ContractStatisticsVO contractStatistics();
-
     @MapKey("index")
     Map<Integer, LineChartVO> selectYearAmountGroupByMonth(int year);
 
