@@ -1,6 +1,5 @@
 package com.yunyun.financemanager.project.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yunyun.financemanager.common.entity.Member;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.project.mapper.MemberMapper;

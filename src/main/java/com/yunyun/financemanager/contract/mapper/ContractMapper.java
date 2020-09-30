@@ -21,8 +21,5 @@ public interface ContractMapper extends BaseMapper<Contract> {
 
     Contract getContractById(long id);
 
-    //ContractStatisticsVO contractStatistics();
-
-
     List<Contract> selectContractNames(String name);
 }

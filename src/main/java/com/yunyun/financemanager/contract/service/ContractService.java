@@ -17,38 +17,38 @@ public interface ContractService extends IService<Contract> {
     /**
      * 根据条件查询合同
      *
-     * @param contractQuery
-     * @return
+     * @param contractQuery 查询条件
+     * @return 合同对象集
      */
     Page<Contract> listContractByPage(ContractQuery contractQuery);
 
     /**
      * 根据id删除单个合同
      *
-     * @param id
-     * @return
+     * @param id 合同id
+     * @return 单个合同
      */
     ApiResponse<Void> deleteContractById(Long id);
 
     /**
      * 根据id查询单个合同
      *
-     * @param id
-     * @return
+     * @param id 合同id
+     * @return 单个合同
      */
     ApiResponse<Contract> getContractById(Long id);
 
     /**
      * 保存合同信息
      *
-     * @param contract
+     * @param contract 合同对象
      */
     ApiResponse<Void> addContract(Contract contract);
 
     /**
      * 修改合同信息
      *
-     * @param contract
+     * @param contract 合同对象
      */
     ApiResponse<Void> editContract(Contract contract);
 
@@ -69,14 +69,6 @@ public interface ContractService extends IService<Contract> {
      * @return 合同数量
      */
     Long getSignedContractCount(LocalDate startDate, LocalDate endDate);
-
-//    /**
-//     * 首页合同统计数据
-//     * @param
-//     * @return
-//     */
-//   ContractStatisticsVO contractStatistics();
-
 
     /**
      * 模糊查询合同名
