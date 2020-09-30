@@ -1,5 +1,6 @@
 package com.yunyun.financemanager.project.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunyun.financemanager.common.entity.NormalCost;
 import com.yunyun.financemanager.common.entity.Project;
@@ -19,9 +20,10 @@ import org.springframework.util.Assert;
 import javax.annotation.Resource;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * @author zhaoqin
+ * @author yangzhongming
  */
 @Service
 public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> implements WorkLoadService {
@@ -54,13 +56,21 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
         NormalCost normalCost = normalCostMapper.selectOne(null);
         Long amount = normalCost.getAmount();
         for (Paticipants participate : paticipants) {
+            //校验时间冲突
+            QueryWrapper<WorkLoad> wrapper = new QueryWrapper<>();
+            wrapper.eq("member_id",participate.getMemberId())
+                    .ge("start_date",participate.getStartDate())
+                    .or()
+                    .ge("finish_date",participate.getFinishDate());
+            List<WorkLoad> workLoadValidate = workLoadMapper.selectList(wrapper);
+            Assert.state(workLoadValidate == null || workLoadValidate.isEmpty(),"参与人员时间冲突");
             WorkLoad workLoad = new WorkLoad();
             workLoad.setInsertBy(accountService.getLoginUserId());
             LocalDateTime startDate = participate.getStartDate();
             LocalDateTime finishDate = participate.getFinishDate();
             workLoad.setStartDate(startDate);
             workLoad.setFinishDate(finishDate);
-            workLoad.setWorkLoad(Duration.between(finishDate, startDate).toDays());
+            workLoad.setWorkLoad(Duration.between(startDate, finishDate).toDays());
             workLoad.setMemberId(participate.getMemberId());
             workLoad.setWorkTypeId(participate.getTypeId());
             Long workload = memberService.selMemberDailyWageById(participate.getMemberId()).getDailyWage();
