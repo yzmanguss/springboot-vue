@@ -4,6 +4,8 @@ package com.yunyun.financemanager.common.query;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 /**
  * 用于封装合同的查询条件
  *
@@ -29,11 +31,11 @@ public class ContractQuery {
     /**
      * 合同签订的开始日期
      */
-    protected String signDateStart;
+    protected LocalDate signDateStart;
     /**
      * 合同签订的结束日期
      */
-    protected String signDateEnd;
+    protected LocalDate signDateEnd;
     /**
      * 查询关键字，与合同的标题匹配
      */
