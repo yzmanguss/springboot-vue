@@ -15,8 +15,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -51,13 +53,13 @@ public class Contract implements Serializable {
     @ApiModelProperty(value = "修改者", name = "updateBy", example = "1")
     private Long updateBy;
 
-
     @ApiModelProperty(value = "合同编号", name = "contractNumber", example = "12131")
     @NotNull
     @Length(max = 50)
     private String contractNumber;
 
     @ApiModelProperty(value = "合同状态", name = "contractStatus", example = "1")
+    @Range(min = 0, max = 3)
     private Integer contractStatus;
 
     @ApiModelProperty(value = "客户名称", name = "customerName", example = "七里香科技公司")
@@ -77,6 +79,7 @@ public class Contract implements Serializable {
 
     @ApiModelProperty(value = "合同金额-分", name = "amount", example = "1000000")
     @NotNull
+    @Min(0)
     private Long amount;
 
     @ApiModelProperty(value = "签订日期", name= "signDate", example = "1601358287482")
