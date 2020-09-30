@@ -34,7 +34,7 @@ public class Reimbursement implements Serializable {
     /**
      * 凭据照片
      */
-    private Long pics;
+    private String pics;
 
     /**
      * 发生时间

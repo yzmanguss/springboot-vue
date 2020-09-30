@@ -5,6 +5,7 @@ import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.project.qo.ProjectNames;
 import com.yunyun.financemanager.project.service.ProjectService;
 import com.yunyun.financemanager.project.vo.PageLimit;
+import com.yunyun.financemanager.project.vo.ProjectVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,18 @@ public class ProjectController {
 
 
     @ApiOperation("模糊查询项目的名字")
-    @GetMapping("/projectnames")
+    @GetMapping("/projectNames")
     public ApiResponse<List<ProjectNames>> selectProjectNames(@RequestParam(value = "name") String name) {
         return ApiResponse.ok(projectService.selectProjectNames(name));
+    }
+
+    @ApiOperation("查询财务项目列表")
+    @GetMapping("/queryFinanceProject")
+    public ApiResponse<ProjectVo> queryFinanceProject(@Validated PageLimit pageLimit){
+
+
+
+        return projectService.getProjectList(pageLimit);
     }
 
 }

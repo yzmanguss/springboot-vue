@@ -24,4 +24,12 @@
         where
         contract_id = #{id}
     </select>
+
+
+    <insert id="insertPhase" parameterType="com.yunyun.financemanager.common.entity.Phase" >
+
+        insert into phase( phase_index, amount,start_date,finish_date, contract_id) values
+        (#{phaseIndex},#{amount},#{startDate},#{finishDate},#{contractId})
+
+    </insert>
 </mapper>

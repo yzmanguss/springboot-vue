@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunyun.financemanager.contract.service.PhaseService;
 import com.yunyun.financemanager.common.entity.Phase;
 import com.yunyun.financemanager.contract.mapper.PhaseMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,5 +24,13 @@ public class PhaseServiceImpl extends ServiceImpl<PhaseMapper, Phase> implements
         return phases.stream()
                 .map(Phase::getAmount)
                 .reduce(0L, Long::sum);
+    }
+
+    @Autowired
+    private PhaseMapper phaseMapper;
+
+    @Override
+    public int insertPhase(Phase phase) {
+        return phaseMapper.insertPhase(phase);
     }
 }

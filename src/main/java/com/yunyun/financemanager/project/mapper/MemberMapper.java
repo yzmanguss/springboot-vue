@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 @Mapper
-@Repository
 public interface MemberMapper extends BaseMapper<Member> {
+
+    String selectMemberById(Long id);
 }

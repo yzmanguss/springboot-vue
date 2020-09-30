@@ -4,3 +4,5 @@ spring:
     url: jdbc:mysql://10.168.1.200:3309/finance_dev?serverTimeZone=Asia/Shanghai
     username: root
     password: root
+server:
+  port: 8091
