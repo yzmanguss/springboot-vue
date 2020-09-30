@@ -51,8 +51,8 @@ public class MemberSettingController {
                     .like("daily_wage", keyword);
         }
         queryWrapper.orderByAsc("id");
-        Page<Member> page = memberMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper);
-        return ApiResponse.ok(page.getRecords(), page.getTotal());
+        Page<Member> page = memberMapper.selectPage(new Page<>(pageNum, pageSize, true), queryWrapper);
+        return ApiResponse.ok(page.getRecords(), (long) page.getRecords().size());
     }
 
     /**
