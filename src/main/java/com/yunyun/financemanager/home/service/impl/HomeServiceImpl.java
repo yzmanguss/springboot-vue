@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zhaoqin
@@ -59,12 +60,42 @@ public class HomeServiceImpl implements HomeService {
     public HomeToDoVO getHomeToDo() {
         Long lastWeekInputWorkLoad = this.getLastWeekInputWorkLoad();
         Integer overdueProjectCount = this.getOverdueProjectCount();
+        Integer warningCount = this.getWarningCount();
 
         HomeToDoVO homeToDoVO = new HomeToDoVO();
         homeToDoVO.setLastWeekInputWorkLoad(lastWeekInputWorkLoad);
         homeToDoVO.setOverdueProjectCount(overdueProjectCount);
+        homeToDoVO.setWarningProjectCount(warningCount);
 
         return homeToDoVO;
+    }
+
+    private Integer getWarningCount() {
+        AtomicInteger workLoadWarning = new AtomicInteger();
+        AtomicInteger costWarning = new AtomicInteger();
+        // 获取所有项目
+        List<Project> projects = projectService.list();
+        projects.forEach(project -> {
+            Long projectId = project.getId();
+            List<WorkLoad> workLoads = workLoadService.list(Wrappers.<WorkLoad>lambdaQuery()
+                    .eq(WorkLoad::getProjectId, projectId));
+            Long workLoadSum = workLoads.stream()
+                    .map(WorkLoad::getWorkLoad)
+                    .reduce(0L, Long::sum);
+            if (project.getExpectedWorkload() > workLoadSum) {
+                workLoadWarning.incrementAndGet();
+            }
+
+            Long expectCost = project.getExpectedBusinessCost() + project.getExpectedDevelopCost();
+            Long realCost = workLoads.stream()
+                    .map(workLoad -> workLoad.getWorkLoad() * workLoad.getDailyWage()
+                            + workLoad.getWorkLoad() * workLoad.getDailyOfficeCost())
+                    .reduce(0L, Long::sum);
+            if (realCost > expectCost) {
+                costWarning.incrementAndGet();
+            }
+        });
+        return workLoadWarning.get() + costWarning.get();
     }
 
     private Long getLastWeekInputWorkLoad() {

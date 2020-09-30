@@ -30,8 +30,11 @@ public class HomeController {
         return ApiResponse.ok(statisticsVO);
     }
 
-    /*public ApiResponse<HomeToDoVO> getHomeToDo() {
-        homeService.getHomeToDo();
-    }*/
+    @ApiOperation("查询首页待办数据")
+    @GetMapping("/to-do")
+    public ApiResponse<HomeToDoVO> getHomeToDo() {
+        HomeToDoVO homeToDo = homeService.getHomeToDo();
+        return ApiResponse.ok(homeToDo);
+    }
 
 }
