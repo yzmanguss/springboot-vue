@@ -6,3 +6,11 @@ spring:
     password: root
 server:
   port: 8091
+
+logging:
+  level:
+    com:
+      yunyun:
+        financemanager:
+          project:
+            mapper: debug

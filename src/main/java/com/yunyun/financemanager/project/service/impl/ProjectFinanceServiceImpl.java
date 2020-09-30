@@ -1,5 +1,8 @@
 package com.yunyun.financemanager.project.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.yunyun.financemanager.common.dto.ProjectFinanceDTO;
 import com.yunyun.financemanager.common.entity.*;
 import com.yunyun.financemanager.contract.mapper.ContractMapper;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
@@ -13,9 +16,9 @@ import org.springframework.stereotype.Service;
 
 
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 @Service
@@ -23,7 +26,7 @@ import java.util.List;
 public class ProjectFinanceServiceImpl implements ProjectFinanceService {
 
 
-    private final  ProjectFinanceMapper projectFinanceMapper;
+    private final ProjectFinanceMapper projectFinanceMapper;
 
 
     private final ReimbursementMapper reimbursementMapper;
@@ -38,6 +41,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
 
 
         Project project = projectFinanceMapper.selectProjectName(id);
+
         List<WorkLoad> workLoads = projectFinanceMapper.selectWorkLoadByProjectId(id);
         Long longKF = new Long(0);
         Long longCS = new Long(0);
@@ -84,9 +88,14 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
 
 
     @Override
-    public List<ProjectFinance> selectFinanceProjects(int start) {
+    public ProjectFinanceDTO selectFinanceProjects( LocalDate startDate, LocalDate endDate,String name) {
 
-        List<Project> projects = projectFinanceMapper.selectFinanceProjects(start, start + 5);
+//        Page<Project> page = PageHelper.startPage(pageNum, pageNum);
+
+        List<Project> projects = projectFinanceMapper.selectFinanceProjects(startDate,endDate,name);
+
+//        List<Project> projects = page.getResult();
+
 
         List<ProjectFinance> pf = new ArrayList<>();
 
@@ -95,7 +104,12 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
             pf.add(projectFinance);
         }
 
-        return pf;
+        ProjectFinanceDTO projectFinanceDTO = new ProjectFinanceDTO();
+//        projectFinanceDTO.setTotal(page.getTotal());
+        projectFinanceDTO.setTotal(0L);
+        projectFinanceDTO.setProjectFinances(pf);
+
+        return projectFinanceDTO;
     }
 
     @Override

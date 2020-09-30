@@ -4,22 +4,37 @@
 <mapper namespace="com.yunyun.financemanager.project.mapper.ProjectFinanceMapper">
     <!--    查询项目    -->
     <select id="selectProjectName" resultType="com.yunyun.financemanager.common.entity.Project">
-		select * from project where  project.id = #{id}
+		select *  from project where  project.id = #{id}
 	</select>
-<!--    根据projectId查询workload员工-->
+    <!--    根据projectId查询workload员工-->
     <select id="selectWorkLoadByProjectId" resultType="com.yunyun.financemanager.common.entity.WorkLoad">
         select * from work_load where project_id = #{id}
     </select>
 
     <select id="selectFinanceProjects" resultType="com.yunyun.financemanager.common.entity.Project">
 
-        select * from  project order by  insert_time  desc limit #{start },#{end}
+        select * from  project order by  id  desc  where
+
+        <if test="#{startDate}!= null">
+            expected_start_date >= #{startDate}
+        </if>
+
+        <if test="#{endDate}!= null">
+            and  expected_finish_date <![CDATA[ <= ]]> #{endDate}
+        </if>
+
+        <if test="#{name}!=null">
+            and project_name like '%' #{name} '%'
+        </if>
 
     </select>
+
 
     <select id="selectCount" resultType="int">
         select count(id) from project
     </select>
+
+
 
 
 </mapper>

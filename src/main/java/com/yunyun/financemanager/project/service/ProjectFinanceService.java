@@ -1,17 +1,17 @@
 package com.yunyun.financemanager.project.service;
 
 
-import com.yunyun.financemanager.common.entity.Project;
+import com.yunyun.financemanager.common.dto.ProjectFinanceDTO;
 import com.yunyun.financemanager.project.qo.ProjectFinance;
 
-import java.util.List;
+import java.time.LocalDate;
 
 
 public interface ProjectFinanceService {
 
-    ProjectFinance selectProjectName(int id);
+    ProjectFinance selectProjectName(int id );
 
-    List<ProjectFinance>  selectFinanceProjects(int start);
+    ProjectFinanceDTO selectFinanceProjects(LocalDate startDate, LocalDate endDate,String name);
 
     int selectCount();
 

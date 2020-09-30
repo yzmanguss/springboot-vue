@@ -1,41 +1,33 @@
 package com.yunyun.financemanager.project.controller;
 
 
-
+import com.yunyun.financemanager.common.dto.ProjectFinanceDTO;
 import com.yunyun.financemanager.common.response.ApiResponse;
-import com.yunyun.financemanager.project.qo.ProjectFinance;
 import com.yunyun.financemanager.project.service.impl.ProjectFinanceServiceImpl;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
 
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProjectFinanceController {
 
 
-
-    @Autowired
-    private ProjectFinanceServiceImpl projectFinanceService;
+    private final ProjectFinanceServiceImpl projectFinanceService;
 
 
-    @ApiOperation(value = "财务项目管理")
+    @ApiOperation(value = "财务项目管理查询")
     @GetMapping("/ProjectFinance")
-    public ApiResponse selectFinanceProject(@RequestParam int start){
-        List<ProjectFinance> projectFinances = projectFinanceService.selectFinanceProjects(start);
-        int size = projectFinanceService.selectCount();
-        Map<String,Object> map = new HashMap<>();
-        map.put("projectFinances",projectFinances);
-        map.put("size",size);
-       return ApiResponse.ok(map);
+    public ApiResponse selectFinanceProject(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @RequestParam LocalDate endDate , @RequestParam String name) {
+        ProjectFinanceDTO projectFinanceDTO = projectFinanceService.selectFinanceProjects(startDate, endDate,name);
+        return ApiResponse.ok(projectFinanceDTO.getProjectFinances(), projectFinanceDTO.getTotal());
     }
-
-
 
 
 }
