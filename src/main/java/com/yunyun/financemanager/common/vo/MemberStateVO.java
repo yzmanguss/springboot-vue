@@ -1,4 +1,4 @@
-package com.yunyun.financemanager.common.vojo;
+package com.yunyun.financemanager.common.vo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,5 +12,5 @@ public class MemberStateVO {
 
     private Long id;
 
-    private Integer state;
+    private Boolean state;
 }

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yunyun.financemanager.common.entity.Member;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.common.response.ResponseCode;
-import com.yunyun.financemanager.common.vojo.MemberStateVO;
+import com.yunyun.financemanager.common.vo.MemberStateVO;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.system.service.MemberSettingService;
 import io.swagger.annotations.*;
@@ -55,18 +55,15 @@ public class MemberSettingController {
 
     /**
      * 更改人员状态
-     * @param memberStateVO 人员id和状态码包装类
+     * @param memberStateVO 人员id和状态包装类
      */
     @ApiOperation("更改人员状态")
     @PostMapping("/change_member_state")
-    public ApiResponse<Void> changeMemberState(@ApiParam(value = "人员id和状态值(0/1)的封装") @RequestBody MemberStateVO memberStateVO) {
-        switch (memberStateVO.getState()) {
-            case 0:
-                return memberSettingService.setMemberDisable(memberStateVO.getId());
-            case 1:
-                return memberSettingService.setMemberEnable(memberStateVO.getId());
-            default:
-                return ApiResponse.failure(ResponseCode.FORBIDDEN, "人员状态码错误！");
+    public ApiResponse<Void> changeMemberState(@ApiParam(value = "人员id和状态值(T/F)的封装") @RequestBody MemberStateVO memberStateVO) {
+        if (memberStateVO.getState()) {
+            return memberSettingService.setMemberEnable(memberStateVO.getId());
+        } else {
+            return memberSettingService.setMemberDisable(memberStateVO.getId());
         }
     }
 
