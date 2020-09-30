@@ -19,38 +19,30 @@ public interface ContractService extends IService<Contract> {
     /**
      * 根据条件查询合同
      *
-     * @param contractQuery
-     * @return
      */
     Page<Contract> listContractByPage(ContractQuery contractQuery);
 
     /**
      * 根据id删除单个合同
      *
-     * @param id
-     * @return
      */
     ApiResponse<Void> deleteContractById(Long id);
 
     /**
      * 根据id查询单个合同
      *
-     * @param id
-     * @return
      */
     ApiResponse<Contract> getContractById(Long id);
 
     /**
      * 保存合同信息
      *
-     * @param contract
      */
     ApiResponse<Void> addContract(Contract contract);
 
     /**
      * 修改合同信息
      *
-     * @param contract
      */
     ApiResponse<Void> editContract(Contract contract);
 

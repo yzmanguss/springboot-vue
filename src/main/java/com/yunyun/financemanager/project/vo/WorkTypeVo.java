@@ -7,7 +7,6 @@ import lombok.Data;
 
 /**
  * @author yangzhongming
- * @date 2020-09-29 10:21
  */
 @Data
 @ApiModel(value = "工作量类型")

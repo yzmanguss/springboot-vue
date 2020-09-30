@@ -3,7 +3,6 @@ package com.yunyun.financemanager.project.utils;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
 /**
  * @author yangzhongming
- * @date 2020-09-29 16:30
  */
 public class ProjectUtils {
 

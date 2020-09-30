@@ -6,19 +6,18 @@ import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.common.response.ResponseCode;
 import com.yunyun.financemanager.system.mapper.ReimbursementTypeMapper;
 import com.yunyun.financemanager.system.service.ReimbursementTypeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  * @author 余聪
- * @date 2020/9/29
  */
-
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ReimbursementTypeServiceImpl implements ReimbursementTypeService {
 
-    @Autowired
-    ReimbursementTypeMapper reimbursementTypeMapper;
+    private final ReimbursementTypeMapper reimbursementTypeMapper;
 
     @Override
     public ApiResponse<Void> addReimbursementType(ReimbursementType reimbursementType) {

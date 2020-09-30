@@ -11,7 +11,6 @@ import com.yunyun.financemanager.common.vo.LineChartVO;
 import com.yunyun.financemanager.contract.mapper.ContractMapper;
 import com.yunyun.financemanager.contract.mapper.PhaseMapper;
 import com.yunyun.financemanager.contract.service.ContractService;
-import com.yunyun.financemanager.contract.service.PhaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +29,6 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
 
     @Resource
     private PhaseMapper phaseMapper;
-
-    @Resource
-    private PhaseService phaseService;
 
     @Override
     public Page<Contract> listContractByPage(ContractQuery contractQuery) {

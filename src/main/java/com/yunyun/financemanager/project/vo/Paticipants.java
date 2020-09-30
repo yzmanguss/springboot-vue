@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 
 /**
  * @author  yangzhongming
- * @date 2020-09-29 14:59
  */
 @Data
 public class Paticipants {

@@ -153,8 +153,7 @@ public class HomeServiceImpl implements HomeService {
             }
         }
 
-        Collection<LineChartVO> lineChartData = lineChartMap.values();
-        return lineChartData;
+        return lineChartMap.values();
     }
 
     private List<Contract> listContractsBySignDateBetween(LocalDate startDate, LocalDate endDate) {

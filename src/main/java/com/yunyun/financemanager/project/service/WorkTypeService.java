@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * @author yangzhongming
- * @date 2020-09-29 10:19
  */
 public interface WorkTypeService {
 

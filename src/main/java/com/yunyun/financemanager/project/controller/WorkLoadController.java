@@ -1,18 +1,12 @@
 package com.yunyun.financemanager.project.controller;
 
-import com.yunyun.financemanager.common.entity.Project;
 import com.yunyun.financemanager.common.response.ApiResponse;
-import com.yunyun.financemanager.project.service.ProjectService;
 import com.yunyun.financemanager.project.service.WorkLoadService;
 import com.yunyun.financemanager.project.service.WorkTypeService;
-import com.yunyun.financemanager.project.vo.PageLimit;
-import com.yunyun.financemanager.project.vo.ProjectVo;
 import com.yunyun.financemanager.project.vo.WorkTypeVo;
 import com.yunyun.financemanager.project.vo.WorkloadVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
