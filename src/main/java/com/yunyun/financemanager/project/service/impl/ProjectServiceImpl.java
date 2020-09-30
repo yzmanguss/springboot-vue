@@ -33,7 +33,6 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     @Autowired
     private AccountService accountService;
 
-
     @Override
     public ApiResponse getProjectList(PageLimit pageLimit) {
         List<Project> projectList = projectMapper.getProjectList(pageLimit.getPageNow(), pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), pageLimit.getKeyWord());
@@ -94,5 +93,11 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         int count = this.count(Wrappers.<Project>lambdaQuery()
                 .between(Project::getDeliverDate, startDate, endDate));
         return (long) count;
+    }
+
+    @Override
+    public List<Project> listBySignDateBetween(LocalDate startDate, LocalDate endDate) {
+        return this.list(Wrappers.<Project>lambdaQuery()
+                .between(Project::getSignDate, startDate, endDate));
     }
 }

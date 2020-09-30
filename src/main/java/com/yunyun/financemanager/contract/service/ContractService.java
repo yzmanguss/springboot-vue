@@ -5,9 +5,11 @@ import com.github.pagehelper.Page;
 import com.yunyun.financemanager.common.entity.Contract;
 import com.yunyun.financemanager.common.query.ContractQuery;
 import com.yunyun.financemanager.common.response.ApiResponse;
+import com.yunyun.financemanager.common.vo.LineChartVO;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author xlc
@@ -86,4 +88,7 @@ public interface ContractService extends IService<Contract> {
      */
     List<Contract> selectContractNames(String name);
 
+    Map<Integer, LineChartVO> getYearAmountGroupByMonth(int year);
+
+    Map<Integer, LineChartVO> getMonthAmountGroupByDay(int year, int month);
 }
