@@ -108,7 +108,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         }
 
         ProjectFinanceDTO projectFinanceDTO = new ProjectFinanceDTO();
-        projectFinanceDTO.setTotal(count);
+        projectFinanceDTO.setTotal(count/pageSize+1);
         projectFinanceDTO.setProjectFinances(pf);
 
 

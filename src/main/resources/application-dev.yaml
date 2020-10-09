@@ -13,3 +13,5 @@ logging:
         financemanager:
           project:
             mapper: debug
+server:
+  port: 8091
