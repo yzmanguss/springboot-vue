@@ -11,6 +11,7 @@ import com.yunyun.financemanager.project.mapper.ProjectMapper;
 import com.yunyun.financemanager.project.service.ProjectService;
 import com.yunyun.financemanager.project.utils.ProjectUtils;
 import com.yunyun.financemanager.project.vo.AddProjectVo;
+import com.yunyun.financemanager.project.vo.ContractVo;
 import com.yunyun.financemanager.project.vo.PageLimit;
 import com.yunyun.financemanager.project.vo.ProjectVo;
 import com.yunyun.financemanager.system.service.AccountService;
@@ -148,6 +149,19 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         int count = this.count(Wrappers.<Project>lambdaQuery()
                 .between(Project::getDeliverDate, startDate, endDate));
         return (long) count;
+    }
+
+    @Override
+    public ApiResponse<List<ContractVo>> getContractNamelike(String keyWord) {
+        List<Contract> contracts = contractMapper.selectContractNames(keyWord);
+        List<ContractVo> list = new ArrayList<>();
+        for (Contract contract : contracts) {
+            ContractVo contractVo = new ContractVo();
+            contractVo.setId(contract.getId());
+            contractVo.setName((contract.getContractName()));
+            list.add(contractVo);
+        }
+        return ApiResponse.ok(list);
     }
 
     @Override
