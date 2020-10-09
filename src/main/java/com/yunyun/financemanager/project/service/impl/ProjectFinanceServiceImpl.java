@@ -81,19 +81,20 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         projectFinance.setReimbursementAmount(ra);
 
         projectFinance.setConsumeAmount(
-                projectFinance.getExpectedBusinessCost()+project.getExpectedDevelopCost()+projectFinance.getDev_cost()+projectFinance.getTestCost()+projectFinance.getReimbursementAmount()
+                projectFinance.getExpectedBusinessCost() + project.getExpectedDevelopCost() + projectFinance.getDev_cost()
+                        + projectFinance.getTestCost() + projectFinance.getReimbursementAmount()
         );
-        projectFinance.setSurplusProfit(projectFinance.getAmount()-projectFinance.getConsumeAmount());
+        projectFinance.setSurplusProfit(projectFinance.getAmount() - projectFinance.getConsumeAmount());
 
         return projectFinance;
     }
 
 
     @Override
-    public ProjectFinanceDTO selectFinanceProjects( LocalDate startDate, LocalDate endDate,String name,int pageStart ,int pageSize) {
+    public ProjectFinanceDTO selectFinanceProjects(LocalDate startDate, LocalDate endDate, String name, int pageStart, int pageSize) {
 
-        List<Project> projects = projectFinanceMapper.selectFinanceProjects(startDate,endDate,name,pageStart,pageSize);
-        Long count = projectFinanceMapper.selectCount(startDate,endDate,name,pageStart,pageSize);
+        List<Project> projects = projectFinanceMapper.selectFinanceProjects(startDate, endDate, name, pageStart, pageSize);
+        Long count = projectFinanceMapper.selectCount(startDate, endDate, name, pageStart, pageSize);
 
         List<ProjectFinance> pf = new ArrayList<>();
 
