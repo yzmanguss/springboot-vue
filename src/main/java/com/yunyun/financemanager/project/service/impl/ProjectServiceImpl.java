@@ -48,7 +48,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         if ("".equals(keyWord)){
             keyWord = null;
         }
-        List<Project> projectList = projectMapper.getProjectList(pageStart, pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), keyWord);
+        List<Project> projectList = projectMapper.getProjectList(pageStart, pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), "%"+keyWord+"%");
         List<ProjectVo> projectVoList = new ArrayList<>();
         for (Project project : projectList) {
             ProjectVo projectVo = new ProjectVo();
