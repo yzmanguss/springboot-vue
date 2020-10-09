@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
 /**
  * @author zhaoqin
  */
-@Api(tags = "文件上传")
+@Api(tags = "文件上传下载")
 @Slf4j
 @Validated
 @RestController
@@ -33,6 +33,13 @@ public class FileController {
     @PostMapping("/upload")
     public ApiResponse<String> uploadFile(MultipartFile file) {
         String path = FileUtils.save(file);
+        return ApiResponse.ok(path);
+    }
+
+    @ApiOperation("上传单个图片")
+    @PostMapping("/upload/images")
+    public ApiResponse<String> uploadImage(MultipartFile file) {
+        String path = FileUtils.saveImage(file);
         return ApiResponse.ok(path);
     }
 

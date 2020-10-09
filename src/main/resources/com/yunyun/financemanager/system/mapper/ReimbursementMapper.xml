@@ -10,7 +10,7 @@ INSERT INTO reimbursement (
 	reimburse_amount,
 	pics,
 	project_id,
-	members,
+	member,
 	reimbursement_type_id,
 	occur_time,
 	real_amount,
