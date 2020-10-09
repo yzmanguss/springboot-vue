@@ -26,11 +26,8 @@ public class ProjectFinanceController {
 
     @ApiOperation(value = "财务项目管理查询")
     @GetMapping("/ProjectFinances")
-    public ApiResponse selectFinanceProject(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @RequestParam(required = false ) @DateTimeFormat(pattern = "yyyy-MM-dd")  LocalDate endDate , @RequestParam(required = false) String name ,@RequestParam int pageStart ,@RequestParam int pageSize) {
-
-        System.out.println(startDate);
-        System.out.println(endDate);
-        ProjectFinanceDTO projectFinanceDTO = projectFinanceService.selectFinanceProjects(startDate, endDate,name , pageStart ,pageSize);
+    public ApiResponse selectFinanceProject(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @RequestParam(required = false ) @DateTimeFormat(pattern = "yyyy-MM-dd")  LocalDate endDate , @RequestParam(required = false) String keyWord ,@RequestParam Integer pageNow ,@RequestParam Integer pageSize) {
+        ProjectFinanceDTO projectFinanceDTO = projectFinanceService.selectFinanceProjects(startDate, endDate,keyWord , pageNow-1 ,pageSize);
         return ApiResponse.ok(projectFinanceDTO.getProjectFinances(), projectFinanceDTO.getTotal());
     }
 
