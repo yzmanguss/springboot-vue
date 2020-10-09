@@ -4,6 +4,7 @@ import com.yunyun.financemanager.common.entity.Reimbursement;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.system.service.impl.ReimbursementServiceImpl;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,23 +19,25 @@ import javax.servlet.http.HttpSession;
  * @author hhr
  */
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ReimbursementController {
 
-    @Autowired
-    ReimbursementServiceImpl reimbursementService;
+
+   private final ReimbursementServiceImpl reimbursementService;
 
     @ApiOperation("插入报销")
     @PostMapping("/Reimbursement")
-    public ApiResponse<Void> insertReimbursement(@RequestBody Reimbursement reimbursement , @RequestParam(value = "photo" ,required = false) MultipartFile photo , HttpSession session) {
+    public ApiResponse<Void> insertReimbursement(@RequestBody Reimbursement reimbursement , @RequestParam(value = "photo"
+            ,required = false) MultipartFile photo , HttpSession session) {
 
         System.out.println(reimbursement.toString());
         System.out.println(photo);
 
 
 
-        if (photo != null) {
-            reimbursementService.insertReimbursement(reimbursement,photo);
-        }
+//        if (photo != null) {
+//            reimbursementService.insertReimbursement(reimbursement,photo);
+//        }
         return ApiResponse.ok();
     }
 }
