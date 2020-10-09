@@ -157,7 +157,8 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         List<ContractVo> contractNamelikeLimit = contractMapper.getContractNamelikeLimit();
         Assert.notNull(contractNamelikeLimit,"合同查询失败");
         Assert.notEmpty(contractNamelikeLimit,"合同查询失败");
-        return ApiResponse.ok(contractNamelikeLimit);
+        long size = contractNamelikeLimit.size();
+        return ApiResponse.ok(contractNamelikeLimit,size);
     }
 
     @Override
@@ -165,7 +166,8 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         List<ContractVo> contractNamelike = contractMapper.getContractNamelikeByName(keyWord);
         Assert.notNull(contractNamelike,"合同查询失败");
         Assert.notEmpty(contractNamelike,"合同查询失败");
-        return ApiResponse.ok(contractNamelike);
+        long size = contractNamelike.size();
+        return ApiResponse.ok(contractNamelike,size);
     }
 
     @Override
