@@ -4,6 +4,7 @@ import com.yunyun.financemanager.common.entity.Project;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.project.qo.ProjectNames;
 import com.yunyun.financemanager.project.service.ProjectService;
+import com.yunyun.financemanager.project.vo.AddProjectVo;
 import com.yunyun.financemanager.project.vo.PageLimit;
 import com.yunyun.financemanager.project.vo.ProjectVo;
 import io.swagger.annotations.Api;
@@ -34,7 +35,7 @@ public class ProjectController {
 
     @ApiOperation("新增项目")
     @PostMapping("/addProject")
-    public ApiResponse<Void> addProject(@Validated Project project){
+    public ApiResponse<Void> addProject(@Validated AddProjectVo project){
         return projectService.addProject(project);
     }
 

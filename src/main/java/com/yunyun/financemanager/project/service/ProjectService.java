@@ -3,6 +3,7 @@ package com.yunyun.financemanager.project.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yunyun.financemanager.common.entity.Project;
 import com.yunyun.financemanager.common.response.ApiResponse;
+import com.yunyun.financemanager.project.vo.AddProjectVo;
 import com.yunyun.financemanager.project.vo.PageLimit;
 import com.yunyun.financemanager.project.vo.ProjectVo;
 
@@ -26,7 +27,7 @@ public interface ProjectService extends IService<Project> {
      * @param project 项目
      * @return 添加成功与否
      */
-   ApiResponse<Void> addProject(Project project);
+   ApiResponse<Void> addProject(AddProjectVo project);
 
     /**
      * 获取项目详情
