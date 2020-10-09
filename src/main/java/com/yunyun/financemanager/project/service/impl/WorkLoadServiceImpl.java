@@ -47,8 +47,8 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ApiResponse<Void> addWorkLoad(WorkloadVo workloadVo) {
-        Assert.state(workloadVo != null,"workload  is null");
-        Assert.state(workloadVo.getPaticipants() !=null,"paticipants is null");
+        Assert.notNull(workloadVo,"workload  is null");
+        Assert.notNull(workloadVo.getPaticipants(),"paticipants is null");
         Paticipants[] paticipants = workloadVo.getPaticipants();
         Project project = projectMapper.selectById(workloadVo.getProjectId());
         Long testWorkload = project.getTestWorkload();
@@ -66,7 +66,9 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
                     .or()
                     .ge("finish_date",participate.getFinishDate());
             List<WorkLoad> workLoadValidate = workLoadMapper.selectList(wrapper);
-            Assert.state(workLoadValidate == null || workLoadValidate.isEmpty(),"参与人员时间冲突");
+            if(workLoadValidate != null && !workLoadValidate.isEmpty()){
+                throw new IllegalArgumentException("参与人员时间冲突");
+            }
             WorkLoad workLoad = new WorkLoad();
             workLoad.setInsertBy(accountService.getLoginUserId());
             LocalDateTime startDate = participate.getStartDate();
@@ -99,7 +101,7 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
                     serviceWorkload += workload;
                     break;
                 default:
-                    throw new IllegalStateException("typeID 不存在");
+                    throw new IllegalArgumentException("typeID 不存在");
             }
         }
         project.setUpdateBy(accountService.getLoginUserId());
