@@ -1,7 +1,5 @@
 package com.yunyun.financemanager.project.service.impl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.yunyun.financemanager.common.dto.ProjectFinanceDTO;
 import com.yunyun.financemanager.common.entity.*;
 import com.yunyun.financemanager.contract.mapper.ContractMapper;
@@ -88,14 +86,10 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
 
 
     @Override
-    public ProjectFinanceDTO selectFinanceProjects( LocalDate startDate, LocalDate endDate,String name) {
+    public ProjectFinanceDTO selectFinanceProjects( LocalDate startDate, LocalDate endDate,String name,int pageStart ,int pageSize) {
 
-//        Page<Project> page = PageHelper.startPage(pageNum, pageNum);
-
-        List<Project> projects = projectFinanceMapper.selectFinanceProjects(startDate,endDate,name);
-
-//        List<Project> projects = page.getResult();
-
+        List<Project> projects = projectFinanceMapper.selectFinanceProjects(startDate,endDate,name,pageStart,pageSize);
+        Long count = projectFinanceMapper.selectCount(startDate,endDate,name,pageStart,pageSize);
 
         List<ProjectFinance> pf = new ArrayList<>();
 
@@ -105,15 +99,10 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         }
 
         ProjectFinanceDTO projectFinanceDTO = new ProjectFinanceDTO();
-//        projectFinanceDTO.setTotal(page.getTotal());
-        projectFinanceDTO.setTotal(0L);
+        projectFinanceDTO.setTotal(count);
         projectFinanceDTO.setProjectFinances(pf);
 
         return projectFinanceDTO;
     }
 
-    @Override
-    public int selectCount() {
-        return projectFinanceMapper.selectCount();
-    }
 }

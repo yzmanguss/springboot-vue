@@ -11,8 +11,7 @@ public interface ProjectFinanceService {
 
     ProjectFinance selectProjectName(int id );
 
-    ProjectFinanceDTO selectFinanceProjects(LocalDate startDate, LocalDate endDate,String name);
+    ProjectFinanceDTO selectFinanceProjects(LocalDate startDate, LocalDate endDate,String name ,int pageStart ,int pageSize);
 
-    int selectCount();
 
 }

@@ -18,8 +18,8 @@ public interface ProjectFinanceMapper {
      List<WorkLoad> selectWorkLoadByProjectId(int id);
 
 
-     List<Project> selectFinanceProjects( LocalDate startDate, LocalDate endDate,String name);
+     List<Project> selectFinanceProjects( LocalDate startDate, LocalDate endDate,String name,int pageStart ,int pageSize);
 
-     int selectCount();
+     Long selectCount(LocalDate startDate, LocalDate endDate,String name ,int pageStart ,int pageSize);
 
 }

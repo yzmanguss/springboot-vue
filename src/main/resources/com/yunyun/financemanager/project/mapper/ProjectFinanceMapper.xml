@@ -13,25 +13,44 @@
 
     <select id="selectFinanceProjects" resultType="com.yunyun.financemanager.common.entity.Project">
 
-        select * from  project order by  id  desc  where
-
-        <if test="#{startDate}!= null">
+        select * from  project
+        <where>
+        <if test="startDate != null ">
             expected_start_date >= #{startDate}
         </if>
 
-        <if test="#{endDate}!= null">
+        <if test="endDate != null ">
             and  expected_finish_date <![CDATA[ <= ]]> #{endDate}
         </if>
 
-        <if test="#{name}!=null">
+        <if test="name !=null and name !=''">
             and project_name like '%' #{name} '%'
         </if>
+        </where>
+
+        order by  id  desc limit #{pageStart},#{pageSize}
 
     </select>
 
 
-    <select id="selectCount" resultType="int">
-        select count(id) from project
+    <select id="selectCount" resultType="Long">
+        select count(id) from  project
+        <where>
+
+        <if test="startDate != null ">
+            expected_start_date >= #{startDate}
+        </if>
+
+        <if test="endDate != null ">
+            and  expected_finish_date <![CDATA[ <= ]]> #{endDate}
+        </if>
+
+        <if test="name !=null and name !=''">
+            and project_name like '%' #{name} '%'
+        </if>
+
+        </where>
+        order by  id  desc limit #{pageStart},#{pageSize}
     </select>
 
 
