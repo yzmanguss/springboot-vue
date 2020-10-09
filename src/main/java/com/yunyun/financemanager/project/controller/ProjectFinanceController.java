@@ -1,6 +1,5 @@
 package com.yunyun.financemanager.project.controller;
 
-
 import com.yunyun.financemanager.common.dto.ProjectFinanceDTO;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.project.service.impl.ProjectFinanceServiceImpl;
@@ -20,16 +19,13 @@ import java.time.LocalDate;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProjectFinanceController {
 
-
     private final ProjectFinanceServiceImpl projectFinanceService;
-
 
     @ApiOperation(value = "财务项目管理查询")
     @GetMapping("/ProjectFinances")
-    public ApiResponse selectFinanceProject(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd")  LocalDate endDate , @RequestParam(required = false) String name ,@RequestParam int pageStart ,@RequestParam int pageSize) {
-        ProjectFinanceDTO projectFinanceDTO = projectFinanceService.selectFinanceProjects(startDate, endDate,name , pageStart ,pageSize);
+    public ApiResponse selectFinanceProject(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @RequestParam(required = false) LocalDate endDate, @RequestParam(required = false) String keyWord, @RequestParam Integer pageNow, @RequestParam Integer pageSize) {
+        ProjectFinanceDTO projectFinanceDTO = projectFinanceService.selectFinanceProjects(startDate, endDate, keyWord, pageNow, pageSize);
         return ApiResponse.ok(projectFinanceDTO.getProjectFinances(), projectFinanceDTO.getTotal());
     }
-
 
 }

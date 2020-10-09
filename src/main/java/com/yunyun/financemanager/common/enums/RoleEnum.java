@@ -1,7 +1,6 @@
 package com.yunyun.financemanager.common.enums;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 /**
  * @author zhaoqin
@@ -15,11 +14,9 @@ public enum RoleEnum {
     private final int value;
 
     public static RoleEnum of(int value) {
-        RoleEnum[] values = values();
-        Optional<RoleEnum> roleEnumOptional = Arrays.stream(values)
+        return Arrays.stream(values())
                 .filter(r -> r.value() == value)
-                .findAny();
-        return roleEnumOptional
+                .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("未找到角色value: " + value));
     }
 
