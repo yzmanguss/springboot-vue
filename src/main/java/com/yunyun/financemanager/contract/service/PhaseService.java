@@ -17,4 +17,8 @@ public interface PhaseService extends IService<Phase> {
      * @return 金额
      */
     Long getAmountByStartDateBetween(LocalDate startDate, LocalDate endDate);
+
+    int insertPhase(Phase phase);
+
+
 }

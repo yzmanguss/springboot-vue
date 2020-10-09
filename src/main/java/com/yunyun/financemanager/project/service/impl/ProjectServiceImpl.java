@@ -10,9 +10,12 @@ import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.project.mapper.ProjectMapper;
 import com.yunyun.financemanager.project.service.ProjectService;
 import com.yunyun.financemanager.project.utils.ProjectUtils;
+import com.yunyun.financemanager.project.vo.AddProjectVo;
+import com.yunyun.financemanager.project.vo.ContractVo;
 import com.yunyun.financemanager.project.vo.PageLimit;
 import com.yunyun.financemanager.project.vo.ProjectVo;
 import com.yunyun.financemanager.system.service.AccountService;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -41,8 +44,13 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
     @Override
     public ApiResponse<List<ProjectVo>> getProjectList(PageLimit pageLimit) {
+        System.out.println(pageLimit);
         Integer pageStart =  (pageLimit.getPageNow()-1)*pageLimit.getPageSize();
-        List<Project> projectList = projectMapper.getProjectList(pageStart, pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), pageLimit.getKeyWord());
+        String keyWord = pageLimit.getKeyWord();
+        if ("".equals(keyWord)){
+            keyWord = null;
+        }
+        List<Project> projectList = projectMapper.getProjectList(pageStart, pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), keyWord);
         List<ProjectVo> projectVoList = new ArrayList<>();
         for (Project project : projectList) {
             ProjectVo projectVo = new ProjectVo();
@@ -63,24 +71,37 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
-    public ApiResponse<Void> addProject(Project project) {
+    public ApiResponse<Void> addProject(AddProjectVo project) {
         project.setInsertBy(accountService.getLoginUserId());
-        int insert = projectMapper.insert(project);
-        Assert.state(insert > 0, "添加失败");
+        Project project1 = new Project();
+        project1.setProjectName(project.getProjectName());
+        project1.setContractId(project.getContractId());
+        project1.setLeaderId(project.getLeaderId());
+        project1.setMembers(project.getMembers());
+        project1.setSignDate(project.getSignDate());
+        project1.setExpectedStartDate(project.getExpectedStartDate());
+        project1.setExpectedFinishDate(project.getExpectedFinishDate());
+        project1.setExpectedWorkload(project.getExpectedWorkload());
+        project1.setExpectedRequirementNodeDate(project.getExpectedRequirementNodeDate());
+        project1.setExpectedDesignNodeDate(project.getExpectedDesignNodeDate());
+        project1.setExpectedDevelopNodeDate(project.getExpectedDevelopNodeDate());
+        project1.setExpectedTestNodeDate(project.getExpectedTestNodeDate());
+        project1.setExpectedDevelopCost(project.getExpectedDevelopCost());
+        project1.setExpectedBusinessCost(project.getExpectedBusinessCost());
+        int insert = projectMapper.insert(project1);
+        Assert.isTrue(insert > 0, "添加失败");
         return ApiResponse.ok();
     }
 
     @Override
     public ApiResponse<ProjectVo> getProjectDetail(String id) {
         Project project = projectMapper.selectById(id);
-        Assert.state(project !=null,"找不到对应的项目");
-        System.out.println(project);
+        Assert.notNull(project,"找不到对应的项目");
         ProjectVo projectVo = new ProjectVo();
         projectVo.setId(project.getId());
         projectVo.setProjectName(project.getProjectName());
         Contract contract = contractMapper.selectById(project.getContractId());
-        System.out.println(contract);
-        Assert.state(contract!=null,"找不到关联合同");
+        Assert.notNull(contract,"找不到关联合同");
         projectVo.setContract(contract.getContractName());
         String leaderName = memberMapper.selectById(project.getLeaderId()).getMemberName();
         projectVo.setLeader(leaderName);
@@ -112,14 +133,14 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     public ApiResponse<Void> conclusionProject(Project project) {
         project.setUpdateBy(accountService.getLoginUserId());
         int i = projectMapper.updateById(project);
-        Assert.state(i > 0,"结项失败");
+        Assert.isTrue(i > 0,"结项失败");
         return ApiResponse.ok();
     }
 
     @Override
     public ApiResponse<Void> deleteProject(String id) {
         int delete = projectMapper.deleteById(id);
-        Assert.state(delete > 0, "删除失败");
+        Assert.isTrue(delete > 0, "删除失败");
         return ApiResponse.ok();
     }
 
@@ -128,6 +149,19 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         int count = this.count(Wrappers.<Project>lambdaQuery()
                 .between(Project::getDeliverDate, startDate, endDate));
         return (long) count;
+    }
+
+    @Override
+    public ApiResponse<List<ContractVo>> getContractNamelike(String keyWord) {
+        List<Contract> contracts = contractMapper.selectContractNames(keyWord);
+        List<ContractVo> list = new ArrayList<>();
+        for (Contract contract : contracts) {
+            ContractVo contractVo = new ContractVo();
+            contractVo.setId(contract.getId());
+            contractVo.setName((contract.getContractName()));
+            list.add(contractVo);
+        }
+        return ApiResponse.ok(list);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.yunyun.financemanager.common.vo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,16 +12,16 @@ import java.util.Collection;
  */
 @Getter
 @Setter
-@Schema(name = "首页项目统计VO")
+@ApiModel("首页项目统计VO")
 public class ProjectStatisticsVO {
 
-    @Schema(name = "项目数")
+    @ApiModelProperty("项目数")
     private Integer projectCount;
 
-    @Schema(name = "项目总额")
+    @ApiModelProperty("项目总额")
     private Long projectAmount;
 
-    @Schema(name = "折线图数据")
+    @ApiModelProperty("折线图数据")
     private Collection<LineChartVO> lineChartData;
 
 }

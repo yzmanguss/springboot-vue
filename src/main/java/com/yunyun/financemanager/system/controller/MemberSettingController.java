@@ -50,7 +50,7 @@ public class MemberSettingController {
         }
         queryWrapper.orderByAsc("id");
         Page<Member> page = memberMapper.selectPage(new Page<>(pageNum, pageSize, true), queryWrapper);
-        return ApiResponse.ok(page.getRecords(), (long) page.getRecords().size());
+        return ApiResponse.ok(page.getRecords(), page.getTotal());
     }
 
     /**

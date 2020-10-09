@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
  * @author yangzhongming
  */
 @Mapper
-@Repository
 public interface MemberMapper extends BaseMapper<Member> {
+
+    String selectMemberById(Long id);
 }

@@ -13,12 +13,18 @@ INSERT INTO reimbursement (
 	members,
 	reimbursement_type_id,
 	occur_time,
-	real_amount
+	real_amount,
+	note
 )
 VALUES
-	(#{name},#{reimburseAmount},#{pics},#{projectId},#{members},#{reimbursementTypeId},#{occurTime},#{realAmount})
+	(#{name},#{reimburseAmount},#{pics},#{projectId},#{members},#{reimbursementTypeId},#{occurTime},#{realAmount},#{note}
+	)
 
     </insert>
 
+
+	<select id="selectReimburseAmountSumByProjectId" resultType="long">
+		select  sum(real_amount) from reimbursement where  project_id = #{id}
+	</select>
 
 </mapper>

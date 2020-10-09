@@ -56,6 +56,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .formLogin()
+                .successHandler(new AuthenticationSuccessHandlerImpl())
+                .failureHandler(new AuthenticationFailureHandlerImpl())
+                .and()
+                .logout()
+                .logoutSuccessHandler(new LogoutSuccessHandlerImpl())
+                .and()
+                .rememberMe()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new AuthenticationEntryPointImpl())
+                .and()
                 .csrf()
                 .disable()
                 .cors()
@@ -63,24 +75,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest()
                 .authenticated()
-                .and()
-                .formLogin()
-                .successHandler(new AuthenticationSuccessHandlerImpl())
-                .failureHandler(new AuthenticationFailureHandlerImpl())
-                .and()
-                .rememberMe()
-                .and()
-                .logout()
-                .logoutSuccessHandler(new LogoutSuccessHandlerImpl())
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(new AuthenticationEntryPointImpl());
+//                .permitAll()
+        ;
     }
 
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers("/swagger-ui/*",
+                .antMatchers("/swagger-ui/**",
                         "/swagger-resources/**",
                         "/v3/api-docs");
     }
