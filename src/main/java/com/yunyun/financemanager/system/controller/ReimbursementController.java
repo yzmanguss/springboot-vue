@@ -3,6 +3,7 @@ package com.yunyun.financemanager.system.controller;
 import com.yunyun.financemanager.common.entity.Reimbursement;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.system.service.impl.ReimbursementServiceImpl;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpSession;
 /**
  * @author hhr
  */
+@Api(tags = "报销")
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ReimbursementController {
@@ -35,9 +37,9 @@ public class ReimbursementController {
 
 
 
-//        if (photo != null) {
-//            reimbursementService.insertReimbursement(reimbursement,photo);
-//        }
+        if (photo != null) {
+            reimbursementService.insertReimbursement(reimbursement,photo);
+        }
         return ApiResponse.ok();
     }
 }
