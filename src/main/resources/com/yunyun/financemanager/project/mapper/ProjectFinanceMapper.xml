@@ -23,7 +23,7 @@
             and  expected_finish_date <![CDATA[ <= ]]> #{endDate}
         </if>
 
-        <if test="name !=null and name !=''">
+        <if test=" name != ''.toString() and name != null ">
             and project_name like '%' #{name} '%'
         </if>
         </where>
@@ -45,7 +45,7 @@
             and  expected_finish_date <![CDATA[ <= ]]> #{endDate}
         </if>
 
-        <if test="name !=null and name !=''">
+        <if test="name != null and name !=''">
             and project_name like '%' #{name} '%'
         </if>
 

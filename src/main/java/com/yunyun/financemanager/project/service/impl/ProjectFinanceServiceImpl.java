@@ -81,6 +81,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         projectFinance.setDev_cost(longKF);
         projectFinance.setTestCost(longCS);
         projectFinance.setReimbursementAmount(ra);
+        projectFinance.setContract(contractById.getContractName());
 
         projectFinance.setConsumeAmount(
                 projectFinance.getExpectedBusinessCost() + project.getExpectedDevelopCost() + projectFinance.getDev_cost()
