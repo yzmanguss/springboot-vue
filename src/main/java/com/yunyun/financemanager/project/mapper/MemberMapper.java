@@ -11,5 +11,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface MemberMapper extends BaseMapper<Member> {
 
-    String selectMemberById(Long id);
+
+    String selectMemberNameById(Long id);
 }
