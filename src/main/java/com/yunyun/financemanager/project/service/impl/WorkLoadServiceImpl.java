@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunyun.financemanager.common.entity.NormalCost;
 import com.yunyun.financemanager.common.entity.Project;
 import com.yunyun.financemanager.common.entity.WorkLoad;
+import com.yunyun.financemanager.common.enums.WorkTypeEnum;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.project.mapper.ProjectMapper;
 import com.yunyun.financemanager.project.mapper.WorkLoadMapper;
@@ -15,6 +16,7 @@ import com.yunyun.financemanager.project.vo.WorkloadVo;
 import com.yunyun.financemanager.system.mapper.NormalCostMapper;
 import com.yunyun.financemanager.system.service.AccountService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
@@ -43,6 +45,7 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
     private NormalCostMapper normalCostMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ApiResponse<Void> addWorkLoad(WorkloadVo workloadVo) {
         Assert.state(workloadVo != null,"workload  is null");
         Assert.state(workloadVo.getPaticipants() !=null,"paticipants is null");
@@ -80,19 +83,19 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
             workLoadMapper.insert(workLoad);
             int type = participate.getTypeId().intValue();
             switch (type) {
-                case 1:
+                case WorkTypeEnum.REQUIREMENT:
                     requirementWorkload += workload;
                     break;
-                case 2:
+                case WorkTypeEnum.DESIGN:
                     designWorkload += workload;
                     break;
-                case 3:
+                case WorkTypeEnum.TEST:
                     testWorkload += workload;
                     break;
-                case 4:
+                case WorkTypeEnum.DEVELOP:
                     developWorkload += workload;
                     break;
-                case 5:
+                case WorkTypeEnum.SERVICE:
                     serviceWorkload += workload;
                     break;
                 default:

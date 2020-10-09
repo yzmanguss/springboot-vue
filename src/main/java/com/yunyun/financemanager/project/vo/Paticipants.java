@@ -1,5 +1,6 @@
 package com.yunyun.financemanager.project.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
  * @author  yangzhongming
  */
 @Data
+@ApiModel(value = "参与人员对象")
 public class Paticipants {
 
 
