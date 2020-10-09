@@ -9,12 +9,11 @@ import java.time.LocalDate;
 
 /**
  * @author yangzhongming
- * @date 2020-10-09 16:12
+ * @since  2020-10-09 16:12
  */
 @Data
 @ApiModel("新增项目")
 public class AddProjectVo {
-
 
     private Long insertBy;
 

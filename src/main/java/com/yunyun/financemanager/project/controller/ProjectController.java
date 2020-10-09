@@ -36,7 +36,7 @@ public class ProjectController {
 
     @ApiOperation("新增项目")
     @PostMapping("/addProject")
-    public ApiResponse<Void> addProject(@Validated AddProjectVo project){
+    public ApiResponse<Void> addProject(@Validated @RequestBody AddProjectVo project){
         return projectService.addProject(project);
     }
 
