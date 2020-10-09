@@ -3,6 +3,8 @@ package com.yunyun.financemanager.common.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
@@ -16,8 +18,10 @@ public class WorkType implements Serializable {
 
     private String name;
 
+    @TableField(updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime insertTime;
 
+    @TableField(insertStrategy = FieldStrategy.NEVER)
     private LocalDateTime updateTime;
 
     /**

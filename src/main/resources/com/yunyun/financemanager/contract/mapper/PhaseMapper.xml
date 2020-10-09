@@ -14,9 +14,9 @@
        delete
        from phase
        where contract_id = #{contractId}
-    </delete>
+     </delete>
 
-    <select id="findPhasesByContractId"  resultType="com.yunyun.financemanager.common.entity.Phase">
+    <select id="findPhasesByContractId" resultType="com.yunyun.financemanager.common.entity.Phase">
         select
         *
         from

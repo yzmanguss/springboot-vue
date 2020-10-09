@@ -3,6 +3,7 @@ package com.yunyun.financemanager.common.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
@@ -24,6 +25,7 @@ public class NormalCost implements Serializable {
 
     private LocalDateTime updateTime;
 
+    @TableField("`key`")
     private String key;
 
     /**
@@ -31,7 +33,6 @@ public class NormalCost implements Serializable {
      */
     @NotNull
     @Positive
-    @DecimalMax(value = "100000")
     private Long amount;
 
     private static final long serialVersionUID = 1L;

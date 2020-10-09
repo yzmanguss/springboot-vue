@@ -60,10 +60,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .cors()
                 .and()
-//                .authorizeRequests()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
                 .formLogin()
                 .successHandler(new AuthenticationSuccessHandlerImpl())
                 .failureHandler(new AuthenticationFailureHandlerImpl())
@@ -80,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers("/swagger-ui/*",
+                .antMatchers("/swagger-ui/**",
                         "/swagger-resources/**",
                         "/v3/api-docs");
     }

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yunyun.financemanager.common.entity.Member;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.common.response.ResponseCode;
-import com.yunyun.financemanager.common.vojo.MemberStateVO;
+import com.yunyun.financemanager.common.vo.MemberStateVO;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.system.service.MemberSettingService;
 import io.swagger.annotations.*;
@@ -18,7 +18,6 @@ import java.util.List;
 
 /**
  * @author 余聪
- * @date 2020/9/28
  */
 @Api(tags = "系统管理-公司人员录入")
 @Validated
@@ -36,7 +35,6 @@ public class MemberSettingController {
      * @param pageNum 当前页
      * @param pageSize 每页数量
      * @param keyword 查询关键字（姓名或日薪）
-     * @return
      */
     @ApiOperation("人员列表")
     @GetMapping("/members")
@@ -51,32 +49,27 @@ public class MemberSettingController {
                     .like("daily_wage", keyword);
         }
         queryWrapper.orderByAsc("id");
-        Page<Member> page = memberMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper);
+        Page<Member> page = memberMapper.selectPage(new Page<>(pageNum, pageSize, true), queryWrapper);
         return ApiResponse.ok(page.getRecords(), page.getTotal());
     }
 
     /**
      * 更改人员状态
-     * @param memberStateVO 人员id和状态码包装类
-     * @return
+     * @param memberStateVO 人员id和状态包装类
      */
     @ApiOperation("更改人员状态")
     @PostMapping("/change_member_state")
-    public ApiResponse<Void> changeMemberState(@ApiParam(value = "人员id和状态值(0/1)的封装") @RequestBody MemberStateVO memberStateVO) {
-        switch (memberStateVO.getState()) {
-            case 0:
-                return memberSettingService.setMemberDisable(memberStateVO.getId());
-            case 1:
-                return memberSettingService.setMemberEnable(memberStateVO.getId());
-            default:
-                return ApiResponse.failure(ResponseCode.FORBIDDEN, "人员状态码错误！");
+    public ApiResponse<Void> changeMemberState(@ApiParam(value = "人员id和状态值(T/F)的封装") @RequestBody MemberStateVO memberStateVO) {
+        if (memberStateVO.getState()) {
+            return memberSettingService.setMemberEnable(memberStateVO.getId());
+        } else {
+            return memberSettingService.setMemberDisable(memberStateVO.getId());
         }
     }
 
     /**
      * 添加公司人员
      * @param memberDTO 人员信息对象
-     * @return
      */
     @ApiOperation("添加人员")
     @PutMapping("/add_member")

@@ -15,8 +15,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -46,33 +48,38 @@ public class Contract implements Serializable {
     private String contractName;
 
     @ApiModelProperty(value = "插入者", name = "insertBy", example = "1")
-    private String insertBy;
+    private Long insertBy;
 
     @ApiModelProperty(value = "修改者", name = "updateBy", example = "1")
-    private String updateBy;
-
+    private Long updateBy;
 
     @ApiModelProperty(value = "合同编号", name = "contractNumber", example = "12131")
     @NotNull
-    private Integer contractNumber;
+    @Length(max = 50)
+    private String contractNumber;
 
     @ApiModelProperty(value = "合同状态", name = "contractStatus", example = "1")
+    @Range(min = 0, max = 3)
     private Integer contractStatus;
 
     @ApiModelProperty(value = "客户名称", name = "customerName", example = "七里香科技公司")
     @NotBlank
+    @Length(max = 50)
     private String customerName;
 
     @ApiModelProperty(value = "联系人姓名", name = "customerContractName", example = "七里香科技公司")
     @NotBlank
+    @Length(max = 50)
     private String customerContactName;
 
     @ApiModelProperty(value = "联系人电话", name = "customerContractPhone", example = "18273319421")
     @NotBlank
+    @Length(max = 11)
     private String customerContactPhone;
 
     @ApiModelProperty(value = "合同金额-分", name = "amount", example = "1000000")
     @NotNull
+    @Min(0)
     private Long amount;
 
     @ApiModelProperty(value = "签订日期", name= "signDate", example = "1601358287482")

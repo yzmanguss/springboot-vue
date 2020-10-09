@@ -19,8 +19,6 @@ import java.util.List;
 
 /**
  * @author xlc
- * @ClassName: ContractController
- * @date 2020/9/28 10:17
  */
 @Validated
 @Api(value = "/contract", tags = {"合同管理"})
@@ -28,13 +26,13 @@ import java.util.List;
 @RequestMapping("/contract")
 public class ContractController {
 
-   @Resource
+    @Resource
     private ContractService contractService;
 
 
     @ApiOperation(value = "分页查询合同")
     @PostMapping("/getContractListByPage")
-    public ApiResponse<List<Contract>> listContractByPage(@RequestBody ContractQuery contractQuery){
+    public ApiResponse<List<Contract>> listContractByPage(@RequestBody ContractQuery contractQuery) {
         Page<Contract> page = contractService.listContractByPage(contractQuery);
         return ApiResponse.ok(page.getResult(), page.getTotal());
     }
@@ -65,13 +63,6 @@ public class ContractController {
         return contractService.addContract(contract);
 
     }
-
-
-//    @ApiOperation(value = "合同统计")
-//    @GetMapping("/Statistics")
-//    public ApiResponse<ContractStatisticsVO> ContractStatistics() {
-//        return ApiResponse.buildSuccessResponse(contractService.contractStatistics());
-//    }
 
     @ApiOperation(value = " 模糊查询合同名")
     @GetMapping("/projectNames")
