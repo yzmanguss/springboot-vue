@@ -6,7 +6,6 @@ import com.yunyun.financemanager.common.vo.HomeToDoVO;
 import com.yunyun.financemanager.common.vo.ProjectStatisticsVO;
 import com.yunyun.financemanager.home.service.HomeService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,6 @@ public class HomeController {
     }
 
     @ApiOperation("获取首页项目统计数据")
-    @ApiImplicitParam(value = "0：年视图，1：月视图", example = "0")
     @GetMapping("/project-statistics")
     public ApiResponse<ProjectStatisticsVO> getProjectStatisticsData(@RequestParam(defaultValue = "0") Integer type) {
         ProjectStatisticsVO projectStatisticsData = homeService.getProjectStatisticsData(type);
