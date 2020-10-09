@@ -10,9 +10,11 @@ import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.project.mapper.ProjectMapper;
 import com.yunyun.financemanager.project.service.ProjectService;
 import com.yunyun.financemanager.project.utils.ProjectUtils;
+import com.yunyun.financemanager.project.vo.AddProjectVo;
 import com.yunyun.financemanager.project.vo.PageLimit;
 import com.yunyun.financemanager.project.vo.ProjectVo;
 import com.yunyun.financemanager.system.service.AccountService;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -67,9 +69,24 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
-    public ApiResponse<Void> addProject(Project project) {
+    public ApiResponse<Void> addProject(AddProjectVo project) {
         project.setInsertBy(accountService.getLoginUserId());
-        int insert = projectMapper.insert(project);
+        Project project1 = new Project();
+        project1.setProjectName(project.getProjectName());
+        project1.setContractId(project.getContractId());
+        project1.setLeaderId(project.getLeaderId());
+        project1.setMembers(project.getMembers());
+        project1.setSignDate(project.getSignDate());
+        project1.setExpectedStartDate(project.getExpectedStartDate());
+        project1.setExpectedFinishDate(project.getExpectedFinishDate());
+        project1.setExpectedWorkload(project.getExpectedWorkload());
+        project1.setExpectedRequirementNodeDate(project.getExpectedRequirementNodeDate());
+        project1.setExpectedDesignNodeDate(project.getExpectedDesignNodeDate());
+        project1.setExpectedDevelopNodeDate(project.getExpectedDevelopNodeDate());
+        project1.setExpectedTestNodeDate(project.getExpectedTestNodeDate());
+        project1.setExpectedDevelopCost(project.getExpectedDevelopCost());
+        project1.setExpectedBusinessCost(project.getExpectedBusinessCost());
+        int insert = projectMapper.insert(project1);
         Assert.isTrue(insert > 0, "添加失败");
         return ApiResponse.ok();
     }
