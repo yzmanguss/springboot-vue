@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.yunyun.financemanager.common.entity.Contract;
 import com.yunyun.financemanager.common.query.ContractQuery;
 import com.yunyun.financemanager.common.response.ApiResponse;
+import com.yunyun.financemanager.common.vo.ContractVO;
 import com.yunyun.financemanager.common.vo.LineChartVO;
 import com.yunyun.financemanager.contract.mapper.ContractMapper;
 import com.yunyun.financemanager.contract.mapper.PhaseMapper;
@@ -35,10 +36,10 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
     private AccountService accountService;
 
     @Override
-    public Page<Contract> listContractByPage(ContractQuery contractQuery) {
+    public Page<ContractVO> listContractByPage(ContractQuery contractQuery) {
         int pageNum = contractQuery.getPageNum();
         int pageSize = contractQuery.getPageSize();
-        Page<Contract> page = PageHelper.startPage(pageNum, pageSize);
+        Page<ContractVO> page = PageHelper.startPage(pageNum, pageSize);
         contractMapper.listContractByPage(contractQuery);
         return page;
     }
@@ -47,10 +48,10 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
     @Override
     public ApiResponse<Void> deleteContractById(Long id) {
 
-        int count = contractMapper.isContractAssociatedProject(id);
-        if (count > 0) {
-            return ApiResponse.failure("该合同已有关联项目，不能删除");
-        }
+//        int count = contractMapper.isContractAssociatedProject(id);
+//        if (count > 0) {
+//            return ApiResponse.failure("该合同已有关联项目，不能删除");
+//        }
 
         //删除分期款项
         int delete = phaseMapper.deleteByContractId(id);

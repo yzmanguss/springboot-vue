@@ -36,7 +36,7 @@ public class Phase implements Serializable {
 
     @ApiModelProperty(value = "分期款项的排列序号", name = "phaseIndexId", example = "1")
     @NotNull
-    @Length(max = 4)
+    @Min(1)
     private Integer phaseIndex;
 
     @ApiModelProperty(value = "分期款项的金额", name = "amount", example = "1000000")
@@ -52,7 +52,6 @@ public class Phase implements Serializable {
     private LocalDate finishDate;
 
     @ApiModelProperty(value = "合同id", name = "contractId", example = "1")
-    @Length(max = 20)
     private Long contractId;
 
     private static final long serialVersionUID = 1L;

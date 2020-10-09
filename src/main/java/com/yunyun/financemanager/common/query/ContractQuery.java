@@ -18,11 +18,11 @@ public class ContractQuery {
     /**
      * 当前页码
      */
-    protected int pageNum = 1;
+    protected Integer pageNum = 1;
     /**
      * 每页数量
      */
-    protected int pageSize = 5;
+    protected Integer pageSize = 5;
 
     /**
      * 合同状态

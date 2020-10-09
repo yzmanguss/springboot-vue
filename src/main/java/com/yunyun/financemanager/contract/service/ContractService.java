@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.yunyun.financemanager.common.entity.Contract;
 import com.yunyun.financemanager.common.query.ContractQuery;
 import com.yunyun.financemanager.common.response.ApiResponse;
+import com.yunyun.financemanager.common.vo.ContractVO;
 import com.yunyun.financemanager.common.vo.LineChartVO;
 
 import java.time.LocalDate;
@@ -17,32 +18,34 @@ import java.util.Map;
 public interface ContractService extends IService<Contract> {
 
     /**
-     * 根据条件查询合同
-     *
+     * 根据条件查询合同列表
+     * @param contractQuery 查询条件
+     * @return 合同列表
      */
-    Page<Contract> listContractByPage(ContractQuery contractQuery);
+    Page<ContractVO> listContractByPage(ContractQuery contractQuery);
 
     /**
      * 根据id删除单个合同
-     *
+     * @param id 合同
      */
     ApiResponse<Void> deleteContractById(Long id);
 
     /**
      * 根据id查询单个合同
-     *
+     * @param id 合同id
+     * @return 单个合同
      */
     ApiResponse<Contract> getContractById(Long id);
 
     /**
      * 保存合同信息
-     *
+     * @param contract 合同对象
      */
     ApiResponse<Void> addContract(Contract contract);
 
     /**
      * 修改合同信息
-     *
+     * @param contract 合同对象
      */
     ApiResponse<Void> editContract(Contract contract);
 

@@ -6,6 +6,7 @@ import com.yunyun.financemanager.common.entity.Contract;
 import com.github.pagehelper.Page;
 import com.yunyun.financemanager.common.query.ContractQuery;
 import com.yunyun.financemanager.common.response.ApiResponse;
+import com.yunyun.financemanager.common.vo.ContractVO;
 import com.yunyun.financemanager.contract.service.ContractService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,8 +33,8 @@ public class ContractController {
 
     @ApiOperation(value = "分页查询合同")
     @PostMapping("/getContractListByPage")
-    public ApiResponse<List<Contract>> listContractByPage(@RequestBody ContractQuery contractQuery) {
-        Page<Contract> page = contractService.listContractByPage(contractQuery);
+    public ApiResponse<List<ContractVO>> listContractByPage(@RequestBody ContractQuery contractQuery) {
+        Page<ContractVO> page = contractService.listContractByPage(contractQuery);
         return ApiResponse.ok(page.getResult(), page.getTotal());
     }
 
@@ -43,7 +44,6 @@ public class ContractController {
         return contractService.deleteContractById(id);
 
     }
-
 
     @ApiOperation(value = "根据id查询合同")
     @GetMapping("/getContractById/{id}")
@@ -64,7 +64,7 @@ public class ContractController {
 
     }
 
-    @ApiOperation(value = " 模糊查询合同名")
+    @ApiOperation(value = "模糊查询合同名")
     @GetMapping("/projectNames")
     public ApiResponse<List<Contract>> selectContractNames(@RequestParam(value = "name") String name) {
         return ApiResponse.ok(contractService.selectContractNames(name));
