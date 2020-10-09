@@ -70,21 +70,19 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     public ApiResponse<Void> addProject(Project project) {
         project.setInsertBy(accountService.getLoginUserId());
         int insert = projectMapper.insert(project);
-        Assert.state(insert > 0, "添加失败");
+        Assert.isTrue(insert > 0, "添加失败");
         return ApiResponse.ok();
     }
 
     @Override
     public ApiResponse<ProjectVo> getProjectDetail(String id) {
         Project project = projectMapper.selectById(id);
-        Assert.state(project !=null,"找不到对应的项目");
-        System.out.println(project);
+        Assert.notNull(project,"找不到对应的项目");
         ProjectVo projectVo = new ProjectVo();
         projectVo.setId(project.getId());
         projectVo.setProjectName(project.getProjectName());
         Contract contract = contractMapper.selectById(project.getContractId());
-        System.out.println(contract);
-        Assert.state(contract!=null,"找不到关联合同");
+        Assert.notNull(contract,"找不到关联合同");
         projectVo.setContract(contract.getContractName());
         String leaderName = memberMapper.selectById(project.getLeaderId()).getMemberName();
         projectVo.setLeader(leaderName);
@@ -116,14 +114,14 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     public ApiResponse<Void> conclusionProject(Project project) {
         project.setUpdateBy(accountService.getLoginUserId());
         int i = projectMapper.updateById(project);
-        Assert.state(i > 0,"结项失败");
+        Assert.isTrue(i > 0,"结项失败");
         return ApiResponse.ok();
     }
 
     @Override
     public ApiResponse<Void> deleteProject(String id) {
         int delete = projectMapper.deleteById(id);
-        Assert.state(delete > 0, "删除失败");
+        Assert.isTrue(delete > 0, "删除失败");
         return ApiResponse.ok();
     }
 
