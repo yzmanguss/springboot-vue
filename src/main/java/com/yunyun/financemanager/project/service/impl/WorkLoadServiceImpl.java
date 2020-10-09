@@ -15,6 +15,7 @@ import com.yunyun.financemanager.project.vo.WorkloadVo;
 import com.yunyun.financemanager.system.mapper.NormalCostMapper;
 import com.yunyun.financemanager.system.service.AccountService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
@@ -43,6 +44,7 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
     private NormalCostMapper normalCostMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ApiResponse<Void> addWorkLoad(WorkloadVo workloadVo) {
         Assert.state(workloadVo != null,"workload  is null");
         Assert.state(workloadVo.getPaticipants() !=null,"paticipants is null");
