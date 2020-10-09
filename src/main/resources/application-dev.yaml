@@ -5,9 +5,18 @@ spring:
     username: root
     password: root
 
+
 logging:
   level:
+    com:
+      yunyun:
+        financemanager:
+          project:
+            mapper: debug
     io:
       swagger:
         models:
           parameters: error
+
+server:
+  port: 8091
