@@ -1,5 +1,6 @@
 package com.yunyun.financemanager.project.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunyun.financemanager.common.entity.Contract;
@@ -152,16 +153,19 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
+    public ApiResponse<List<ContractVo>> getContractNamelike() {
+        List<ContractVo> contractNamelikeLimit = contractMapper.getContractNamelikeLimit();
+        Assert.notNull(contractNamelikeLimit,"合同查询失败");
+        Assert.notEmpty(contractNamelikeLimit,"合同查询失败");
+        return ApiResponse.ok(contractNamelikeLimit);
+    }
+
+    @Override
     public ApiResponse<List<ContractVo>> getContractNamelike(String keyWord) {
-        List<Contract> contracts = contractMapper.selectContractNames(keyWord);
-        List<ContractVo> list = new ArrayList<>();
-        for (Contract contract : contracts) {
-            ContractVo contractVo = new ContractVo();
-            contractVo.setId(contract.getId());
-            contractVo.setName((contract.getContractName()));
-            list.add(contractVo);
-        }
-        return ApiResponse.ok(list);
+        List<ContractVo> contractNamelike = contractMapper.getContractNamelikeByName(keyWord);
+        Assert.notNull(contractNamelike,"合同查询失败");
+        Assert.notEmpty(contractNamelike,"合同查询失败");
+        return ApiResponse.ok(contractNamelike);
     }
 
     @Override

@@ -91,4 +91,18 @@
                       group by `index`;
   </select>
 
+    <select id="getContractNamelikeLimit" resultType="com.yunyun.financemanager.project.vo.ContractVo">
+        SELECT id ,contract_name name FROM contract ORDER BY id DESC LIMIT 10
+    </select>
+
+    <select id="getContractNamelikeByName" resultType="com.yunyun.financemanager.project.vo.ContractVo">
+    select id, contract_name name
+    from contract
+        <where>
+            <if test="name != null">
+                contract_name like '%' #{name} '%'
+            </if>
+        </where>
+  </select>
+
 </mapper>

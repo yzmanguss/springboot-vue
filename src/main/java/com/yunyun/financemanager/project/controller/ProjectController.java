@@ -66,10 +66,16 @@ public class ProjectController {
         return projectService.conclusionProject(project);
     }
 
-    @ApiOperation("模糊查詢合同id和name")
-    @GetMapping("/getContractNamelike")
-    public ApiResponse<List<ContractVo>> getContractNamelike(String keyWord) {
+    @ApiOperation("根据关键字模糊查詢合同id和name")
+    @GetMapping("/getContractNamelikeByName")
+    public ApiResponse<List<ContractVo>> getContractNamelikeByName(String keyWord) {
         return projectService.getContractNamelike(keyWord);
+    }
+
+    @ApiOperation("查詢前10条 合同id和name")
+    @GetMapping("/getContractNamelikeLimit")
+    public ApiResponse<List<ContractVo>> getContractNamelikeLimit() {
+        return projectService.getContractNamelike();
     }
 
     @ApiOperation("查询财务项目列表")
