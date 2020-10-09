@@ -17,7 +17,7 @@
                 </if>
             </if>
             <if test="keyWord != null">
-                and project_name like #{keyWord}
+                and project_name like '%' #{keyWord} '%'
             </if>
         </where>
         order by id desc
@@ -29,9 +29,5 @@
 		select id,project_name from project where  project_name like '%' #{name} '%'
 	</select>
 
-
-
-
-
-
+    
 </mapper>

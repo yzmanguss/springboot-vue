@@ -22,6 +22,7 @@ public class WorkTypeServiceImpl implements WorkTypeService {
     @Override
     public ApiResponse<List<WorkTypeVo>> queryAllWorkType() {
         List<WorkTypeVo> workTypes = workTypeMapper.selectList(null);
+        Assert.notNull(workTypes,"没有workType的数据");
         if (workTypes.isEmpty()){
             throw new IllegalArgumentException("没有workType的数据");
         }
