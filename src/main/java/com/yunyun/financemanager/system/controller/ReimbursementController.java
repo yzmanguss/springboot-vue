@@ -7,15 +7,12 @@ import com.yunyun.financemanager.system.service.impl.ReimbursementServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpSession;
-
 
 /**
  * @author hhr
@@ -25,17 +22,16 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ReimbursementController {
 
-
-   private final ReimbursementServiceImpl reimbursementService;
+    private final ReimbursementServiceImpl reimbursementService;
 
     @ApiOperation("插入报销")
     @PostMapping("/Reimbursement")
-    public ApiResponse<Void> insertReimbursement(@RequestBody ReimbursementDTO reimbursementDTO , HttpSession session) {
+    public ApiResponse<Void> insertReimbursement(@RequestBody @Validated ReimbursementDTO reimbursementDTO) {
 
+        Reimbursement reimbursement = new Reimbursement();
+        BeanUtils.copyProperties(reimbursementDTO, reimbursement);
+        reimbursementService.insertReimbursement(reimbursement, reimbursementDTO.getPhoto());
 
-        if (reimbursementDTO.getPhoto() != null) {
-            reimbursementService.insertReimbursement(reimbursementDTO.getReimbursement(),reimbursementDTO.getPhoto());
-        }
         return ApiResponse.ok();
     }
 }

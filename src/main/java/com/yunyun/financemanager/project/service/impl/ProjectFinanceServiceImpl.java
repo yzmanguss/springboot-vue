@@ -41,8 +41,8 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         Project project = projectFinanceMapper.selectProjectName(id);
 
         List<WorkLoad> workLoads = projectFinanceMapper.selectWorkLoadByProjectId(id);
-        Long longKF = new Long(0);
-        Long longCS = new Long(0);
+        long longKF = 0L;
+        long longCS = 0L;
         String mName = "";
         for (WorkLoad w : workLoads) {
             if (w.getWorkTypeId() == 4) {
@@ -66,12 +66,12 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
 
         Long ra = reimbursementMapper.selectReimburseAmountSumByProjectId(id);
         if (ra == null){
-            ra = new Long(0) ;
+            ra = 0L;
         }
         ProjectFinance projectFinance = new ProjectFinance();
 
         projectFinance.setId(project.getId());
-        projectFinance.setName(project.getProjectName());
+        projectFinance.setProjectName(project.getProjectName());
         projectFinance.setLeader(mName);
         projectFinance.setExpectedWorkload(project.getExpectedWorkload());
         projectFinance.setWorkload(project.getDesignWorkload() + project.getDevelopWorkload() + project.getTestWorkload() + project.getServiceWorkload());

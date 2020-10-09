@@ -11,7 +11,7 @@ public class ProjectFinance {
     private Long id;
     //项目名
     @ApiModelProperty(value = "项目名", name = "name")
-    private String name;
+    private String projectName;
     //负责人
     @ApiModelProperty(value = "负责人", name = "leader")
     private String leader;
