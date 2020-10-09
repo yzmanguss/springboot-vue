@@ -65,7 +65,9 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         Contract contractById = contractMapper.getContractById(project.getContractId());
 
         Long ra = reimbursementMapper.selectReimburseAmountSumByProjectId(id);
-
+        if (ra == null){
+            ra = new Long(0) ;
+        }
         ProjectFinance projectFinance = new ProjectFinance();
 
         projectFinance.setId(project.getId());
