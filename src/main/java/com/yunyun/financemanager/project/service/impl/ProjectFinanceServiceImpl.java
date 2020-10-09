@@ -34,6 +34,15 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
 
     private final ContractMapper contractMapper;
 
+
+    /**
+     *通过条件查询项目
+     * @param id 项目id
+     * @return   ProjectFinance
+     *
+     *
+     */
+
     @Override
     public ProjectFinance selectProjectName(int id) {
 
@@ -44,20 +53,22 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         long longKF = 0L;
         long longCS = 0L;
         String mName = "";
-        for (WorkLoad w : workLoads) {
-            if (w.getWorkTypeId() == 4) {
-                BigInteger dw = new BigInteger(w.getDailyWage().toString());
-                BigInteger wl = new BigInteger(w.getWorkLoad().toString());
-                longKF = longKF + dw.multiply(wl).longValue();
-            } else if (w.getWorkTypeId() == 3) {
+        if(workLoads != null) {
+            for (WorkLoad w : workLoads) {
+                if (w.getWorkTypeId() == 4) {
+                    BigInteger dw = new BigInteger(w.getDailyWage().toString());
+                    BigInteger wl = new BigInteger(w.getWorkLoad().toString());
+                    longKF = longKF + dw.multiply(wl).longValue();
+                } else if (w.getWorkTypeId() == 3) {
 
-                BigInteger dw = new BigInteger(w.getDailyWage().toString());
-                BigInteger wl = new BigInteger(w.getWorkLoad().toString());
-                longCS = longCS + dw.multiply(wl).longValue();
-            } else if (w.getMemberId().equals(project.getLeaderId())) {
+                    BigInteger dw = new BigInteger(w.getDailyWage().toString());
+                    BigInteger wl = new BigInteger(w.getWorkLoad().toString());
+                    longCS = longCS + dw.multiply(wl).longValue();
+                } else if (w.getMemberId().equals(project.getLeaderId())) {
 
-                mName = memberMapper.selectMemberById(project.getLeaderId());
+                    mName = memberMapper.selectMemberNameById(project.getLeaderId());
 
+                }
             }
         }
 
@@ -93,6 +104,15 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
     }
 
 
+    /**
+     *通过条件查询项目
+     * @param startDate 项目开始时间
+     * @param  endDate 结束时间
+     * @param pageSize  分页大小
+     * @param pageStart 分页第几页
+     * @param name  项目名称
+     * @return   财务项目Dto对象
+     */
     @Override
     public ProjectFinanceDTO selectFinanceProjects(LocalDate startDate, LocalDate endDate, String name, int pageStart, int pageSize) {
 

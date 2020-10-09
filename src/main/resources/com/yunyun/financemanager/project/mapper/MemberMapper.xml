@@ -5,7 +5,7 @@
 <mapper namespace="com.yunyun.financemanager.project.mapper.MemberMapper">
 
 
-    <select id="selectMemberById" >
+    <select id="selectMemberNameById" resultType="java.lang.String">
         select  member_name from member where  id = #{id}
     </select>
 
