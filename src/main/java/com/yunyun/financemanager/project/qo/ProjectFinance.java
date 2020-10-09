@@ -47,7 +47,7 @@ public class ProjectFinance {
     private Long surplusProfit;
 
     //    合同名称
-    @ApiModelProperty(value = "合同名称", name = "surplusProfit")
+    @ApiModelProperty(value = "合同名称", name = "contract")
     private String contract;
 
 
