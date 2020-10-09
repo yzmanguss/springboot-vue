@@ -10,9 +10,8 @@ import org.springframework.context.annotation.Configuration;
  * @author 余聪
  * @date 2020/9/30
  */
-
-//@Configuration
-//@ConditionalOnClass(value = {PaginationInnerInterceptor.class})
+@Configuration
+@ConditionalOnClass(value = {PaginationInnerInterceptor.class})
 public class MybatisPlusConfig {
 
     @Bean

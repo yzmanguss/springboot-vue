@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.168.1.200:3309/finance_dev?serverTimeZone=Asia/Shanghai
+    username: root
+    password: root
+
+springfox:
+  documentation:
+    enabled: false

@@ -4,16 +4,9 @@ spring:
     url: jdbc:mysql://192.168.2.200:3309/finance_dev?serverTimeZone=Asia/Shanghai
     username: root
     password: root
-server:
-  port: 8091
 
 logging:
   level:
-    com:
-      yunyun:
-        financemanager:
-          project:
-            mapper: debug
     io:
       swagger:
         models:
