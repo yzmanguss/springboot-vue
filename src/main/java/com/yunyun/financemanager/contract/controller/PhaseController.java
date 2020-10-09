@@ -9,17 +9,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @RequestMapping("/phase")
 public class PhaseController {
 
     @Autowired
-  private   PhaseService phaseService;
-
+    private PhaseService phaseService;
 
     @ApiOperation(value = "添加回款")
     @PutMapping("/finishDate")
-    public ApiResponse<Void> setFinishDate(@RequestParam Phase phase){
+    public ApiResponse<Void> setFinishDate(@RequestParam Phase phase) {
 
         phaseService.insertPhase(phase);
 

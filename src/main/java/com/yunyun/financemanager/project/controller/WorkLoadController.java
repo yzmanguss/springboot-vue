@@ -36,7 +36,7 @@ public class WorkLoadController {
 
 
     @ApiOperation("添加工作量")
-    @GetMapping("/addWorkLoad")
+    @PostMapping("/addWorkLoad")
     public ApiResponse<Void> addWorkLoad(@RequestBody WorkloadVo workloadVo){
         return workLoadService.addWorkLoad(workloadVo);
     }
