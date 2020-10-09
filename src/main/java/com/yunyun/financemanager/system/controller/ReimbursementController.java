@@ -25,7 +25,13 @@ public class ReimbursementController {
 
     @ApiOperation("插入报销")
     @PostMapping("/Reimbursement")
-    public ApiResponse<Void> insertReimbursement(@RequestBody Reimbursement reimbursement , @RequestParam(value = "photo") MultipartFile photo , HttpSession session) {
+    public ApiResponse<Void> insertReimbursement(@RequestBody Reimbursement reimbursement , @RequestParam(value = "photo" ,required = false) MultipartFile photo , HttpSession session) {
+
+        System.out.println(reimbursement.toString());
+        System.out.println(photo);
+
+
+
         if (photo != null) {
             reimbursementService.insertReimbursement(reimbursement,photo);
         }

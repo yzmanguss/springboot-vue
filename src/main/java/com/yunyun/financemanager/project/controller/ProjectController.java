@@ -2,6 +2,7 @@ package com.yunyun.financemanager.project.controller;
 
 import com.yunyun.financemanager.common.entity.Project;
 import com.yunyun.financemanager.common.response.ApiResponse;
+import com.yunyun.financemanager.project.qo.ProjectNames;
 import com.yunyun.financemanager.project.service.ProjectService;
 import com.yunyun.financemanager.project.vo.PageLimit;
 import com.yunyun.financemanager.project.vo.ProjectVo;
@@ -53,7 +54,8 @@ public class ProjectController {
     @ApiOperation("模糊查询项目的名字")
     @GetMapping("/projectNames")
     public ApiResponse<List<ProjectNames>> selectProjectNames(@RequestParam(value = "name") String name) {
-        return ApiResponse.ok(projectService.selectProjectNames(name));
+//        return ApiResponse.ok(projectService.selectProjectNames(name));
+        return null;
     }
 
     @ApiOperation("结项")
@@ -68,7 +70,8 @@ public class ProjectController {
 
 
 
-        return projectService.getProjectList(pageLimit);
+//        return projectService.getProjectList(pageLimit);
+        return null;
     }
 
 }

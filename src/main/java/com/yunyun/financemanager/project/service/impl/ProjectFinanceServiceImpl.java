@@ -80,6 +80,10 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         projectFinance.setTestCost(longCS);
         projectFinance.setReimbursementAmount(ra);
 
+        projectFinance.setConsumeAmount(
+                projectFinance.getExpectedBusinessCost()+project.getExpectedDevelopCost()+projectFinance.getDev_cost()+projectFinance.getTestCost()+projectFinance.getReimbursementAmount()
+        );
+        projectFinance.setSurplusProfit(projectFinance.getAmount()-projectFinance.getConsumeAmount());
 
         return projectFinance;
     }
@@ -95,12 +99,14 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
 
         for (Project p : projects) {
             ProjectFinance projectFinance = selectProjectName(p.getId().intValue());
+
             pf.add(projectFinance);
         }
 
         ProjectFinanceDTO projectFinanceDTO = new ProjectFinanceDTO();
         projectFinanceDTO.setTotal(count);
         projectFinanceDTO.setProjectFinances(pf);
+
 
         return projectFinanceDTO;
     }
