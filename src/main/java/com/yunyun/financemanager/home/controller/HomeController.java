@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author zhaoqin
  */
-@Api("首页数据接口")
+@Api(tags = "首页数据接口")
 @RestController
 @RequestMapping("/home")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

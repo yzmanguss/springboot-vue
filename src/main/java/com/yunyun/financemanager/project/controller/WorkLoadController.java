@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-
 /**
  * @author yangzhongming
  */
@@ -30,14 +29,13 @@ public class WorkLoadController {
 
     @ApiOperation("查询所有的工作类型")
     @GetMapping("/queryAllWorkType")
-   public ApiResponse<List<WorkTypeVo>> queryAllWorkType(){
+    public ApiResponse<List<WorkTypeVo>> queryAllWorkType() {
         return workTypeService.queryAllWorkType();
     }
 
-
     @ApiOperation("添加工作量")
     @PostMapping("/addWorkLoad")
-    public ApiResponse<Void> addWorkLoad(@RequestBody WorkloadVo workloadVo){
+    public ApiResponse<Void> addWorkLoad(@RequestBody WorkloadVo workloadVo) {
         return workLoadService.addWorkLoad(workloadVo);
     }
 }
