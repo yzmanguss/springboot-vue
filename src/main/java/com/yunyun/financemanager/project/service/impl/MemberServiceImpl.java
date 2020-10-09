@@ -23,7 +23,7 @@ public class MemberServiceImpl implements MemberService {
     public ApiResponse<List<Member>> selAllMenmbers() {
         List<Member> members = memberMapper.selectList(null);
         Assert.notNull(members,"查询成员失败");
-        if (!members.isEmpty()){
+        if (members.isEmpty()){
             throw new IllegalArgumentException("查询成员失败");
         }
         return ApiResponse.ok(members);

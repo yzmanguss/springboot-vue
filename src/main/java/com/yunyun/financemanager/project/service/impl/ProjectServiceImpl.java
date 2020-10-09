@@ -43,12 +43,13 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
     @Override
     public ApiResponse<List<ProjectVo>> getProjectList(PageLimit pageLimit) {
+        System.out.println(pageLimit);
         Integer pageStart =  (pageLimit.getPageNow()-1)*pageLimit.getPageSize();
         String keyWord = pageLimit.getKeyWord();
         if ("".equals(keyWord)){
             keyWord = null;
         }
-        List<Project> projectList = projectMapper.getProjectList(pageStart, pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), "%"+keyWord+"%");
+        List<Project> projectList = projectMapper.getProjectList(pageStart, pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), keyWord);
         List<ProjectVo> projectVoList = new ArrayList<>();
         for (Project project : projectList) {
             ProjectVo projectVo = new ProjectVo();

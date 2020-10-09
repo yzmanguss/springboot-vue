@@ -70,5 +70,4 @@ public class ContractController {
         return ApiResponse.ok(contractService.selectContractNames(name));
     }
 
-
 }
