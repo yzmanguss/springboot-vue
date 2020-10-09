@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +26,7 @@ public class ReimbursementController {
     private final ReimbursementServiceImpl reimbursementService;
 
     @ApiOperation("插入报销")
-    @PostMapping("/Reimbursement")
+    @PostMapping(value = "/Reimbursement", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<Void> insertReimbursement(@RequestBody @Validated ReimbursementDTO reimbursementDTO) {
 
         Reimbursement reimbursement = new Reimbursement();
