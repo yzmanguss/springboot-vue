@@ -1,6 +1,7 @@
 package com.yunyun.financemanager.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunyun.financemanager.common.entity.ReimbursementType;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.common.response.ResponseCode;
@@ -15,7 +16,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ReimbursementTypeServiceImpl implements ReimbursementTypeService {
+public class ReimbursementTypeServiceImpl extends ServiceImpl<ReimbursementTypeMapper, ReimbursementType>
+        implements ReimbursementTypeService {
 
     private final ReimbursementTypeMapper reimbursementTypeMapper;
 
