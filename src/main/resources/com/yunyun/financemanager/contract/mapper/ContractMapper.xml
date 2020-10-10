@@ -103,7 +103,7 @@
     from contract
         <where>
             <if test="name != null">
-                contract_name like '%' #{name} '%'
+                contract_name like CONCAT('%', #{name}, '%')
             </if>
         </where>
   </select>
