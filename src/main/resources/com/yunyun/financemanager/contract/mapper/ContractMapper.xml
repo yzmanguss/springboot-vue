@@ -12,6 +12,7 @@
         <result column="contract_status" jdbcType="TINYINT" property="contractStatus"/>
         <result column="customer_name" jdbcType="VARCHAR" property="customerName"/>
         <result column="sign_date" jdbcType="DATE" property="signDate"/>
+        <collection property="projects" select="selectProjectListByContractId" column="id" autoMapping="true"/>
         <!--<result column="project_id" jdbcType="INTEGER" property="projectId"/>-->
     </resultMap>
 
@@ -29,6 +30,10 @@
                 and c.sign_date between #{signDateStart} and #{signDateEnd}
             </if>
         </where>
+    </select>
+
+    <select id="selectProjectListByContractId" resultType="com.yunyun.financemanager.project.vo.ProjectVo">
+        select * from project where contract_id = #{id}
     </select>
 
     <!--    <select id="isContractAssociatedProject" resultType="int">-->

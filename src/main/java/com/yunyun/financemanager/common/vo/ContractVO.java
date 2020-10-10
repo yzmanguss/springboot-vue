@@ -1,11 +1,14 @@
 package com.yunyun.financemanager.common.vo;
 
+import com.yunyun.financemanager.project.vo.ProjectVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
+
 /**
  * @author xlc
  */
@@ -34,4 +37,6 @@ public class ContractVO {
 
     @ApiModelProperty(value = "签订日期", name= "signDate", example = "1601358287482")
     private LocalDate signDate;
+
+    private List<ProjectVo> projects;
 }
