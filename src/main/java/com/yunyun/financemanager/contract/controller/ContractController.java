@@ -1,6 +1,5 @@
 package com.yunyun.financemanager.contract.controller;
 
-
 import com.yunyun.financemanager.common.entity.Contract;
 
 import com.github.pagehelper.Page;
@@ -17,7 +16,6 @@ import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-
 /**
  * @author xlc
  */
@@ -29,7 +27,6 @@ public class ContractController {
 
     @Resource
     private ContractService contractService;
-
 
     @ApiOperation(value = "分页查询合同")
     @PostMapping("/getContractListByPage")
@@ -61,12 +58,11 @@ public class ContractController {
     @PostMapping("/addContract")
     public ApiResponse<Void> addContract(@Validated @RequestBody Contract contract) {
         return contractService.addContract(contract);
-
     }
 
-    @ApiOperation(value = "模糊查询合同名")
+    @ApiOperation(value = "查询最新10个合同")
     @GetMapping("/projectNames")
-    public ApiResponse<List<Contract>> selectContractNames(@RequestParam(value = "name") String name) {
+    public ApiResponse<List<Contract>> selectContractNames(@RequestParam(required = false) String name) {
         return ApiResponse.ok(contractService.selectContractNames(name));
     }
 

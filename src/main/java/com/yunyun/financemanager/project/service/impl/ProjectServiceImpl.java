@@ -1,5 +1,6 @@
 package com.yunyun.financemanager.project.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunyun.financemanager.common.entity.Contract;
@@ -28,6 +29,7 @@ import java.util.List;
  * @author yangzhongming
  */
 @Service
+@SuppressWarnings("all")
 public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> implements ProjectService {
 
     @Resource
@@ -72,7 +74,6 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
     @Override
     public ApiResponse<Void> addProject(AddProjectVo project) {
-        project.setInsertBy(accountService.getLoginUserId());
         Project project1 = new Project();
         project1.setProjectName(project.getProjectName());
         project1.setContractId(project.getContractId());
@@ -88,6 +89,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         project1.setExpectedTestNodeDate(project.getExpectedTestNodeDate());
         project1.setExpectedDevelopCost(project.getExpectedDevelopCost());
         project1.setExpectedBusinessCost(project.getExpectedBusinessCost());
+        project1.setInsertBy(accountService.getLoginUserId());
         int insert = projectMapper.insert(project1);
         Assert.isTrue(insert > 0, "添加失败");
         return ApiResponse.ok();
@@ -152,16 +154,21 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
+    public ApiResponse<List<ContractVo>> getContractNamelike() {
+        List<ContractVo> contractNamelikeLimit = contractMapper.getContractNamelikeLimit();
+        Assert.notNull(contractNamelikeLimit,"合同查询失败");
+        Assert.notEmpty(contractNamelikeLimit,"合同查询失败");
+        long size = contractNamelikeLimit.size();
+        return ApiResponse.ok(contractNamelikeLimit,size);
+    }
+
+    @Override
     public ApiResponse<List<ContractVo>> getContractNamelike(String keyWord) {
-        List<Contract> contracts = contractMapper.selectContractNames(keyWord);
-        List<ContractVo> list = new ArrayList<>();
-        for (Contract contract : contracts) {
-            ContractVo contractVo = new ContractVo();
-            contractVo.setId(contract.getId());
-            contractVo.setName((contract.getContractName()));
-            list.add(contractVo);
-        }
-        return ApiResponse.ok(list);
+        List<ContractVo> contractNamelike = contractMapper.getContractNamelikeByName(keyWord);
+        Assert.notNull(contractNamelike,"合同查询失败");
+        Assert.notEmpty(contractNamelike,"合同查询失败");
+        long size = contractNamelike.size();
+        return ApiResponse.ok(contractNamelike,size);
     }
 
     @Override

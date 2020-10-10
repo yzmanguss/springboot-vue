@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -20,6 +22,9 @@ public abstract class FileUtils {
     public static String save(MultipartFile file) {
         Assert.isTrue(!file.isEmpty(), "文件为空");
         String originalFilename = file.getOriginalFilename();
+        Assert.hasText(originalFilename, "文件名不能为空");
+        assert originalFilename != null;
+        Assert.isTrue(!originalFilename.contains(","), "文件名不能包含逗号");
         String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")) + originalFilename;
         File folder = new File(FOLDER_PATH);
         if (!folder.exists()) {
@@ -34,6 +39,17 @@ public abstract class FileUtils {
             throw new IllegalArgumentException("保存文件失败", e);
         }
         return uploadFile.getAbsolutePath();
+    }
+
+    public static String saveImage(MultipartFile file) {
+        Assert.isTrue(!file.isEmpty(), "文件为空");
+        try {
+            BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+            Assert.notNull(bufferedImage, "请上传图片文件");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return save(file);
     }
 
 }

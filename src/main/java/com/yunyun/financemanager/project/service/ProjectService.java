@@ -61,11 +61,18 @@ public interface ProjectService extends IService<Project> {
     Long getDeliverProjectCount(LocalDate startDate, LocalDate endDate);
 
     /**
-     * 模糊查詢合同id 和name
+     * 根据关键字 模糊查詢合同id 和name
      * @param keyWord  關鍵字
      * @return 符合條件的合同id和 name
      */
     ApiResponse<List<ContractVo>> getContractNamelike(String keyWord);
+
+    /**
+     * 查詢最新 10条 合同id 和name
+     * @return 前10条合同id和 name
+     */
+    ApiResponse<List<ContractVo>> getContractNamelike();
+
 
     List<Project> listBySignDateBetween(LocalDate startDate, LocalDate endDate);
 }
