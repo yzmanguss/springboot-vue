@@ -2,6 +2,7 @@ package com.yunyun.financemanager.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yunyun.financemanager.common.entity.Project;
+import com.yunyun.financemanager.project.vo.ProjectVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -44,5 +45,5 @@ public interface ProjectMapper extends BaseMapper<Project> {
 
     List<Project> selectProjectNames(String name);
 
-
+    ProjectVo selectVO(Long id);
 }

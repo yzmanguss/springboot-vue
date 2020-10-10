@@ -5,7 +5,10 @@ import com.yunyun.financemanager.common.entity.Phase;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,10 +20,13 @@ import java.util.List;
 @ApiModel(value = "项目对象")
 public class ProjectVo {
 
-    @ApiModelProperty(value = "项目id")
+    @ApiModelProperty(value = "项目id", required = true)
+    @NotNull
     private Long id;
 
-    @ApiModelProperty(value = "项目名")
+    @ApiModelProperty(value = "项目名", required = true)
+    @NotBlank
+    @Length(max = 50)
     private String projectName;
 
     /**
@@ -29,11 +35,18 @@ public class ProjectVo {
     @ApiModelProperty(value = "合同名")
     private String contract;
 
+    @ApiModelProperty(value = "关联合同Id")
+    private Long contractId;
+
     /**
      * 负责人
      */
     @ApiModelProperty(value = "负责人姓名")
     private String leader;
+
+    @ApiModelProperty(value = "负责人ID", required = true)
+    @NotNull
+    private Long leaderId;
 
     /**
      * 参与人员
@@ -41,22 +54,30 @@ public class ProjectVo {
     @ApiModelProperty(value = "参与人员名")
     private String members;
 
+    @ApiModelProperty(value = "参与人员ID", required = true)
+    @NotBlank
+    @Pattern(regexp = "^(\\d+,)*(\\d+)$")
+    private String memberIds;
+
     /**
      * 签订日期
      */
-
     @ApiModelProperty(value = "项目签订时间")
+    @NotNull
+    @Past
     private LocalDate signDate;
 
     /**
      * 计划开始时间
      */
     @ApiModelProperty(value = "计划开始时间")
+    @NotNull
     private LocalDate expectedStartDate;
 
     /**
      * 计划完成时间
      */
+    @NotNull
     @ApiModelProperty(value = "计划完成时间")
     private LocalDate expectedFinishDate;
 
@@ -64,42 +85,50 @@ public class ProjectVo {
      * 计划总工作量-单位:人天
      */
     @ApiModelProperty(value = "计划工作量")
+    @NotNull
+    @Min(1L)
     private Long expectedWorkload;
 
     /**
      * 计划需求分析节点时间
      */
     @ApiModelProperty(value = "计划需求分析时间节点")
+    @NotNull
     private LocalDate expectedRequirementNodeDate;
 
     /**
      * 计划设计节点时间
      */
     @ApiModelProperty(value = "计划设计时间节点")
+    @NotNull
     private LocalDate expectedDesignNodeDate;
 
     /**
      * 计划开发节点时间
      */
     @ApiModelProperty(value = "计划开发设计节点")
+    @NotNull
     private LocalDate expectedDevelopNodeDate;
 
     /**
      * 计划测试节点时间
      */
     @ApiModelProperty(value = "计划测试时间")
+    @NotNull
     private LocalDate expectedTestNodeDate;
 
     /**
      * 计划开发成本
      */
     @ApiModelProperty(value = "计划开发成本")
+    @NotNull
     private Long expectedDevelopCost;
 
     /**
      * 计划商务成本
      */
     @ApiModelProperty(value = "计划商务成本")
+    @NotNull
     private Long expectedBusinessCost;
 
     /**
@@ -154,5 +183,7 @@ public class ProjectVo {
      * 回款项
      */
     @ApiModelProperty(value = "回款项")
+    @Valid
+    @Size(min = 1)
     private List<Phase> phases;
 }

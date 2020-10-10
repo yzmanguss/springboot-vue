@@ -1,23 +1,29 @@
 package com.yunyun.financemanager.project.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunyun.financemanager.common.entity.Contract;
+import com.yunyun.financemanager.common.entity.Phase;
 import com.yunyun.financemanager.common.entity.Project;
+import com.yunyun.financemanager.common.entity.WorkLoad;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.contract.mapper.ContractMapper;
+import com.yunyun.financemanager.contract.service.PhaseService;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.project.mapper.ProjectMapper;
 import com.yunyun.financemanager.project.service.ProjectService;
+import com.yunyun.financemanager.project.service.WorkLoadService;
 import com.yunyun.financemanager.project.utils.ProjectUtils;
 import com.yunyun.financemanager.project.vo.AddProjectVo;
 import com.yunyun.financemanager.project.vo.ContractVo;
 import com.yunyun.financemanager.project.vo.PageLimit;
 import com.yunyun.financemanager.project.vo.ProjectVo;
 import com.yunyun.financemanager.system.service.AccountService;
-import org.springframework.security.core.parameters.P;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
@@ -29,7 +35,8 @@ import java.util.List;
  * @author yangzhongming
  */
 @Service
-@SuppressWarnings("all")
+@Transactional
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> implements ProjectService {
 
     @Resource
@@ -44,12 +51,16 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     @Resource
     private ContractMapper contractMapper;
 
+    private final PhaseService phaseService;
+
+    private final WorkLoadService workLoadService;
+
     @Override
     public ApiResponse<List<ProjectVo>> getProjectList(PageLimit pageLimit) {
         System.out.println(pageLimit);
-        Integer pageStart =  (pageLimit.getPageNow()-1)*pageLimit.getPageSize();
+        Integer pageStart = (pageLimit.getPageNow() - 1) * pageLimit.getPageSize();
         String keyWord = pageLimit.getKeyWord();
-        if ("".equals(keyWord)){
+        if ("".equals(keyWord)) {
             keyWord = null;
         }
         List<Project> projectList = projectMapper.getProjectList(pageStart, pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), keyWord);
@@ -81,7 +92,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         project1.setLeaderId(project.getLeaderId());
         project1.setMembers(project.getMembers());
         Contract contract = contractMapper.selectById(project.getContractId());
-        Assert.notNull(contract,"合同id不存在");
+        Assert.notNull(contract, "合同id不存在");
         project1.setSignDate(contract.getSignDate());
         project1.setExpectedStartDate(project.getExpectedStartDate());
         project1.setExpectedFinishDate(project.getExpectedFinishDate());
@@ -99,38 +110,23 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
-    public ApiResponse<ProjectVo> getProjectDetail(String id) {
+    public ApiResponse<ProjectVo> getProjectDetail(Long id) {
         Project project = projectMapper.selectById(id);
-        Assert.notNull(project,"找不到对应的项目");
+        Assert.notNull(project, "未找到项目，id：" + id);
         ProjectVo projectVo = new ProjectVo();
-        projectVo.setId(project.getId());
-        projectVo.setProjectName(project.getProjectName());
-        Contract contract = contractMapper.selectById(project.getContractId());
-        Assert.notNull(contract,"找不到关联合同");
-        projectVo.setContract(contract.getContractName());
-        String leaderName = memberMapper.selectById(project.getLeaderId()).getMemberName();
-        projectVo.setLeader(leaderName);
-        String[] memberIds = project.getMembers().split(",");
-        String members = ProjectUtils.memberIdToname(memberIds, memberMapper);
-        projectVo.setMembers(members);
-        projectVo.setSignDate(project.getSignDate());
-        projectVo.setExpectedStartDate(project.getExpectedStartDate());
-        projectVo.setExpectedFinishDate(project.getExpectedFinishDate());
-        projectVo.setExpectedWorkload(project.getExpectedWorkload());
-        projectVo.setExpectedRequirementNodeDate(project.getExpectedRequirementNodeDate());
-        projectVo.setExpectedDesignNodeDate(project.getExpectedDesignNodeDate());
-        projectVo.setExpectedDevelopNodeDate(project.getExpectedDevelopNodeDate());
-        projectVo.setExpectedTestNodeDate(project.getExpectedTestNodeDate());
-        projectVo.setExpectedServiceNodeDate(project.getExpectedServiceNodeDate());
-        projectVo.setExpectedDevelopCost(project.getExpectedDevelopCost());
-        projectVo.setExpectedBusinessCost(project.getExpectedBusinessCost());
-        long realWorkload = project.getRequirementWorkload() + project.getDesignWorkload() + project.getDevelopWorkload() + project.getServiceWorkload() + project.getTestWorkload();
-        projectVo.setRealWorkload(realWorkload);
-        projectVo.setRequirementNodeDate(project.getRequirementNodeDate());
-        projectVo.setDesignNodeDate(project.getDesignNodeDate());
-        projectVo.setDevelopNodeDate(project.getDevelopNodeDate());
-        projectVo.setTestNodeDate(project.getTestNodeDate());
-        projectVo.setServiceNodeDate(project.getServiceNodeDate());
+        BeanUtils.copyProperties(project, projectVo);
+
+        List<Phase> phases = phaseService.list(Wrappers.<Phase>lambdaQuery()
+                .eq(Phase::getContractId, project.getContractId()));
+        projectVo.setPhases(phases);
+
+        List<WorkLoad> workLoads = workLoadService.list(Wrappers.<WorkLoad>lambdaQuery()
+                .eq(WorkLoad::getProjectId, project.getId()));
+        Long workloadSum = workLoads.stream()
+                .map(WorkLoad::getWorkLoad)
+                .reduce((long) 0, Long::sum);
+        projectVo.setRealWorkload(workloadSum);
+
         return ApiResponse.ok(projectVo);
     }
 
@@ -138,7 +134,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     public ApiResponse<Void> conclusionProject(Project project) {
         project.setUpdateBy(accountService.getLoginUserId());
         int i = projectMapper.updateById(project);
-        Assert.isTrue(i > 0,"结项失败");
+        Assert.isTrue(i > 0, "结项失败");
         return ApiResponse.ok();
     }
 
@@ -159,24 +155,37 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     @Override
     public ApiResponse<List<ContractVo>> getContractNamelike() {
         List<ContractVo> contractNamelikeLimit = contractMapper.getContractNamelikeLimit();
-        Assert.notNull(contractNamelikeLimit,"合同查询失败");
-        Assert.notEmpty(contractNamelikeLimit,"合同查询失败");
+        Assert.notNull(contractNamelikeLimit, "合同查询失败");
+        Assert.notEmpty(contractNamelikeLimit, "合同查询失败");
         long size = contractNamelikeLimit.size();
-        return ApiResponse.ok(contractNamelikeLimit,size);
+        return ApiResponse.ok(contractNamelikeLimit, size);
     }
 
     @Override
     public ApiResponse<List<ContractVo>> getContractNamelike(String keyWord) {
         List<ContractVo> contractNamelike = contractMapper.getContractNamelikeByName(keyWord);
-        Assert.notNull(contractNamelike,"合同查询失败");
-        Assert.notEmpty(contractNamelike,"合同查询失败");
+        Assert.notNull(contractNamelike, "合同查询失败");
+        Assert.notEmpty(contractNamelike, "合同查询失败");
         long size = contractNamelike.size();
-        return ApiResponse.ok(contractNamelike,size);
+        return ApiResponse.ok(contractNamelike, size);
     }
 
     @Override
     public List<Project> listBySignDateBetween(LocalDate startDate, LocalDate endDate) {
         return this.list(Wrappers.<Project>lambdaQuery()
                 .between(Project::getSignDate, startDate, endDate));
+    }
+
+    @Override
+    public boolean updateProject(ProjectVo projectVo) {
+        Project project = new Project();
+        BeanUtils.copyProperties(projectVo, project);
+        project.setUpdateBy(accountService.getLoginUserId());
+        int insert = projectMapper.updateById(project);
+        List<Phase> phases = projectVo.getPhases();
+        phaseService.remove(Wrappers.<Phase>lambdaQuery()
+                .eq(Phase::getContractId, project.getContractId()));
+        boolean save = phaseService.saveBatch(phases);
+        return insert > 0 && save;
     }
 }

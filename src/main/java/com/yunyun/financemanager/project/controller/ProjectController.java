@@ -30,7 +30,7 @@ public class ProjectController {
 
     @ApiOperation("查询项目列表")
     @GetMapping("/queryProject")
-    public ApiResponse<List<ProjectVo>> queryProject(@Validated @RequestBody PageLimit pageLimit) {
+    public ApiResponse<List<ProjectVo>> queryProject(@Validated PageLimit pageLimit) {
         return projectService.getProjectList(pageLimit);
     }
 
@@ -38,6 +38,13 @@ public class ProjectController {
     @PostMapping("/addProject")
     public ApiResponse<Void> addProject(@Validated @RequestBody AddProjectVo project){
         return projectService.addProject(project);
+    }
+
+    @ApiOperation("更新项目")
+    @PutMapping
+    public ApiResponse<Void> updateProject(@Validated @RequestBody ProjectVo projectVo) {
+        projectService.updateProject(projectVo);
+        return ApiResponse.ok();
     }
 
     @ApiOperation("删除项目")
@@ -48,7 +55,7 @@ public class ProjectController {
 
     @ApiOperation("项目详情")
     @GetMapping("/getProjectDetail/{id}")
-    public ApiResponse<ProjectVo> getProjectDetail(@PathVariable String id) {
+    public ApiResponse<ProjectVo> getProjectDetail(@PathVariable Long id) {
         return projectService.getProjectDetail(id);
     }
 

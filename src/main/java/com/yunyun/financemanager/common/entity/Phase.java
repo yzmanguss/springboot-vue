@@ -1,8 +1,6 @@
 package com.yunyun.financemanager.common.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,9 +26,11 @@ public class Phase implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "插入时间", example = "1601358287482")
+    @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime insertDate;
 
     @ApiModelProperty(value = "修改时间", example = "1601358287482")
+    @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime updateDate;
 
     @ApiModelProperty(value = "分期款项的排列序号", name = "phaseIndexId", example = "1")
@@ -51,6 +51,7 @@ public class Phase implements Serializable {
     private LocalDate finishDate;
 
     @ApiModelProperty(value = "合同id", name = "contractId", example = "1")
+    @NotNull
     private Long contractId;
 
     private static final long serialVersionUID = 1L;
