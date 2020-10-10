@@ -51,6 +51,7 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
         Assert.notNull(workloadVo.getPaticipants(),"paticipants is null");
         Paticipants[] paticipants = workloadVo.getPaticipants();
         Project project = projectMapper.selectById(workloadVo.getProjectId());
+        Assert.notNull(project,"项目id不存在");
         Long testWorkload = project.getTestWorkload();
         Long serviceWorkload = project.getServiceWorkload();
         Long developWorkload = project.getDevelopWorkload();

@@ -29,6 +29,18 @@ public interface ProjectMapper extends BaseMapper<Project> {
      */
     List<Project> getProjectList(@Param("pageNow") Integer pageNow, @Param("pageSize") Integer pageSize, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, @Param("state") Integer state, @Param("keyWord") String keyWord);
 
+    /**
+     * 获取项目列表总条数
+     *
+     * @param pageNow   当前页
+     * @param pageSize  页大小
+     * @param startDate 开始时间
+     * @param endDate   结束时间
+     * @param state     项目状态
+     * @param keyWord   关键字
+     * @return 符合条件的项目
+     */
+    Long getProjectListCount(@Param("pageNow") Integer pageNow, @Param("pageSize") Integer pageSize, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, @Param("state") Integer state, @Param("keyWord") String keyWord);
 
     List<Project> selectProjectNames(String name);
 
