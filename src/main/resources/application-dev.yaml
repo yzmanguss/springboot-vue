@@ -12,3 +12,4 @@ logging:
         financemanager:
           project:
             mapper: debug
+

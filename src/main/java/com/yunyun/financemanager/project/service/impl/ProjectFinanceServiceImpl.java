@@ -84,20 +84,23 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         projectFinance.setReimbursementAmount(ra);
         projectFinance.setContract(contractById.getContractName());
 
-        if (projectFinance.getExpectedWorkload()-projectFinance.getWorkload() < 0){
+        if (projectFinance.getExpectedWorkload() - projectFinance.getWorkload() < 0) {
             projectFinance.setCostEarlyWarning(true);
         }
-
-//        if (projectFinance.getSurplusProfit() <0){
-//            projectFinance.setFinancialEarlyWarning(true);
-//        }
-
 
         projectFinance.setConsumeAmount(
                 projectFinance.getExpectedBusinessCost() + project.getExpectedDevelopCost() + projectFinance.getDev_cost()
                         + projectFinance.getTestCost() + projectFinance.getReimbursementAmount()
         );
+
         projectFinance.setSurplusProfit(projectFinance.getAmount() - projectFinance.getConsumeAmount());
+
+        if (projectFinance.getSurplusProfit() < 0) {
+            projectFinance.setFinancialEarlyWarning(true);
+        }
+
+
+
 
         return projectFinance;
     }

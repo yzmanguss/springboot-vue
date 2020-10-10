@@ -18,7 +18,7 @@ public class EarlyWarning {
 
     //    工作量预警
     @ApiModelProperty(value = " 工作量预警", name = "costEarlyWarning")
-    private boolean costEarlyWarning;
+    private boolean costEarlyWarning =false;
 
 
 }
