@@ -11,6 +11,7 @@ import com.yunyun.financemanager.contract.mapper.ContractMapper;
 import com.yunyun.financemanager.contract.service.PhaseService;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.project.mapper.ProjectMapper;
+import com.yunyun.financemanager.project.service.EarlyWarningService;
 import com.yunyun.financemanager.project.service.ProjectService;
 import com.yunyun.financemanager.project.service.WorkLoadService;
 import com.yunyun.financemanager.project.utils.ProjectUtils;
@@ -51,6 +52,9 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     @Resource
     private ContractMapper contractMapper;
 
+    @Resource
+    private EarlyWarningService earlyWarningService;
+
     private final PhaseService phaseService;
 
     private final WorkLoadService workLoadService;
@@ -79,7 +83,9 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
             projectVo.setLeader(leaderName);
             projectVo.setExpectedWorkload(project.getExpectedWorkload());
             projectVo.setRealWorkload(realWorkload);
+            projectVo.setEarlyWarning(earlyWarningService.selectEarlyWarning(project.getId(),project.getContractId()));
             projectVoList.add(projectVo);
+
         }
         return ApiResponse.ok(projectVoList, size);
     }

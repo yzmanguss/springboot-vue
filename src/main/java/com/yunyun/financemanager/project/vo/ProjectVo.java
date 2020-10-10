@@ -2,6 +2,7 @@ package com.yunyun.financemanager.project.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yunyun.financemanager.common.entity.Phase;
+import com.yunyun.financemanager.project.qo.EarlyWarning;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -186,4 +187,7 @@ public class ProjectVo {
     @Valid
     @Size(min = 1)
     private List<Phase> phases;
+
+    @ApiModelProperty(value = "预警")
+    private EarlyWarning earlyWarning;
 }

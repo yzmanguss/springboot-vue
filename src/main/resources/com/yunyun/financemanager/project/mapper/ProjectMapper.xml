@@ -42,8 +42,6 @@
         and project_name like '%' #{keyWord} '%'
       </if>
     </where>
-    order by id desc
-    limit #{pageNow},#{pageSize}
   </select>
 
   <!--        模糊查询name-->
