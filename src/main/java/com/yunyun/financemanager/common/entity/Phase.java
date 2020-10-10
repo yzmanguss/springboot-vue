@@ -51,6 +51,7 @@ public class Phase implements Serializable {
     private LocalDate finishDate;
 
     @ApiModelProperty(value = "合同id", name = "contractId", example = "1")
+    @NotNull
     private Long contractId;
 
     private static final long serialVersionUID = 1L;

@@ -75,4 +75,6 @@ public interface ProjectService extends IService<Project> {
 
 
     List<Project> listBySignDateBetween(LocalDate startDate, LocalDate endDate);
+
+    boolean updateProject(ProjectVo projectVo);
 }

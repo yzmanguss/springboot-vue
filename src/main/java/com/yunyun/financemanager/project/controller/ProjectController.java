@@ -40,6 +40,13 @@ public class ProjectController {
         return projectService.addProject(project);
     }
 
+    @ApiOperation("更新项目")
+    @PutMapping
+    public ApiResponse<Void> updateProject(@Validated @RequestBody ProjectVo projectVo) {
+        projectService.updateProject(projectVo);
+        return ApiResponse.ok();
+    }
+
     @ApiOperation("删除项目")
     @DeleteMapping("/deleteProject/{id}")
     public ApiResponse<Void> deleteProject(@PathVariable String id) {
