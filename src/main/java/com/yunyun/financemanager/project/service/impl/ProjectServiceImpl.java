@@ -79,7 +79,9 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         project1.setContractId(project.getContractId());
         project1.setLeaderId(project.getLeaderId());
         project1.setMembers(project.getMembers());
-        project1.setSignDate(project.getSignDate());
+        Contract contract = contractMapper.selectById(project.getContractId());
+        Assert.notNull(contract,"合同id不存在");
+        project1.setSignDate(contract.getSignDate());
         project1.setExpectedStartDate(project.getExpectedStartDate());
         project1.setExpectedFinishDate(project.getExpectedFinishDate());
         project1.setExpectedWorkload(project.getExpectedWorkload());
