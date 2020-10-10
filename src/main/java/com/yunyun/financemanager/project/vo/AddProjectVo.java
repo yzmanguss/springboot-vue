@@ -40,13 +40,7 @@ public class AddProjectVo {
     @NotNull
     @ApiModelProperty("参与人员（以,分隔）")
     private String members;
-
-    /**
-     * 签订日期
-     */
-    @NotNull
-    @ApiModelProperty("签订时间")
-    private LocalDate signDate;
+    
 
     /**
      * 计划开始时间

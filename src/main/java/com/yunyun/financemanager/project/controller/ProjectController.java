@@ -30,26 +30,25 @@ public class ProjectController {
 
     @ApiOperation("查询项目列表")
     @GetMapping("/queryProject")
-    public ApiResponse<List<ProjectVo>> queryProject(@Validated PageLimit pageLimit){
+    public ApiResponse<List<ProjectVo>> queryProject(@Validated @RequestBody PageLimit pageLimit) {
         return projectService.getProjectList(pageLimit);
     }
 
     @ApiOperation("新增项目")
     @PostMapping("/addProject")
-    public ApiResponse<Void> addProject(@Validated  AddProjectVo project){
+    public ApiResponse<Void> addProject(@Validated @RequestBody AddProjectVo project){
         return projectService.addProject(project);
     }
 
-
     @ApiOperation("删除项目")
     @DeleteMapping("/deleteProject/{id}")
-    public ApiResponse<Void> deleteProject(@PathVariable String id){
+    public ApiResponse<Void> deleteProject(@PathVariable String id) {
         return projectService.deleteProject(id);
     }
 
     @ApiOperation("项目详情")
     @GetMapping("/getProjectDetail/{id}")
-    public ApiResponse<ProjectVo> getProjectDetail(@PathVariable String id){
+    public ApiResponse<ProjectVo> getProjectDetail(@PathVariable String id) {
         return projectService.getProjectDetail(id);
     }
 
@@ -62,7 +61,7 @@ public class ProjectController {
 
     @ApiOperation("结项")
     @PostMapping("/conclusionProject")
-    public ApiResponse<Void> conclusionProject(Project project){
+    public ApiResponse<Void> conclusionProject(@RequestBody Project project) {
         return projectService.conclusionProject(project);
     }
 
@@ -80,9 +79,7 @@ public class ProjectController {
 
     @ApiOperation("查询财务项目列表")
     @GetMapping("/queryFinanceProject")
-    public ApiResponse<ProjectVo> queryFinanceProject(@Validated PageLimit pageLimit){
-
-
+    public ApiResponse<ProjectVo> queryFinanceProject(@Validated PageLimit pageLimit) {
 
 //        return projectService.getProjectList(pageLimit);
         return null;

@@ -54,6 +54,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         }
         List<Project> projectList = projectMapper.getProjectList(pageStart, pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), keyWord);
         List<ProjectVo> projectVoList = new ArrayList<>();
+        long size = projectMapper.getProjectListCount(pageStart, pageLimit.getPageSize(), pageLimit.getStartDate(), pageLimit.getEndDate(), pageLimit.getState(), keyWord);
         for (Project project : projectList) {
             ProjectVo projectVo = new ProjectVo();
             String[] memberIds = project.getMembers().split(",");
@@ -69,7 +70,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
             projectVo.setRealWorkload(realWorkload);
             projectVoList.add(projectVo);
         }
-        return ApiResponse.ok(projectVoList, (long) projectList.size());
+        return ApiResponse.ok(projectVoList, size);
     }
 
     @Override
@@ -79,7 +80,9 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         project1.setContractId(project.getContractId());
         project1.setLeaderId(project.getLeaderId());
         project1.setMembers(project.getMembers());
-        project1.setSignDate(project.getSignDate());
+        Contract contract = contractMapper.selectById(project.getContractId());
+        Assert.notNull(contract,"合同id不存在");
+        project1.setSignDate(contract.getSignDate());
         project1.setExpectedStartDate(project.getExpectedStartDate());
         project1.setExpectedFinishDate(project.getExpectedFinishDate());
         project1.setExpectedWorkload(project.getExpectedWorkload());

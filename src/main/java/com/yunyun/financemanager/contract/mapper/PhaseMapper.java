@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper
 public interface PhaseMapper extends BaseMapper<Phase> {
 
-    int insertBatch(@Param("phases") List<Phase> phases);
+    int insertBatchPhase(@Param("phases") List<Phase> phases);
 
     int deleteByContractId(Long id);
 
