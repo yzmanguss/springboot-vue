@@ -11,17 +11,13 @@ import java.util.List;
 @Mapper
 public interface ProjectFinanceMapper {
 
-     Project selectProjectName(int id );
+    Project selectProjectName(int id);
 
-//     根据projectId查询workload员工
+    //     根据projectId查询workload员工
+    List<WorkLoad> selectWorkLoadByProjectId(int id);
 
-     List<WorkLoad> selectWorkLoadByProjectId(int id);
+    List<Project> selectFinanceProjects(LocalDate startDate, LocalDate endDate, String name, int pageStart, int pageSize);
 
-
-
-     List<Project> selectFinanceProjects( LocalDate startDate, LocalDate endDate,String name,int pageStart ,int pageSize);
-
-
-     Long selectCount(LocalDate startDate, LocalDate endDate,String name);
+    Long selectCount(LocalDate startDate, LocalDate endDate, String name);
 
 }
