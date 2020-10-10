@@ -24,7 +24,7 @@ VALUES
 
 
 	<select id="selectReimburseAmountSumByProjectId" resultType="long">
-		select  sum(real_amount) from reimbursement where  project_id = #{id}
+		select  sum(reimburse_amount) from reimbursement where  project_id = #{id}
 	</select>
 
 </mapper>
