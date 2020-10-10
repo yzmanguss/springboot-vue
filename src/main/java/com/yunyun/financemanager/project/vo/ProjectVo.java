@@ -188,6 +188,10 @@ public class ProjectVo {
     @Size(min = 1)
     private List<Phase> phases;
 
-    @ApiModelProperty(value = "预警")
-    private EarlyWarning earlyWarning;
+    //    财务预警
+    @ApiModelProperty(value = " 财务预警", name = "financialEarlyWarning")
+    private Boolean financialEarlyWarning = false;
+    //    工作量预警
+    @ApiModelProperty(value = " 工作量预警", name = "costEarlyWarning")
+    private Boolean costEarlyWarning = false;
 }
