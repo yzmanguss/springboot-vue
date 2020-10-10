@@ -94,6 +94,15 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         projectFinance.setReimbursementAmount(ra);
         projectFinance.setContract(contractById.getContractName());
 
+        if (projectFinance.getExpectedWorkload()-projectFinance.getWorkload() < 0){
+            projectFinance.setCostEarlyWarning(true);
+        }
+
+        if (projectFinance.getSurplusProfit() <0){
+            projectFinance.setFinancialEarlyWarning(true);
+        }
+
+
         projectFinance.setConsumeAmount(
                 projectFinance.getExpectedBusinessCost() + project.getExpectedDevelopCost() + projectFinance.getDev_cost()
                         + projectFinance.getTestCost() + projectFinance.getReimbursementAmount()
@@ -128,7 +137,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         }
 
         ProjectFinanceDTO projectFinanceDTO = new ProjectFinanceDTO();
-        projectFinanceDTO.setTotal(count/pageSize+1);
+        projectFinanceDTO.setTotal(count);
         projectFinanceDTO.setProjectFinances(pf);
 
 

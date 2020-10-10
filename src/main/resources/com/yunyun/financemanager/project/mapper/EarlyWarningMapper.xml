@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunyun.financemanager.project.mapper.EarlyWarningMapper">
+
+
+    <select id="selectEarlyWarning" resultType="com.yunyun.financemanager.project.qo.CostEarlyWarning" >
+ SELECT
+	project.id,
+	project.expected_workload - (
+		project.test_workload + project.develop_workload + project.design_workload + project.service_workload
+	) AS costEarlyWarning
+FROM
+	project
+
+	where
+	project.id=#{id}
+
+    </select>
+
+</mapper>

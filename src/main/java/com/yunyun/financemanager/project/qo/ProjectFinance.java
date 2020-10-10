@@ -1,6 +1,7 @@
 package com.yunyun.financemanager.project.qo;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -50,6 +51,15 @@ public class ProjectFinance {
     @ApiModelProperty(value = "合同名称", name = "contract")
     private String contract;
 
+    //    财务预警
+    @ApiModelProperty(value = " 财务预警", name = "financialEarlyWarning")
+    private boolean financialEarlyWarning = false;
+
+
+    //    工作量预警
+    @ApiModelProperty(value = " 工作量预警", name = "costEarlyWarning")
+
+    private boolean costEarlyWarning = false;
 
 
 }
