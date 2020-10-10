@@ -45,6 +45,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         List<WorkLoad> workLoads = projectFinanceMapper.selectWorkLoadByProjectId(id);
         long longKF = 0L;
         long longCS = 0L;
+        long longSum =0L;
         String mName = "";
         if (workLoads != null) {
             for (WorkLoad w : workLoads) {
@@ -59,6 +60,8 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
                     long wl = w.getWorkLoad();
                     long doc = w.getDailyOfficeCost();
                     longCS += +(dw + doc) * wl;
+                }else {
+                    longSum += (w.getDailyOfficeCost()+ w.getDailyWage())*w.getWorkLoad();
                 }
             }
         }
@@ -91,7 +94,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
 
         projectFinance.setConsumeAmount(
                 projectFinance.getExpectedBusinessCost() + project.getExpectedDevelopCost() + projectFinance.getDev_cost()
-                        + projectFinance.getTestCost() + projectFinance.getReimbursementAmount()
+                        + projectFinance.getTestCost() + projectFinance.getReimbursementAmount()+longSum
         );
 
         projectFinance.setSurplusProfit(projectFinance.getAmount() - projectFinance.getConsumeAmount());
