@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+
 /**
  * @author xlc
  */
@@ -32,6 +33,6 @@ public class ContractVO {
     @ApiModelProperty(value = "合同状态", name = "contractStatus", example = "1")
     private Integer contractStatus;
 
-    @ApiModelProperty(value = "签订日期", name= "signDate", example = "1601358287482")
+    @ApiModelProperty(value = "签订日期", name = "signDate", example = "1601358287482")
     private LocalDate signDate;
 }
