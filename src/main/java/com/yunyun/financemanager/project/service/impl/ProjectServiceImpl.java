@@ -124,7 +124,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
                 .eq(WorkLoad::getProjectId, project.getId()));
         Long workloadSum = workLoads.stream()
                 .map(WorkLoad::getWorkLoad)
-                .reduce((long) 0, Long::sum);
+                .reduce(0L, Long::sum);
         projectVo.setRealWorkload(workloadSum);
 
         return ApiResponse.ok(projectVo);
