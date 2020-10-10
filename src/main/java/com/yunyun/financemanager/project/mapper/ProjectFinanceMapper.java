@@ -22,6 +22,6 @@ public interface ProjectFinanceMapper {
      List<Project> selectFinanceProjects( LocalDate startDate, LocalDate endDate,String name,int pageStart ,int pageSize);
 
 
-     Long selectCount(LocalDate startDate, LocalDate endDate,String name ,int pageStart ,int pageSize);
+     Long selectCount(LocalDate startDate, LocalDate endDate,String name);
 
 }
