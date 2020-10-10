@@ -62,13 +62,13 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
         for (Paticipants participate : paticipants) {
             //校验时间冲突
             QueryWrapper<WorkLoad> wrapper = new QueryWrapper<>();
-            wrapper.eq("member_id",participate.getMemberId())
-                    .ge("start_date",participate.getStartDate())
-                    .or()
-                    .ge("finish_date",participate.getFinishDate());
+            wrapper.eq("member_id",participate.getMemberId());
             List<WorkLoad> workLoadValidate = workLoadMapper.selectList(wrapper);
             if(workLoadValidate != null && !workLoadValidate.isEmpty()){
-                throw new IllegalArgumentException("参与人员时间冲突");
+            for (WorkLoad workLoad : workLoadValidate) {
+                Assert.isTrue(Duration.between(workLoad.getStartDate(), participate.getFinishDate()).toMillis() > 0,"参与人员时间冲突");
+                Assert.isTrue(Duration.between(workLoad.getFinishDate(), participate.getStartDate()).toMillis() < 0,"参与人员时间冲突");
+                }
             }
             WorkLoad workLoad = new WorkLoad();
             workLoad.setInsertBy(accountService.getLoginUserId());
