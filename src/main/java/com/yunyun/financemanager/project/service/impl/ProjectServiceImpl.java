@@ -29,6 +29,7 @@ import java.util.List;
  * @author yangzhongming
  */
 @Service
+@SuppressWarnings("all")
 public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> implements ProjectService {
 
     @Resource
@@ -73,7 +74,6 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
 
     @Override
     public ApiResponse<Void> addProject(AddProjectVo project) {
-        project.setInsertBy(accountService.getLoginUserId());
         Project project1 = new Project();
         project1.setProjectName(project.getProjectName());
         project1.setContractId(project.getContractId());
@@ -89,6 +89,7 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
         project1.setExpectedTestNodeDate(project.getExpectedTestNodeDate());
         project1.setExpectedDevelopCost(project.getExpectedDevelopCost());
         project1.setExpectedBusinessCost(project.getExpectedBusinessCost());
+        project1.setInsertBy(accountService.getLoginUserId());
         int insert = projectMapper.insert(project1);
         Assert.isTrue(insert > 0, "添加失败");
         return ApiResponse.ok();

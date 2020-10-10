@@ -66,5 +66,4 @@ public class GlobalExceptionHandler {
     public ApiResponse<Void> handleIllegalArgumentException(IllegalArgumentException e) {
         return ApiResponse.failure(ResponseCode.BAD_REQUEST, e.getMessage());
     }
-
 }
