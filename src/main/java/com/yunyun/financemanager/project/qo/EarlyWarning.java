@@ -23,5 +23,4 @@ public class EarlyWarning {
     private Boolean costEarlyWarning = false;
 
 
-
 }

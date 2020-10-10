@@ -23,7 +23,7 @@ public class MemberController {
     @Resource
     private MemberService memberService;
 
-    @ApiOperation("项目详情")
+    @ApiOperation("查询所有成员")
     @GetMapping("/selAllMembers")
     public ApiResponse<List<Member>> getProjectDetail(){
         return memberService.selAllMenmbers();

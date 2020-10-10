@@ -17,7 +17,7 @@
         </if>
       </if>
       <if test="keyWord != null">
-        and project_name like '%' #{keyWord} '%'
+        and project_name like CONCAT('%', #{keyWord}, '%')
       </if>
     </where>
     order by id desc
@@ -39,18 +39,16 @@
         </if>
       </if>
       <if test="keyWord != null">
-        and project_name like '%' #{keyWord} '%'
+        and project_name like CONCAT('%', #{keyWord}, '%')
       </if>
     </where>
-    order by id desc
-    limit #{pageNow},#{pageSize}
   </select>
 
   <!--        模糊查询name-->
   <select id="selectProjectNames" resultType="com.yunyun.financemanager.common.entity.Project">
     select id, project_name
     from project
-    where project_name like '%' #{name} '%'
+    where project_name like CONCAT('%', #{name}, '%')
   </select>
 
 </mapper>
