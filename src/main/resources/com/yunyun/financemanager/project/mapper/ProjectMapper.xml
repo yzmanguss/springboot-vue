@@ -24,6 +24,28 @@
         limit #{pageNow},#{pageSize}
     </select>
 
+    <select id="getProjectListCount" resultType="long">
+        select count(*) from project
+        <where>
+            <if test="startDate != null and endDate != null">
+                sign_date between #{startDate} and #{endDate}
+            </if>
+            <if test="state != null">
+                <if test="state == 0">
+                    and deliver_date is null
+                </if>
+                <if test="state == 1">
+                    and deliver_date is not null
+                </if>
+            </if>
+            <if test="keyWord != null">
+                and project_name like '%' #{keyWord} '%'
+            </if>
+        </where>
+        order by id desc
+        limit #{pageNow},#{pageSize}
+    </select>
+
 <!--        模糊查询name-->
     <select id="selectProjectNames" resultType="com.yunyun.financemanager.common.entity.Project">
 		select id,project_name from project where  project_name like '%' #{name} '%'

@@ -12,40 +12,31 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProjectFinanceServiceImpl implements ProjectFinanceService {
 
-
     private final ProjectFinanceMapper projectFinanceMapper;
 
-
     private final ReimbursementMapper reimbursementMapper;
-
 
     private final MemberMapper memberMapper;
 
     private final ContractMapper contractMapper;
 
-
     /**
-     *通过条件查询项目
+     * 通过条件查询项目
+     *
      * @param id 项目id
-     * @return   ProjectFinance
-     *
-     *
+     * @return ProjectFinance
      */
-
     @Override
     public ProjectFinance selectProjectName(int id) {
-
 
         Project project = projectFinanceMapper.selectProjectName(id);
 
@@ -53,7 +44,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         long longKF = 0L;
         long longCS = 0L;
         String mName = "";
-        if(workLoads != null) {
+        if (workLoads != null) {
             for (WorkLoad w : workLoads) {
                 if (w.getWorkTypeId() == 4) {
                     BigInteger dw = new BigInteger(w.getDailyWage().toString());
@@ -72,11 +63,10 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
             }
         }
 
-
         Contract contractById = contractMapper.getContractById(project.getContractId());
 
         Long ra = reimbursementMapper.selectReimburseAmountSumByProjectId(id);
-        if (ra == null){
+        if (ra == null) {
             ra = 0L;
         }
         ProjectFinance projectFinance = new ProjectFinance();
@@ -103,15 +93,15 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         return projectFinance;
     }
 
-
     /**
-     *通过条件查询项目
+     * 通过条件查询项目
+     *
      * @param startDate 项目开始时间
-     * @param  endDate 结束时间
+     * @param endDate   结束时间
      * @param pageSize  分页大小
      * @param pageStart 分页第几页
-     * @param name  项目名称
-     * @return   财务项目Dto对象
+     * @param name      项目名称
+     * @return 财务项目Dto对象
      */
     @Override
     public ProjectFinanceDTO selectFinanceProjects(LocalDate startDate, LocalDate endDate, String name, int pageStart, int pageSize) {
@@ -128,9 +118,8 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         }
 
         ProjectFinanceDTO projectFinanceDTO = new ProjectFinanceDTO();
-        projectFinanceDTO.setTotal(count/pageSize+1);
+        projectFinanceDTO.setTotal(count);
         projectFinanceDTO.setProjectFinances(pf);
-
 
         return projectFinanceDTO;
     }
