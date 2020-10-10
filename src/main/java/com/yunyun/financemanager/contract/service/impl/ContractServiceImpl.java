@@ -82,7 +82,7 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
         contract.getPhases().forEach(x -> x.setContractId(contract.getId()));
 
         //添加分期款项
-        int insert = phaseMapper.insertBatch(contract.getPhases());
+        int insert = phaseMapper.insertBatchPhase(contract.getPhases());
 
         if (result > 0 && insert > 0) {
             return ApiResponse.ok();
@@ -101,7 +101,7 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
         //新增分期款项
         contract.getPhases().forEach(x -> x.setContractId(contract.getId()));
 
-        int insert = phaseMapper.insertBatch(contract.getPhases());
+        int insert = phaseMapper.insertBatchPhase(contract.getPhases());
 
         //修改合同
         Long updateBy = accountService.getLoginUserId();
