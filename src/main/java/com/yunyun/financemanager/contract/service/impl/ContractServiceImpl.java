@@ -14,6 +14,7 @@ import com.yunyun.financemanager.contract.service.ContractService;
 import com.yunyun.financemanager.system.service.AccountService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
@@ -130,7 +131,10 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
 
     @Override
     public List<Contract> selectContractNames(String name) {
-        return contractMapper.selectContractNames(name);
+        return this.list(Wrappers.<Contract>lambdaQuery()
+                .like(StringUtils.hasText(name), Contract::getContractName, name)
+                .orderByDesc(Contract::getId)
+                .last("LIMIT 10"));
     }
 
     @Override
