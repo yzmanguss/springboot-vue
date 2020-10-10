@@ -16,9 +16,8 @@
     </resultMap>
 
     <select id="listContractByPage" resultMap="Contract">
-        select c.id, contract_number, contract_name, customer_name, contract_status, amount, c.sign_date, p.id as project_id
+        select c.id, contract_number, contract_name, customer_name, contract_status, amount, c.sign_date
         from contract c
-        left join project p on c.id = p.contract_id
         <where>
             <if test="keyWord != null and keyWord != ''">
                 contract_name like concat('%',#{keyWord},'%')
@@ -26,12 +25,6 @@
             <if test="contractStatus != null and contractStatus != '' or contractStatus == 0">
                 and contract_status = #{contractStatus}
             </if>
-            <!--      <if test="signDateStart != null and signDateStart != ''">-->
-            <!--        and sign_date <![CDATA[>=]]>#{signDateStart}-->
-            <!--      </if>-->
-            <!--      <if test="signDateEnd != null and signDateEnd != ''">-->
-            <!--        and sign_date <![CDATA[<=]]>#{signDateEnd}-->
-            <!--      </if>-->
             <if test="signDateStart != null  and signDateEnd != null">
                 and c.sign_date between #{signDateStart} and #{signDateEnd}
             </if>

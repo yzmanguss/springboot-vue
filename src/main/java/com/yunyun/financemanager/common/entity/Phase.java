@@ -43,11 +43,11 @@ public class Phase implements Serializable {
     @Min(0)
     private Long amount;
 
-    @ApiModelProperty(value="期款日期",name="startDate",example="1601358287482")
+    @ApiModelProperty(value="开始时间",name="startDate",example="1601358287482")
     @NotNull
     private LocalDate startDate;
 
-    @ApiModelProperty(value="完成时间",name="startDate",example="1601358287482")
+    @ApiModelProperty(value="完成时间",name="finishDate",example="1601358287482")
     private LocalDate finishDate;
 
     @ApiModelProperty(value = "合同id", name = "contractId", example = "1")
