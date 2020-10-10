@@ -41,7 +41,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
     public ProjectFinance selectProjectName(int id) {
 
         Project project = projectFinanceMapper.selectProjectName(id);
-
+//        得到工作量
         List<WorkLoad> workLoads = projectFinanceMapper.selectWorkLoadByProjectId(id);
         long longKF = 0L;
         long longCS = 0L;
@@ -60,11 +60,10 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
                     long doc = w.getDailyOfficeCost();
                     longCS += +(dw + doc) * wl;
 
-                } else if (w.getMemberId().equals(project.getLeaderId())) {
-
+                }
+                    //查询员工名字
                     mName = memberMapper.selectMemberNameById(project.getLeaderId());
 
-                }
             }
         }
 
@@ -132,6 +131,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         ProjectFinanceDTO projectFinanceDTO = new ProjectFinanceDTO();
         projectFinanceDTO.setTotal(count);
         projectFinanceDTO.setProjectFinances(pf);
+
 
         return projectFinanceDTO;
     }
