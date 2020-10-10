@@ -55,7 +55,7 @@ public class ProjectController {
 
     @ApiOperation("项目详情")
     @GetMapping("/getProjectDetail/{id}")
-    public ApiResponse<ProjectVo> getProjectDetail(@PathVariable String id) {
+    public ApiResponse<ProjectVo> getProjectDetail(@PathVariable Long id) {
         return projectService.getProjectDetail(id);
     }
 

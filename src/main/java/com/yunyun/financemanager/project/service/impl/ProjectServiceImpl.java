@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunyun.financemanager.common.entity.Contract;
 import com.yunyun.financemanager.common.entity.Phase;
 import com.yunyun.financemanager.common.entity.Project;
+import com.yunyun.financemanager.common.entity.WorkLoad;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.contract.mapper.ContractMapper;
 import com.yunyun.financemanager.contract.service.PhaseService;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.project.mapper.ProjectMapper;
 import com.yunyun.financemanager.project.service.ProjectService;
+import com.yunyun.financemanager.project.service.WorkLoadService;
 import com.yunyun.financemanager.project.utils.ProjectUtils;
 import com.yunyun.financemanager.project.vo.AddProjectVo;
 import com.yunyun.financemanager.project.vo.ContractVo;
@@ -50,6 +52,8 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     private ContractMapper contractMapper;
 
     private final PhaseService phaseService;
+
+    private final WorkLoadService workLoadService;
 
     @Override
     public ApiResponse<List<ProjectVo>> getProjectList(PageLimit pageLimit) {
@@ -106,38 +110,23 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
     }
 
     @Override
-    public ApiResponse<ProjectVo> getProjectDetail(String id) {
+    public ApiResponse<ProjectVo> getProjectDetail(Long id) {
         Project project = projectMapper.selectById(id);
-        Assert.notNull(project, "找不到对应的项目");
+        Assert.notNull(project, "未找到项目，id：" + id);
         ProjectVo projectVo = new ProjectVo();
-        projectVo.setId(project.getId());
-        projectVo.setProjectName(project.getProjectName());
-        Contract contract = contractMapper.selectById(project.getContractId());
-        Assert.notNull(contract, "找不到关联合同");
-        projectVo.setContract(contract.getContractName());
-        String leaderName = memberMapper.selectById(project.getLeaderId()).getMemberName();
-        projectVo.setLeader(leaderName);
-        String[] memberIds = project.getMembers().split(",");
-        String members = ProjectUtils.memberIdToname(memberIds, memberMapper);
-        projectVo.setMembers(members);
-        projectVo.setSignDate(project.getSignDate());
-        projectVo.setExpectedStartDate(project.getExpectedStartDate());
-        projectVo.setExpectedFinishDate(project.getExpectedFinishDate());
-        projectVo.setExpectedWorkload(project.getExpectedWorkload());
-        projectVo.setExpectedRequirementNodeDate(project.getExpectedRequirementNodeDate());
-        projectVo.setExpectedDesignNodeDate(project.getExpectedDesignNodeDate());
-        projectVo.setExpectedDevelopNodeDate(project.getExpectedDevelopNodeDate());
-        projectVo.setExpectedTestNodeDate(project.getExpectedTestNodeDate());
-        projectVo.setExpectedServiceNodeDate(project.getExpectedServiceNodeDate());
-        projectVo.setExpectedDevelopCost(project.getExpectedDevelopCost());
-        projectVo.setExpectedBusinessCost(project.getExpectedBusinessCost());
-        long realWorkload = project.getRequirementWorkload() + project.getDesignWorkload() + project.getDevelopWorkload() + project.getServiceWorkload() + project.getTestWorkload();
-        projectVo.setRealWorkload(realWorkload);
-        projectVo.setRequirementNodeDate(project.getRequirementNodeDate());
-        projectVo.setDesignNodeDate(project.getDesignNodeDate());
-        projectVo.setDevelopNodeDate(project.getDevelopNodeDate());
-        projectVo.setTestNodeDate(project.getTestNodeDate());
-        projectVo.setServiceNodeDate(project.getServiceNodeDate());
+        BeanUtils.copyProperties(project, projectVo);
+
+        List<Phase> phases = phaseService.list(Wrappers.<Phase>lambdaQuery()
+                .eq(Phase::getContractId, project.getContractId()));
+        projectVo.setPhases(phases);
+
+        List<WorkLoad> workLoads = workLoadService.list(Wrappers.<WorkLoad>lambdaQuery()
+                .eq(WorkLoad::getProjectId, project.getId()));
+        Long workloadSum = workLoads.stream()
+                .map(WorkLoad::getWorkLoad)
+                .reduce((long) 0, Long::sum);
+        projectVo.setRealWorkload(workloadSum);
+
         return ApiResponse.ok(projectVo);
     }
 

@@ -35,7 +35,7 @@ public interface ProjectService extends IService<Project> {
      * @param id  项目id
      * @return 对应id的项目
      */
-   ApiResponse<ProjectVo> getProjectDetail(String id);
+   ApiResponse<ProjectVo> getProjectDetail(Long id);
 
     /**
      * 项目结项
