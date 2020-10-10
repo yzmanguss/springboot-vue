@@ -88,9 +88,9 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
             projectFinance.setCostEarlyWarning(true);
         }
 
-        if (projectFinance.getSurplusProfit() <0){
-            projectFinance.setFinancialEarlyWarning(true);
-        }
+//        if (projectFinance.getSurplusProfit() <0){
+//            projectFinance.setFinancialEarlyWarning(true);
+//        }
 
 
         projectFinance.setConsumeAmount(
