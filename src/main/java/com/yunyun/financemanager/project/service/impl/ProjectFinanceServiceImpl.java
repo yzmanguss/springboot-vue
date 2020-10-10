@@ -71,6 +71,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         if (ra == null) {
             ra = 0L;
         }
+
         ProjectFinance projectFinance = new ProjectFinance();
 
         projectFinance.setId(project.getId());
