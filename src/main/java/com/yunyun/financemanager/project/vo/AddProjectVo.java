@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @ApiModel("新增项目")
 public class AddProjectVo {
 
-    private Long insertBy;
 
     @ApiModelProperty("项目名")
     @NotNull
