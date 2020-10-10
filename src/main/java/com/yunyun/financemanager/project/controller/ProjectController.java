@@ -30,7 +30,7 @@ public class ProjectController {
 
     @ApiOperation("查询项目列表")
     @GetMapping("/queryProject")
-    public ApiResponse<List<ProjectVo>> queryProject(@Validated @RequestBody PageLimit pageLimit) {
+    public ApiResponse<List<ProjectVo>> queryProject(@Validated PageLimit pageLimit) {
         return projectService.getProjectList(pageLimit);
     }
 
