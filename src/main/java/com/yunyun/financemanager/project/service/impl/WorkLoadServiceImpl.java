@@ -1,5 +1,6 @@
 package com.yunyun.financemanager.project.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunyun.financemanager.common.entity.NormalCost;
@@ -47,11 +48,11 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ApiResponse<Void> addWorkLoad(WorkloadVo workloadVo) {
-        Assert.notNull(workloadVo,"workload  is null");
-        Assert.notNull(workloadVo.getPaticipants(),"paticipants is null");
+        Assert.notNull(workloadVo, "workload  is null");
+        Assert.notNull(workloadVo.getPaticipants(), "paticipants is null");
         Paticipants[] paticipants = workloadVo.getPaticipants();
         Project project = projectMapper.selectById(workloadVo.getProjectId());
-        Assert.notNull(project,"项目id不存在");
+        Assert.notNull(project, "项目id不存在");
         Long testWorkload = project.getTestWorkload();
         Long serviceWorkload = project.getServiceWorkload();
         Long developWorkload = project.getDevelopWorkload();
@@ -62,12 +63,18 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
         for (Paticipants participate : paticipants) {
             //校验时间冲突
             QueryWrapper<WorkLoad> wrapper = new QueryWrapper<>();
-            wrapper.eq("member_id",participate.getMemberId());
+            wrapper.eq("member_id", participate.getMemberId())
+                    .eq("project_id", workloadVo.getProjectId());
             List<WorkLoad> workLoadValidate = workLoadMapper.selectList(wrapper);
-            if(workLoadValidate != null && !workLoadValidate.isEmpty()){
-            for (WorkLoad workLoad : workLoadValidate) {
-                Assert.isTrue(Duration.between(workLoad.getStartDate(), participate.getFinishDate()).toMillis() > 0,"参与人员时间冲突");
-                Assert.isTrue(Duration.between(workLoad.getFinishDate(), participate.getStartDate()).toMillis() < 0,"参与人员时间冲突");
+            if (workLoadValidate != null && !workLoadValidate.isEmpty()) {
+                for (WorkLoad workLoad : workLoadValidate) {
+                    QueryWrapper<WorkLoad> wrapperValidate = new QueryWrapper<>();
+                    wrapperValidate.between("start_date", participate.getStartDate(), participate.getFinishDate());
+                    wrapperValidate.between("finish_date", participate.getStartDate(), participate.getFinishDate());
+                    List<WorkLoad> workLoads = workLoadMapper.selectList(wrapperValidate);
+                    if (workLoads != null && !workLoads.isEmpty()) {
+                        throw new IllegalArgumentException("参与人员冲突");
+                    }
                 }
             }
             WorkLoad workLoad = new WorkLoad();
