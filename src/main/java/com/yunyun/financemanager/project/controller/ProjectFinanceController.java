@@ -14,21 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 
+/**
+ * @author hhr
+ */
 @RestController
 @RequestMapping("/ProjectFinance")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProjectFinanceController {
 
-
     private final ProjectFinanceServiceImpl projectFinanceService;
-
 
     @ApiOperation(value = "财务项目管理查询")
     @GetMapping("/ProjectFinances")
     public ApiResponse selectFinanceProject(@RequestParam(required = false) LocalDate startDate, @RequestParam(required = false) LocalDate endDate, @RequestParam(required = false) String keyWord, @RequestParam Integer pageNow, @RequestParam Integer pageSize) {
-        ProjectFinanceDTO projectFinanceDTO = projectFinanceService.selectFinanceProjects(startDate, endDate, keyWord, (pageNow*pageSize)-pageSize, pageSize);
+        ProjectFinanceDTO projectFinanceDTO = projectFinanceService.selectFinanceProjects(startDate, endDate, keyWord, (pageNow * pageSize) - pageSize, pageSize);
         return ApiResponse.ok(projectFinanceDTO.getProjectFinances(), projectFinanceDTO.getTotal());
     }
-
-
 }

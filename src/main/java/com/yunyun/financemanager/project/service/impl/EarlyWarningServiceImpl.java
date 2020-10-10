@@ -40,7 +40,6 @@ public class EarlyWarningServiceImpl implements EarlyWarningService {
             earlyWarning.setCostEarlyWarning(true);
         }
         earlyWarning.setId(earlyWarning.getId());
-
         //员工成本
         QueryWrapper<WorkLoad> wrapper = new QueryWrapper<>();
         wrapper.eq("project_id",id);
@@ -49,19 +48,15 @@ public class EarlyWarningServiceImpl implements EarlyWarningService {
         for( WorkLoad item :workLoads){
            sum = sum + (item.getDailyWage()+item.getDailyOfficeCost()) * item.getWorkLoad();
         }
-
-
-
-
         //报销成本
-        long ras = reimbursementMapper.selectReimburseAmountSumByProjectId(id.intValue());
-
-        System.out.println(ras);
+        Long ras = reimbursementMapper.selectReimburseAmountSumByProjectId(id.intValue());
+        if(ras == null){
+            ras = 0l;
+        }
         //合同金额
         QueryWrapper<Contract>  contractWrapper = new QueryWrapper<>();
         contractWrapper.eq("id",contractId);
         Contract contract = contractMapper.selectOne(contractWrapper);
-
 
         earlyWarning.setId(costEarlyWarning.getId());
         //财务预警
@@ -69,8 +64,6 @@ public class EarlyWarningServiceImpl implements EarlyWarningService {
             earlyWarning.setFinancialEarlyWarning(true);
         }
 
-
-        System.out.println(earlyWarning);
         return earlyWarning;
 
     }

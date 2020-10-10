@@ -5,6 +5,7 @@ import com.yunyun.financemanager.common.entity.*;
 import com.yunyun.financemanager.contract.mapper.ContractMapper;
 import com.yunyun.financemanager.project.mapper.MemberMapper;
 import com.yunyun.financemanager.project.mapper.ProjectFinanceMapper;
+import com.yunyun.financemanager.project.qo.EarlyWarning;
 import com.yunyun.financemanager.project.qo.ProjectFinance;
 import com.yunyun.financemanager.project.service.ProjectFinanceService;
 import com.yunyun.financemanager.system.mapper.ReimbursementMapper;
@@ -12,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +28,8 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
     private final MemberMapper memberMapper;
 
     private final ContractMapper contractMapper;
+
+    private final EarlyWarningServiceImpl earlyWarningService;
 
     /**
      * 通过条件查询项目
@@ -51,12 +53,12 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
                     long dw = w.getDailyWage();
                     long wl = w.getWorkLoad();
                     long doc = w.getDailyOfficeCost();
-                    longKF += + (dw + doc) * wl;
+                    longKF += +(dw + doc) * wl;
                 } else if (w.getWorkTypeId() == 3) {
                     long dw = w.getDailyWage();
                     long wl = w.getWorkLoad();
                     long doc = w.getDailyOfficeCost();
-                    longCS  += + (dw + doc) * wl;
+                    longCS += +(dw + doc) * wl;
 
                 } else if (w.getMemberId().equals(project.getLeaderId())) {
 
@@ -87,9 +89,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         projectFinance.setReimbursementAmount(ra);
         projectFinance.setContract(contractById.getContractName());
 
-        if (projectFinance.getExpectedWorkload() - projectFinance.getWorkload() < 0) {
-            projectFinance.setCostEarlyWarning(true);
-        }
+
 
         projectFinance.setConsumeAmount(
                 projectFinance.getExpectedBusinessCost() + project.getExpectedDevelopCost() + projectFinance.getDev_cost()
@@ -98,10 +98,10 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
 
         projectFinance.setSurplusProfit(projectFinance.getAmount() - projectFinance.getConsumeAmount());
 
-        if (projectFinance.getSurplusProfit() < 0) {
-            projectFinance.setFinancialEarlyWarning(true);
-        }
+        EarlyWarning earlyWarning = earlyWarningService.selectEarlyWarning(project.getId(),project.getContractId());
 
+        projectFinance.setCostEarlyWarning(earlyWarning.getCostEarlyWarning());
+        projectFinance.setFinancialEarlyWarning(earlyWarning.getFinancialEarlyWarning());
 
         return projectFinance;
     }
@@ -120,16 +120,15 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
     public ProjectFinanceDTO selectFinanceProjects(LocalDate startDate, LocalDate endDate, String name, int pageStart, int pageSize) {
 
         List<Project> projects = projectFinanceMapper.selectFinanceProjects(startDate, endDate, name, pageStart, pageSize);
+
         Long count = projectFinanceMapper.selectCount(startDate, endDate, name);
 
         List<ProjectFinance> pf = new ArrayList<>();
 
         for (Project p : projects) {
             ProjectFinance projectFinance = selectProjectName(p.getId().intValue());
-
             pf.add(projectFinance);
         }
-
         ProjectFinanceDTO projectFinanceDTO = new ProjectFinanceDTO();
         projectFinanceDTO.setTotal(count);
         projectFinanceDTO.setProjectFinances(pf);
