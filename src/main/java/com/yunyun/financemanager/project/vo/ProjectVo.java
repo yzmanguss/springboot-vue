@@ -175,7 +175,7 @@ public class ProjectVo {
      * 交付时间
      */
     @ApiModelProperty(value = "交付时间")
-    private LocalDate deliverTimeDate;
+    private LocalDate deliverDate;
 
     /**
      * 回款项
