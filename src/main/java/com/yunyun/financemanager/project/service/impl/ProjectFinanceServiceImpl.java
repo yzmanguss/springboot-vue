@@ -59,14 +59,11 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
                     long wl = w.getWorkLoad();
                     long doc = w.getDailyOfficeCost();
                     longCS += +(dw + doc) * wl;
-
                 }
-
             }
         }
         //查询员工名字
         mName = memberMapper.selectMemberNameById(project.getLeaderId());
-        System.out.println(mName);
 
         Contract contractById = contractMapper.getContractById(project.getContractId());
 
