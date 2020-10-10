@@ -61,11 +61,12 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
                     longCS += +(dw + doc) * wl;
 
                 }
-                    //查询员工名字
-                    mName = memberMapper.selectMemberNameById(project.getLeaderId());
 
             }
         }
+        //查询员工名字
+        mName = memberMapper.selectMemberNameById(project.getLeaderId());
+        System.out.println(mName);
 
         Contract contractById = contractMapper.getContractById(project.getContractId());
 
