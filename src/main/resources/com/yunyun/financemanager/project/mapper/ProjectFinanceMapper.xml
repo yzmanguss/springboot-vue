@@ -50,7 +50,6 @@
         </if>
 
         </where>
-        order by  id  desc limit #{pageStart},#{pageSize}
     </select>
 
 

@@ -47,14 +47,17 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         if (workLoads != null) {
             for (WorkLoad w : workLoads) {
                 if (w.getWorkTypeId() == 4) {
-                    BigInteger dw = new BigInteger(w.getDailyWage().toString());
-                    BigInteger wl = new BigInteger(w.getWorkLoad().toString());
-                    longKF = longKF + dw.multiply(wl).longValue();
-                } else if (w.getWorkTypeId() == 3) {
 
-                    BigInteger dw = new BigInteger(w.getDailyWage().toString());
-                    BigInteger wl = new BigInteger(w.getWorkLoad().toString());
-                    longCS = longCS + dw.multiply(wl).longValue();
+                    long dw = w.getDailyWage();
+                    long wl = w.getWorkLoad();
+                    long doc = w.getDailyOfficeCost();
+                    longKF += + (dw + doc) * wl;
+                } else if (w.getWorkTypeId() == 3) {
+                    long dw = w.getDailyWage();
+                    long wl = w.getWorkLoad();
+                    long doc = w.getDailyOfficeCost();
+                    longCS  += + (dw + doc) * wl;
+
                 } else if (w.getMemberId().equals(project.getLeaderId())) {
 
                     mName = memberMapper.selectMemberNameById(project.getLeaderId());
@@ -100,8 +103,6 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         }
 
 
-
-
         return projectFinance;
     }
 
@@ -119,7 +120,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
     public ProjectFinanceDTO selectFinanceProjects(LocalDate startDate, LocalDate endDate, String name, int pageStart, int pageSize) {
 
         List<Project> projects = projectFinanceMapper.selectFinanceProjects(startDate, endDate, name, pageStart, pageSize);
-        Long count = projectFinanceMapper.selectCount(startDate, endDate, name, pageStart, pageSize);
+        Long count = projectFinanceMapper.selectCount(startDate, endDate, name);
 
         List<ProjectFinance> pf = new ArrayList<>();
 

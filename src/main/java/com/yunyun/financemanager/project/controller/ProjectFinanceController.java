@@ -25,7 +25,8 @@ public class ProjectFinanceController {
 
     @ApiOperation(value = "财务项目管理查询")
     @GetMapping("/ProjectFinances")
-    public ApiResponse selectFinanceProject(@RequestParam(required = false)  LocalDate startDate, @RequestParam(required = false ) LocalDate endDate , @RequestParam(required = false) String keyWord ,@RequestParam Integer pageNow ,@RequestParam Integer pageSize) { ProjectFinanceDTO projectFinanceDTO = projectFinanceService.selectFinanceProjects(startDate, endDate,keyWord , pageNow-1 ,pageSize);
+    public ApiResponse selectFinanceProject(@RequestParam(required = false) LocalDate startDate, @RequestParam(required = false) LocalDate endDate, @RequestParam(required = false) String keyWord, @RequestParam Integer pageNow, @RequestParam Integer pageSize) {
+        ProjectFinanceDTO projectFinanceDTO = projectFinanceService.selectFinanceProjects(startDate, endDate, keyWord, (pageNow*pageSize)-5 , pageSize);
         return ApiResponse.ok(projectFinanceDTO.getProjectFinances(), projectFinanceDTO.getTotal());
     }
 
