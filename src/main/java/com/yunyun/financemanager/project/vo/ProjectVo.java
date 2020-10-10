@@ -1,10 +1,13 @@
 package com.yunyun.financemanager.project.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.yunyun.financemanager.common.entity.Phase;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author yangzhongming
@@ -19,17 +22,18 @@ public class ProjectVo {
 
     @ApiModelProperty(value = "项目名")
     private String projectName;
+
     /**
      * 关联合同
      */
     @ApiModelProperty(value = "合同名")
-    private String  contract;
+    private String contract;
 
     /**
      * 负责人
      */
     @ApiModelProperty(value = "负责人姓名")
-    private String  leader;
+    private String leader;
 
     /**
      * 参与人员
@@ -149,6 +153,6 @@ public class ProjectVo {
     /**
      * 回款项
      */
-    @ApiModelProperty(value = "回款id")
-    private String phaseId;
+    @ApiModelProperty(value = "回款项")
+    private List<Phase> phases;
 }
