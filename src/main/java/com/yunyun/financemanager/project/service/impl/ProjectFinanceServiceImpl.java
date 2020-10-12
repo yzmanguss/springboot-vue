@@ -46,6 +46,7 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         long longKF = 0L;
         long longCS = 0L;
         long longSum =0L;
+        long workLoad = 0L;
         String mName = "";
         if (workLoads != null) {
             for (WorkLoad w : workLoads) {
@@ -63,6 +64,8 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
                 }else {
                     longSum += (w.getDailyOfficeCost()+ w.getDailyWage())*w.getWorkLoad();
                 }
+
+                workLoad += w.getWorkLoad();
             }
         }
         //查询员工名字
@@ -81,7 +84,9 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         projectFinance.setProjectName(project.getProjectName());
         projectFinance.setLeader(mName);
         projectFinance.setExpectedWorkload(project.getExpectedWorkload());
-        projectFinance.setWorkload(project.getDesignWorkload() + project.getDevelopWorkload() + project.getTestWorkload() + project.getServiceWorkload());
+
+        projectFinance.setWorkload(workLoad);
+
         projectFinance.setAmount(contractById.getAmount());
         projectFinance.setExpectedDevelopCost(project.getExpectedDevelopCost());
         projectFinance.setExpectedBusinessCost(project.getExpectedBusinessCost());
