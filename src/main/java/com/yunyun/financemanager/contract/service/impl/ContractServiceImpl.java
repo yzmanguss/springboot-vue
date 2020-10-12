@@ -83,12 +83,10 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
 
         List<Phase> phases = contract.getPhases();
         //添加分期款项
-        if (!CollectionUtils.isEmpty(phases)) {
-            phases.forEach(x -> x.setContractId(contract.getId()));
-            phaseMapper.insertBatchPhase(phases);
-        }
+        phases.forEach(x -> x.setContractId(contract.getId()));
+        int insertBatchPhase = phaseMapper.insertBatchPhase(phases);
 
-        if (result > 0) {
+        if (result > 0 && insertBatchPhase > 0) {
             return ApiResponse.ok();
         } else {
             return ApiResponse.failure("添加失败");
@@ -105,16 +103,14 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
         //新增分期款项
         List<Phase> phases = contract.getPhases();
         //添加分期款项
-        if (!CollectionUtils.isEmpty(phases)) {
-            phases.forEach(x -> x.setContractId(contract.getId()));
-            phaseMapper.insertBatchPhase(phases);
-        }
+        phases.forEach(x -> x.setContractId(contract.getId()));
+        int insertBatchPhase = phaseMapper.insertBatchPhase(phases);
 
         //修改合同
         Long updateBy = accountService.getLoginUserId();
         contract.setUpdateBy(updateBy);
         int result = contractMapper.updateById(contract);
-        if (result > 0) {
+        if (result > 0 && insertBatchPhase > 0) {
             return ApiResponse.ok();
         } else {
             return ApiResponse.failure("修改失败");
