@@ -88,7 +88,6 @@ public class Contract implements Serializable {
 
     @ApiModelProperty(value = "分期款项", name="phases")
     @Valid
-    @Size(min = 1)
     @TableField(exist = false)
     private List<Phase> phases;
 
