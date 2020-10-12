@@ -54,7 +54,6 @@ public class Reimbursement implements Serializable {
      * 凭据照片
      */
     @ApiModelProperty(value = "凭据照片，图片路径")
-    @NotBlank
     private String pics;
 
     /**
