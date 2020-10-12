@@ -2,10 +2,7 @@ package com.yunyun.financemanager.project.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.yunyun.financemanager.common.entity.Contract;
-import com.yunyun.financemanager.common.entity.Phase;
-import com.yunyun.financemanager.common.entity.Project;
-import com.yunyun.financemanager.common.entity.WorkLoad;
+import com.yunyun.financemanager.common.entity.*;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.contract.mapper.ContractMapper;
 import com.yunyun.financemanager.contract.service.PhaseService;
@@ -31,7 +28,9 @@ import org.springframework.util.Assert;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author yangzhongming
@@ -133,8 +132,14 @@ public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> impl
                 .eq(WorkLoad::getProjectId, project.getId()));
         Long workloadSum = workLoads.stream()
                 .map(WorkLoad::getWorkLoad)
-                .reduce((long) 0, Long::sum);
+                .reduce(0L, Long::sum);
         projectVo.setRealWorkload(workloadSum);
+
+        /* 人员姓名
+        List<String> memberIds = Arrays.asList(project.getMembers().split(","));
+        List<Member> members = memberMapper.selectBatchIds(memberIds);
+        String memberNames = members.stream().map(Member::getMemberName).collect(Collectors.joining(","));
+        projectVo.setMemberNames(memberNames);*/
 
         return ApiResponse.ok(projectVo);
     }

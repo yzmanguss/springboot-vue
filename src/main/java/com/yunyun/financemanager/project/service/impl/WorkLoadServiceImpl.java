@@ -12,6 +12,7 @@ import com.yunyun.financemanager.project.mapper.ProjectMapper;
 import com.yunyun.financemanager.project.mapper.WorkLoadMapper;
 import com.yunyun.financemanager.project.service.MemberService;
 import com.yunyun.financemanager.project.service.WorkLoadService;
+import com.yunyun.financemanager.project.utils.ProjectUtils;
 import com.yunyun.financemanager.project.vo.Paticipants;
 import com.yunyun.financemanager.project.vo.WorkloadVo;
 import com.yunyun.financemanager.system.mapper.NormalCostMapper;
@@ -61,6 +62,8 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
         NormalCost normalCost = normalCostMapper.selectOne(null);
         Long amount = normalCost.getAmount();
         for (Paticipants participate : paticipants) {
+            //开始时间小于结束时间
+            Assert.isTrue(participate.getStartDate().isBefore(participate.getFinishDate()), "开始时间不能大于结束时间");
             //校验时间冲突
             QueryWrapper<WorkLoad> wrapper = new QueryWrapper<>();
             wrapper.eq("member_id", participate.getMemberId())
@@ -68,13 +71,7 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
             List<WorkLoad> workLoadValidate = workLoadMapper.selectList(wrapper);
             if (workLoadValidate != null && !workLoadValidate.isEmpty()) {
                 for (WorkLoad workLoad : workLoadValidate) {
-                    QueryWrapper<WorkLoad> wrapperValidate = new QueryWrapper<>();
-                    wrapperValidate.between("start_date", participate.getStartDate(), participate.getFinishDate());
-                    wrapperValidate.between("finish_date", participate.getStartDate(), participate.getFinishDate());
-                    List<WorkLoad> workLoads = workLoadMapper.selectList(wrapperValidate);
-                    if (workLoads != null && !workLoads.isEmpty()) {
-                        throw new IllegalArgumentException("参与人员冲突");
-                    }
+                    Assert.isTrue(!ProjectUtils.isTimeConflict(workLoad.getStartDate(),workLoad.getFinishDate(),participate.getStartDate(),participate.getFinishDate()), "参与人员时间冲突");
                 }
             }
             WorkLoad workLoad = new WorkLoad();
