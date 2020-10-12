@@ -22,13 +22,9 @@ import java.util.List;
 public class ProjectFinanceServiceImpl implements ProjectFinanceService {
 
     private final ProjectFinanceMapper projectFinanceMapper;
-
     private final ReimbursementMapper reimbursementMapper;
-
     private final MemberMapper memberMapper;
-
     private final ContractMapper contractMapper;
-
     private final EarlyWarningServiceImpl earlyWarningService;
 
     /**
@@ -41,17 +37,16 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
     public ProjectFinance selectProjectName(int id) {
 
         Project project = projectFinanceMapper.selectProjectName(id);
-//        得到工作量
+        //得到工作量和员工项目内成本
         List<WorkLoad> workLoads = projectFinanceMapper.selectWorkLoadByProjectId(id);
         long longKF = 0L;
         long longCS = 0L;
-        long longSum =0L;
+        long longSum = 0L;
         long workLoad = 0L;
-        String mName = "";
+        String mName;
         if (workLoads != null) {
             for (WorkLoad w : workLoads) {
                 if (w.getWorkTypeId() == 4) {
-
                     long dw = w.getDailyWage();
                     long wl = w.getWorkLoad();
                     long doc = w.getDailyOfficeCost();
@@ -61,32 +56,25 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
                     long wl = w.getWorkLoad();
                     long doc = w.getDailyOfficeCost();
                     longCS += +(dw + doc) * wl;
-                }else {
-                    longSum += (w.getDailyOfficeCost()+ w.getDailyWage())*w.getWorkLoad();
+                } else {
+                    longSum += (w.getDailyOfficeCost() + w.getDailyWage()) * w.getWorkLoad();
                 }
-
                 workLoad += w.getWorkLoad();
             }
         }
         //查询员工名字
         mName = memberMapper.selectMemberNameById(project.getLeaderId());
-
         Contract contractById = contractMapper.getContractById(project.getContractId());
-
         Long ra = reimbursementMapper.selectReimburseAmountSumByProjectId(id);
         if (ra == null) {
             ra = 0L;
         }
-
         ProjectFinance projectFinance = new ProjectFinance();
-
         projectFinance.setId(project.getId());
         projectFinance.setProjectName(project.getProjectName());
         projectFinance.setLeader(mName);
         projectFinance.setExpectedWorkload(project.getExpectedWorkload());
-
         projectFinance.setWorkload(workLoad);
-
         projectFinance.setAmount(contractById.getAmount());
         projectFinance.setExpectedDevelopCost(project.getExpectedDevelopCost());
         projectFinance.setExpectedBusinessCost(project.getExpectedBusinessCost());
@@ -94,18 +82,12 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
         projectFinance.setTestCost(longCS);
         projectFinance.setReimbursementAmount(ra);
         projectFinance.setContract(contractById.getContractName());
-
-
-
         projectFinance.setConsumeAmount(
                 projectFinance.getExpectedBusinessCost() + project.getExpectedDevelopCost() + projectFinance.getDev_cost()
-                        + projectFinance.getTestCost() + projectFinance.getReimbursementAmount()+longSum
+                        + projectFinance.getTestCost() + projectFinance.getReimbursementAmount() + longSum
         );
-
         projectFinance.setSurplusProfit(projectFinance.getAmount() - projectFinance.getConsumeAmount());
-
-        EarlyWarning earlyWarning = earlyWarningService.selectEarlyWarning(project.getId(),project.getContractId());
-
+        EarlyWarning earlyWarning = earlyWarningService.selectEarlyWarning(project.getId(), project.getContractId());
         projectFinance.setCostEarlyWarning(earlyWarning.getCostEarlyWarning());
         projectFinance.setFinancialEarlyWarning(earlyWarning.getFinancialEarlyWarning());
 
@@ -126,20 +108,15 @@ public class ProjectFinanceServiceImpl implements ProjectFinanceService {
     public ProjectFinanceDTO selectFinanceProjects(LocalDate startDate, LocalDate endDate, String name, int pageStart, int pageSize) {
 
         List<Project> projects = projectFinanceMapper.selectFinanceProjects(startDate, endDate, name, pageStart, pageSize);
-
         Long count = projectFinanceMapper.selectCount(startDate, endDate, name);
-
         List<ProjectFinance> pf = new ArrayList<>();
-
-        for (Project p : projects) {
-            ProjectFinance projectFinance = selectProjectName(p.getId().intValue());
+        projects.forEach(item -> {
+            ProjectFinance projectFinance = selectProjectName(item.getId().intValue());
             pf.add(projectFinance);
-        }
+        });
         ProjectFinanceDTO projectFinanceDTO = new ProjectFinanceDTO();
         projectFinanceDTO.setTotal(count);
         projectFinanceDTO.setProjectFinances(pf);
-
-
         return projectFinanceDTO;
     }
 
