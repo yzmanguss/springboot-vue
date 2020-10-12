@@ -69,12 +69,11 @@ public class WorkLoadServiceImpl extends ServiceImpl<WorkLoadMapper, WorkLoad> i
             if (workLoadValidate != null && !workLoadValidate.isEmpty()) {
                 for (WorkLoad workLoad : workLoadValidate) {
                     QueryWrapper<WorkLoad> wrapperValidate = new QueryWrapper<>();
-                    wrapperValidate.between("start_date", participate.getStartDate(), participate.getFinishDate());
-                    wrapperValidate.between("finish_date", participate.getStartDate(), participate.getFinishDate());
+                    wrapperValidate.between("start_date", participate.getStartDate(), participate.getFinishDate())
+                            .or()
+                            .between("finish_date", participate.getStartDate(), participate.getFinishDate());
                     List<WorkLoad> workLoads = workLoadMapper.selectList(wrapperValidate);
-                    if (workLoads != null && !workLoads.isEmpty()) {
-                        throw new IllegalArgumentException("参与人员冲突");
-                    }
+                    Assert.isNull(workLoads,"参与人员时间冲突");
                 }
             }
             WorkLoad workLoad = new WorkLoad();
