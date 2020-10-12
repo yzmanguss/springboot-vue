@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yunyun.financemanager.common.entity.Contract;
+import com.yunyun.financemanager.common.entity.Phase;
 import com.yunyun.financemanager.common.query.ContractQuery;
 import com.yunyun.financemanager.common.response.ApiResponse;
 import com.yunyun.financemanager.common.vo.ContractVO;
@@ -15,6 +16,7 @@ import com.yunyun.financemanager.contract.service.ContractService;
 import com.yunyun.financemanager.system.service.AccountService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -79,12 +81,12 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
         contract.setInsertBy(insertBy);
         int result = contractMapper.insert(contract);
 
-        contract.getPhases().forEach(x -> x.setContractId(contract.getId()));
-
+        List<Phase> phases = contract.getPhases();
         //添加分期款项
-        int insert = phaseMapper.insertBatchPhase(contract.getPhases());
+        phases.forEach(x -> x.setContractId(contract.getId()));
+        int insertBatchPhase = phaseMapper.insertBatchPhase(phases);
 
-        if (result > 0 && insert > 0) {
+        if (result > 0 && insertBatchPhase > 0) {
             return ApiResponse.ok();
         } else {
             return ApiResponse.failure("添加失败");
@@ -96,18 +98,19 @@ public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> i
     public ApiResponse<Void> editContract(Contract contract) {
 
         //删除原来的分期款项
-        int delete = phaseMapper.deleteByContractId(contract.getId());
+        phaseMapper.deleteByContractId(contract.getId());
 
         //新增分期款项
-        contract.getPhases().forEach(x -> x.setContractId(contract.getId()));
-
-        int insert = phaseMapper.insertBatchPhase(contract.getPhases());
+        List<Phase> phases = contract.getPhases();
+        //添加分期款项
+        phases.forEach(x -> x.setContractId(contract.getId()));
+        int insertBatchPhase = phaseMapper.insertBatchPhase(phases);
 
         //修改合同
         Long updateBy = accountService.getLoginUserId();
         contract.setUpdateBy(updateBy);
         int result = contractMapper.updateById(contract);
-        if (delete > 0 && result > 0 && insert > 0) {
+        if (result > 0 && insertBatchPhase > 0) {
             return ApiResponse.ok();
         } else {
             return ApiResponse.failure("修改失败");

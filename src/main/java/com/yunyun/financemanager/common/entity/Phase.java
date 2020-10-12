@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.apache.ibatis.annotations.Update;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -51,7 +52,7 @@ public class Phase implements Serializable {
     private LocalDate finishDate;
 
     @ApiModelProperty(value = "合同id", name = "contractId", example = "1")
-    @NotNull
+    @NotNull(groups = {Update.class})
     private Long contractId;
 
     private static final long serialVersionUID = 1L;

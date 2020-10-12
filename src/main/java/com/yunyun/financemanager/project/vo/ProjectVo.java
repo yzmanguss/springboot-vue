@@ -50,21 +50,19 @@ public class ProjectVo {
     private Long leaderId;
 
     /**
-     * 参与人员
+     * 参与人员Id
      */
-    @ApiModelProperty(value = "参与人员名")
-    private String members;
-
     @ApiModelProperty(value = "参与人员ID", required = true)
     @NotBlank
     @Pattern(regexp = "^(\\d+,)*(\\d+)$")
-    private String memberIds;
+    private String members;
+
+    private String memberNames;
 
     /**
      * 签订日期
      */
     @ApiModelProperty(value = "项目签订时间")
-    @NotNull
     @Past
     private LocalDate signDate;
 
@@ -178,7 +176,7 @@ public class ProjectVo {
      * 交付时间
      */
     @ApiModelProperty(value = "交付时间")
-    private LocalDate deliverTimeDate;
+    private LocalDate deliverDate;
 
     /**
      * 回款项

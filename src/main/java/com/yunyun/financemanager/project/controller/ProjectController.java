@@ -10,10 +10,12 @@ import com.yunyun.financemanager.project.vo.PageLimit;
 import com.yunyun.financemanager.project.vo.ProjectVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.groups.Default;
 import java.util.List;
 
 /**
@@ -42,7 +44,7 @@ public class ProjectController {
 
     @ApiOperation("更新项目")
     @PutMapping
-    public ApiResponse<Void> updateProject(@Validated @RequestBody ProjectVo projectVo) {
+    public ApiResponse<Void> updateProject(@Validated({Default.class, Update.class}) @RequestBody ProjectVo projectVo) {
         projectService.updateProject(projectVo);
         return ApiResponse.ok();
     }
